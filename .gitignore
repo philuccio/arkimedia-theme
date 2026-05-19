@@ -1,0 +1,22 @@
+# Dipendenze
+node_modules/
+vendor/
+
+# Build
+assets/css/output.css
+assets/js/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Log
+*.log
+
+# Environment
+.env
+.wp-env.json.local

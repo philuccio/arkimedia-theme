@@ -1,0 +1,386 @@
+/* ============================================================
+   Arkimedia Theme — Main Stylesheet
+   ============================================================ */
+
+/* ── CSS Custom Properties ───────────────────────────────── */
+:root {
+    /* Colori */
+    --color-primary:     #1a1a2e;
+    --color-accent:      #e94560;
+    --color-text:        #1a1a1a;
+    --color-text-light:  #555555;
+    --color-bg:          #ffffff;
+    --color-bg-alt:      #f5f5f5;
+    --color-border:      #e5e5e5;
+
+    /* Tipografia */
+    --font-base:         'Inter', system-ui, sans-serif;
+    --font-heading:      'Inter', system-ui, sans-serif;
+    --font-size-base:    1rem;
+    --line-height-base:  1.6;
+
+    /* Spaziature */
+    --spacing-xs:   0.5rem;
+    --spacing-sm:   1rem;
+    --spacing-md:   2rem;
+    --spacing-lg:   4rem;
+    --spacing-xl:   8rem;
+
+    /* Layout */
+    --container-width: 1200px;
+    --container-pad:   1.5rem;
+
+    /* Transizioni */
+    --transition-base: 0.3s ease;
+
+    /* Header */
+    --header-height: 80px;
+}
+
+/* ── Reset base ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin:     0;
+    padding:    0;
+}
+
+html {
+    font-size:               16px;
+    scroll-behavior:         auto; /* gestito da Lenis */
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family:    var( --font-base );
+    font-size:      var( --font-size-base );
+    line-height:    var( --line-height-base );
+    color:          var( --color-text );
+    background:     var( --color-bg );
+    overflow-x:     hidden;
+}
+
+img,
+video {
+    max-width: 100%;
+    height:    auto;
+    display:   block;
+}
+
+a {
+    color:           var( --color-accent );
+    text-decoration: none;
+    transition:      opacity var( --transition-base );
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+/* ── Container ───────────────────────────────────────────── */
+.container {
+    width:     100%;
+    max-width: var( --container-width );
+    margin:    0 auto;
+    padding:   0 var( --container-pad );
+}
+
+/* ── Accessibilità ───────────────────────────────────────── */
+.screen-reader-text {
+    position:   absolute;
+    width:      1px;
+    height:     1px;
+    padding:    0;
+    margin:     -1px;
+    overflow:   hidden;
+    clip:       rect( 0, 0, 0, 0 );
+    white-space: nowrap;
+    border:     0;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.site-header {
+    position:         fixed;
+    top:              0;
+    left:             0;
+    width:            100%;
+    height:           var( --header-height );
+    background:       var( --color-bg );
+    border-bottom:    1px solid var( --color-border );
+    z-index:          1000;
+    transition:       box-shadow var( --transition-base );
+}
+
+.site-header.is-sticky {
+    box-shadow: 0 2px 20px rgba( 0, 0, 0, 0.08 );
+}
+
+.main-navigation {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    height:          var( --header-height );
+}
+
+.nav__list {
+    display: flex;
+    gap:     var( --spacing-md );
+}
+
+.nav__list a {
+    color:       var( --color-text );
+    font-weight: 500;
+    transition:  color var( --transition-base );
+}
+
+.nav__list a:hover {
+    color:   var( --color-accent );
+    opacity: 1;
+}
+
+.nav__toggle {
+    display:    none;
+    background: none;
+    border:     none;
+    cursor:     pointer;
+    padding:    var( --spacing-xs );
+}
+
+/* ── Site Content ────────────────────────────────────────── */
+.site-content {
+    padding-top: var( --header-height );
+    min-height:  70vh;
+}
+
+.site-main {
+    padding: var( --spacing-lg ) 0;
+}
+
+/* ── Bottone ─────────────────────────────────────────────── */
+.btn {
+    display:          inline-flex;
+    align-items:      center;
+    gap:              var( --spacing-xs );
+    padding:          0.75rem 1.75rem;
+    background:       var( --color-accent );
+    color:            #ffffff;
+    font-weight:      600;
+    border-radius:    4px;
+    transition:       background var( --transition-base ),
+                      transform var( --transition-base );
+}
+
+.btn:hover {
+    background: var( --color-primary );
+    opacity:    1;
+    transform:  translateY( -2px );
+}
+
+/* ── Slider ──────────────────────────────────────────────── */
+.ark-slider {
+    width:    100%;
+    overflow: hidden;
+}
+
+.slide {
+    position: relative;
+    height:   90vh;
+    min-height: 500px;
+}
+
+.slide__bg {
+    position: absolute;
+    inset:    0;
+    margin:   0;
+}
+
+.slide__bg img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+}
+
+.slide__overlay {
+    position: absolute;
+    inset:    0;
+}
+
+.slide__content {
+    position:        absolute;
+    inset:           0;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    padding:         var( --spacing-lg ) var( --container-pad );
+    max-width:       var( --container-width );
+    margin:          0 auto;
+    left:            0;
+    right:           0;
+    color:           #ffffff;
+}
+
+.slide__eyebrow {
+    font-size:      0.875rem;
+    font-weight:    600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom:  var( --spacing-sm );
+    opacity:        0.8;
+}
+
+.slide__title {
+    font-size:   clamp( 2rem, 5vw, 4rem );
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: var( --spacing-sm );
+}
+
+.slide__text {
+    font-size:    1.125rem;
+    max-width:    560px;
+    margin-bottom: var( --spacing-md );
+    opacity:      0.9;
+}
+
+/* Swiper custom ─────────────────────────────────────────── */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #ffffff;
+}
+
+.swiper-pagination-bullet-active {
+    background:    var( --color-accent );
+    width:         24px;
+    border-radius: 4px;
+    transition:    width 0.3s ease;
+}
+
+/* ── Entry (post/page) ───────────────────────────────────── */
+.entry {
+    margin-bottom: var( --spacing-lg );
+}
+
+.entry__title {
+    font-size:     clamp( 1.5rem, 3vw, 2.5rem );
+    font-weight:   700;
+    margin-bottom: var( --spacing-sm );
+    line-height:   1.2;
+}
+
+.entry__title a {
+    color:      var( --color-text );
+    transition: color var( --transition-base );
+}
+
+.entry__title a:hover {
+    color:   var( --color-accent );
+    opacity: 1;
+}
+
+.entry__thumbnail {
+    margin-bottom: var( --spacing-md );
+    border-radius: 8px;
+    overflow:      hidden;
+}
+
+.entry__content {
+    font-size:   1.0625rem;
+    line-height: 1.7;
+}
+
+/* ── Archive grid ────────────────────────────────────────── */
+.archive__grid {
+    display:               grid;
+    grid-template-columns: repeat( auto-fill, minmax( 300px, 1fr ) );
+    gap:                   var( --spacing-md );
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.site-footer {
+    background:  var( --color-primary );
+    color:       #ffffff;
+    padding:     var( --spacing-lg ) 0 var( --spacing-md );
+    margin-top:  var( --spacing-xl );
+}
+
+.footer__bottom {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    padding-top:     var( --spacing-md );
+    border-top:      1px solid rgba( 255, 255, 255, 0.1 );
+    margin-top:      var( --spacing-md );
+}
+
+.footer__credits {
+    font-size: 0.875rem;
+    opacity:   0.7;
+}
+
+.footer__credits a {
+    color: #ffffff;
+}
+
+.footer__nav {
+    display: flex;
+    gap:     var( --spacing-md );
+}
+
+.footer__nav a {
+    color:     #ffffff;
+    font-size: 0.875rem;
+    opacity:   0.7;
+    transition: opacity var( --transition-base );
+}
+
+.footer__nav a:hover {
+    opacity: 1;
+}
+
+/* ── Utility ─────────────────────────────────────────────── */
+.reveal {
+    opacity: 1; /* GSAP gestisce l'animazione */
+}
+
+.parallax {
+    will-change: transform;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media ( max-width: 768px ) {
+
+    .nav__list {
+        display:    none;
+        position:   fixed;
+        inset:      var( --header-height ) 0 0;
+        background: var( --color-bg );
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var( --spacing-lg );
+    }
+
+    .nav__list.is-open {
+        display: flex;
+    }
+
+    .nav__toggle {
+        display: block;
+    }
+
+    .slide {
+        height: 70vh;
+    }
+
+    .footer__bottom {
+        flex-direction: column;
+        gap:            var( --spacing-sm );
+        text-align:     center;
+    }
+}
