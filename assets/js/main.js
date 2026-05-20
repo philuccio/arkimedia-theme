@@ -28,3 +28,28 @@ document.addEventListener( 'DOMContentLoaded', () => {
     }
 
 });
+
+// ── Portfolio filter ──────────────────────────────────────────────────────────
+const filterBtns = document.querySelectorAll( '.portfolio-filter__btn' )
+const portfolioItems = document.querySelectorAll( '.portfolio-item' )
+
+if ( filterBtns.length ) {
+    filterBtns.forEach( btn => {
+        btn.addEventListener( 'click', () => {
+
+            filterBtns.forEach( b => b.classList.remove( 'is-active' ) )
+            btn.classList.add( 'is-active' )
+
+            const filter = btn.dataset.filter
+
+            portfolioItems.forEach( item => {
+                if ( filter === '*' || item.dataset.category.includes( filter ) ) {
+                    item.classList.remove( 'is-hidden' )
+                    gsap.from( item, { opacity: 0, y: 20, duration: 0.4, ease: 'power2.out' } )
+                } else {
+                    item.classList.add( 'is-hidden' )
+                }
+            })
+        })
+    })
+}
