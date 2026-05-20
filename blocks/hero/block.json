@@ -1,0 +1,32 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/hero",
+    "title": "Hero",
+    "description": "Sezione hero fullscreen con immagine, titolo e sottotitolo personalizzabili.",
+    "category": "theme",
+    "icon": "cover-image",
+    "keywords": ["hero", "banner", "cover", "fullscreen"],
+    "supports": {
+        "html": false,
+        "align": ["full"],
+        "alignWide": true
+    },
+    "attributes": {
+        "align":        { "type": "string", "default": "full" },
+        "title":        { "type": "string", "default": "Il tuo titolo principale" },
+        "subtitle":     { "type": "string", "default": "Il tuo sottotitolo" },
+        "eyebrow":      { "type": "string", "default": "" },
+        "ctaLabel":     { "type": "string", "default": "" },
+        "ctaUrl":       { "type": "string", "default": "#" },
+        "mediaId":      { "type": "integer", "default": 0 },
+        "mediaUrl":     { "type": "string", "default": "" },
+        "mediaAlt":     { "type": "string", "default": "" },
+        "overlayColor": { "type": "string", "default": "rgba(0,0,0,0.45)" },
+        "textAlign":    { "type": "string", "default": "left" },
+        "minHeight":    { "type": "string", "default": "100vh" }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "editorStyle":  "file:./editor.css",
+    "style":        "file:./style.css"
+}

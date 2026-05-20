@@ -31,6 +31,7 @@ function ark_setup(): void {
     ] );
     add_theme_support( 'wp-block-styles' );
     add_theme_support( 'responsive-embeds' );
+    add_theme_support( 'align-wide' );
 
     register_nav_menus( [
         'primary' => __( 'Menu principale', 'arkimedia' ),
@@ -175,6 +176,8 @@ $ark_includes = [
     '/inc/meta-slide.php',
     '/inc/slider-query.php',
     '/inc/shortcodes.php',
+    '/inc/customizer.php',
+    '/inc/custom-css.php',
 ];
 
 foreach ( $ark_includes as $file ) {
@@ -183,3 +186,23 @@ foreach ( $ark_includes as $file ) {
         require_once $path;
     }
 }
+
+// ── Blocchi Gutenberg custom ──────────────────────────────────────────────────
+function ark_register_blocks(): void {
+    register_block_type( ARK_DIR . '/blocks/hero' );
+}
+add_action( 'init', 'ark_register_blocks' );
+
+// ── Enqueue assets splash page ────────────────────────────────────────────────
+function ark_enqueue_splash_assets(): void {
+    if ( ! is_front_page() ) return;
+
+    wp_enqueue_script(
+        'arkimedia-splash',
+        ARK_URI . '/assets/js/splash.js',
+        [ 'gsap' ],
+        ARK_VERSION,
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'ark_enqueue_splash_assets' );

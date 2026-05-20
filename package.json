@@ -1,0 +1,12 @@
+{
+    "name": "arkimedia-theme",
+    "version": "1.0.0",
+    "description": "Arkimedia WordPress Theme",
+    "scripts": {
+        "build": "wp-scripts build blocks/hero/index.js --output-path=blocks/hero/build",
+        "start": "wp-scripts start blocks/hero/index.js --output-path=blocks/hero/build"
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "^30.0.0"
+    }
+}
