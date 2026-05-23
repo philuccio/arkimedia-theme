@@ -118,6 +118,7 @@ registerBlockType( metadata.name, {
         const innerBlocksProps = useInnerBlocksProps( blockProps, {
             renderAppender: InnerBlocks.ButtonBlockAppender,
             template: [],
+            templateLock: false,
         })
 
         const Spacing = ( { label, value, onChange, max = 200 } ) => (

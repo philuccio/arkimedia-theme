@@ -49,3 +49,22 @@
     width:      200px !important;
     flex-shrink: 0 !important;
 }
+
+/* ── Fix dimensioni container innestato nell'editor ──────── */
+.block-editor-block-list__layout > .wp-block[data-type="arkimedia/container"]:not(.wp-block-arkimedia-container) {
+    min-width:  200px !important;
+    min-height: 200px !important;
+    width:      200px !important;
+    flex:       none !important;
+}
+
+.ark-container--nested.block-editor-block-list__layout {
+    min-width:  200px !important;
+    min-height: 200px !important;
+}
+
+[data-type="arkimedia/container"] .ark-container--nested {
+    min-width:  200px !important;
+    min-height: 200px !important;
+    flex:       none !important;
+}
