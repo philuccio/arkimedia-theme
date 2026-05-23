@@ -85,3 +85,51 @@ document.addEventListener( 'DOMContentLoaded', () => {
     });
 
 });
+
+// ── Container GSAP animations ─────────────────────────────────────────────────
+document.addEventListener( 'DOMContentLoaded', () => {
+
+    document.querySelectorAll( '.ark-container[data-animation]' ).forEach( el => {
+        const raw = el.dataset.animation
+        if ( ! raw ) return
+
+        let config
+        try { config = JSON.parse( raw ) } catch { return }
+        if ( ! config || config.type === 'none' ) return
+
+        const { type, delay, duration, trigger, scrub } = config
+        const dur = duration / 1000
+        const del = delay / 1000
+
+        const fromVars = { opacity: 0, duration: dur, delay: del, ease: 'power3.out', clearProps: 'all' }
+
+        switch ( type ) {
+            case 'fadeUp':    fromVars.y = 60; break
+            case 'fadeIn':    break
+            case 'slideLeft': fromVars.x = -80; break
+            case 'slideRight':fromVars.x = 80; break
+            case 'scaleUp':   fromVars.scale = 0.85; break
+            case 'flip':      fromVars.rotationX = 90; fromVars.transformOrigin = 'top'; break
+        }
+
+        if ( trigger === 'onLoad' ) {
+            gsap.from( el, fromVars )
+        } else {
+            if ( scrub ) {
+                gsap.to( el, {
+                    scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: 1 },
+                    y: -60,
+                })
+            } else {
+                gsap.from( el, {
+                    ...fromVars,
+                    scrollTrigger: {
+                        trigger:      el,
+                        start:        'top 85%',
+                        toggleActions: 'play none none none',
+                    }
+                })
+            }
+        }
+    })
+})

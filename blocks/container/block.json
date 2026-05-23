@@ -173,6 +173,182 @@
         "htmlTag": {
             "type": "string",
             "default": "div"
+        },
+        "bgType": {
+            "type": "string",
+            "default": "none"
+        },
+        "gradientType": {
+            "type": "string",
+            "default": "linear"
+        },
+        "gradientAngle": {
+            "type": "number",
+            "default": 135
+        },
+        "gradientColor1": {
+            "type": "string",
+            "default": "#1a1a2e"
+        },
+        "gradientColor2": {
+            "type": "string",
+            "default": "#e94560"
+        },
+        "gradientPos1": {
+            "type": "number",
+            "default": 0
+        },
+        "gradientPos2": {
+            "type": "number",
+            "default": 100
+        },
+        "bgImageUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "bgImageAlt": {
+            "type": "string",
+            "default": ""
+        },
+        "bgSize": {
+            "type": "string",
+            "default": "cover"
+        },
+        "bgPosition": {
+            "type": "string",
+            "default": "center center"
+        },
+        "bgRepeat": {
+            "type": "string",
+            "default": "no-repeat"
+        },
+        "bgAttachment": {
+            "type": "string",
+            "default": "scroll"
+        },
+        "overlayColor": {
+            "type": "string",
+            "default": ""
+        },
+        "overlayBlendMode": {
+            "type": "string",
+            "default": "normal"
+        },
+        "boxShadow": {
+            "type": "boolean",
+            "default": false
+        },
+        "shadowOffsetX": {
+            "type": "number",
+            "default": 0
+        },
+        "shadowOffsetY": {
+            "type": "number",
+            "default": 4
+        },
+        "shadowBlur": {
+            "type": "number",
+            "default": 16
+        },
+        "shadowSpread": {
+            "type": "number",
+            "default": 0
+        },
+        "shadowColor": {
+            "type": "string",
+            "default": "rgba(0,0,0,0.2)"
+        },
+        "shadowInset": {
+            "type": "boolean",
+            "default": false
+        },
+        "opacity": {
+            "type": "number",
+            "default": 1
+        },
+        "translateX": {
+            "type": "number",
+            "default": 0
+        },
+        "translateY": {
+            "type": "number",
+            "default": 0
+        },
+        "rotate": {
+            "type": "number",
+            "default": 0
+        },
+        "scale": {
+            "type": "number",
+            "default": 1
+        },
+        "animationType": {
+            "type": "string",
+            "default": "none"
+        },
+        "animationDelay": {
+            "type": "number",
+            "default": 0
+        },
+        "animationDuration": {
+            "type": "number",
+            "default": 800
+        },
+        "animationTrigger": {
+            "type": "string",
+            "default": "onScroll"
+        },
+        "animationScrub": {
+            "type": "boolean",
+            "default": false
+        },
+        "mdFlexDirection": {
+            "type": "string",
+            "default": ""
+        },
+        "mdJustify": {
+            "type": "string",
+            "default": ""
+        },
+        "mdAlignItems": {
+            "type": "string",
+            "default": ""
+        },
+        "mdGap": {
+            "type": "number",
+            "default": 0
+        },
+        "mdDisplay": {
+            "type": "string",
+            "default": ""
+        },
+        "mdGridColumns": {
+            "type": "number",
+            "default": 0
+        },
+        "smFlexDirection": {
+            "type": "string",
+            "default": ""
+        },
+        "smJustify": {
+            "type": "string",
+            "default": ""
+        },
+        "smAlignItems": {
+            "type": "string",
+            "default": ""
+        },
+        "smGap": {
+            "type": "number",
+            "default": 0
+        },
+        "smDisplay": {
+            "type": "string",
+            "default": ""
+        },
+        "smGridColumns": {
+            "type": "number",
+            "default": 0
         }
     },
     "providesContext": {
