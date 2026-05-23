@@ -27,7 +27,7 @@
 }
 
 .ark-map__panel {
-    flex:            0 0 380px;
+    flex:            0 0 50%;
     padding:         3rem 2.5rem;
     display:         flex;
     flex-direction:  column;

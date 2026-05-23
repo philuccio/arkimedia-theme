@@ -126,7 +126,7 @@ registerBlockType( metadata.name, {
                 <div { ...blockProps }>
                     { layout === 'split' ? (
                         <div style={{ display:'flex', width:'100%' }}>
-                            <div style={{ flex:'0 0 380px', background:bgColor, color:textColor, padding:'3rem 2.5rem', display:'flex', flexDirection:'column', gap:'1.5rem', justifyContent:'center' }}>
+                            <div style={{ flex:'0 0 50%', background:bgColor, color:textColor, padding:'3rem 2.5rem', display:'flex', flexDirection:'column', gap:'1.5rem', justifyContent:'center' }}>
                                 { panelTitle && <h3 style={{ fontSize:'clamp(1.5rem,3vw,2.25rem)', fontWeight:700, margin:0, lineHeight:1.2 }}>{panelTitle}</h3> }
                                 { panelText  && <p style={{ opacity:0.75, margin:0, lineHeight:1.7 }}>{panelText}</p> }
                                 { address    && <span style={{ color:accentColor, fontSize:'0.9375rem' }}>📍 {address}</span> }
