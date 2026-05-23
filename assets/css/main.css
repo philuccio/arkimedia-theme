@@ -1555,3 +1555,49 @@ body.admin-bar {
     display:   block !important;
     max-width: 200px !important;
 }
+
+/* ── Logo menu in basso a sinistra ───────────────────────── */
+.ark-menu__logo {
+    position:      absolute !important;
+    bottom:        2rem !important;
+    left:          var( --container-pad ) !important;
+    margin-bottom: 0 !important;
+}
+
+/* ── Tasto chiusura menu ─────────────────────────────────── */
+.ark-menu__close {
+    position:   absolute !important;
+    top:        1.5rem !important;
+    right:      var( --container-pad ) !important;
+    width:      44px !important;
+    height:     44px !important;
+    background: none !important;
+    border:     none !important;
+    cursor:     pointer !important;
+    padding:    8px !important;
+    display:    flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index:    10 !important;
+}
+
+.ark-menu__close-line {
+    position:      absolute;
+    width:         28px;
+    height:        2px;
+    background:    #ffffff;
+    border-radius: 2px;
+}
+
+.ark-menu__close-line--1 {
+    transform: rotate( 45deg );
+}
+
+.ark-menu__close-line--2 {
+    transform: rotate( -45deg );
+}
+
+.ark-menu__close:hover .ark-menu__close-line {
+    background: var( --color-accent, #e94560 );
+    transition: background 0.2s ease;
+}

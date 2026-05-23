@@ -6,83 +6,39 @@
 
 document.addEventListener( 'DOMContentLoaded', () => {
 
-    const hamburger = document.getElementById( 'ark-hamburger' )
-    const overlay   = document.getElementById( 'ark-menu-overlay' )
-    const lineTop   = hamburger?.querySelector( '.ark-hamburger__line--top' )
-    const lineMid   = hamburger?.querySelector( '.ark-hamburger__line--mid' )
-    const lineBot   = hamburger?.querySelector( '.ark-hamburger__line--bot' )
-    const menuItems = overlay?.querySelectorAll( '.ark-menu__list a' )
+    const hamburger  = document.getElementById( 'ark-hamburger' )
+    const closeBtn   = document.getElementById( 'ark-menu-close' )
+    const overlay    = document.getElementById( 'ark-menu-overlay' )
+    const lineTop    = hamburger?.querySelector( '.ark-hamburger__line--top' )
+    const lineMid    = hamburger?.querySelector( '.ark-hamburger__line--mid' )
+    const lineBot    = hamburger?.querySelector( '.ark-hamburger__line--bot' )
+    const menuItems  = overlay?.querySelectorAll( '.ark-menu__list a' )
     const menuFooter = overlay?.querySelector( '.ark-menu__footer' )
+    const menuLogo   = overlay?.querySelector( '.ark-menu__logo' )
 
     if ( ! hamburger || ! overlay ) return
 
     let isOpen = false
 
-    // ── Timeline apertura ─────────────────────────────────────────────
-    const tlOpen = gsap.timeline({ paused: true })
-
-    tlOpen
-        // Apre overlay con clip-path
-        .to( overlay, {
-            duration:  0,
-            onStart: () => {
-                overlay.classList.add( 'is-open' )
-                overlay.setAttribute( 'aria-hidden', 'false' )
-                document.body.style.overflow = 'hidden'
-            }
-        })
-        .fromTo( overlay, {
-            '--clip': 'circle(0% at calc(100% - 44px) 44px)',
-        }, {
-            '--clip': 'circle(150% at calc(100% - 44px) 44px)',
-            duration: 0,
-        })
-        // Animazione sfondo con CSS
-        .call( () => {
-            overlay.style.setProperty( '--menu-open', '1' )
-        })
-
-    // Hamburger → X
+    // ── Hamburger → X ────────────────────────────────────────────────
     const tlHamburger = gsap.timeline({ paused: true })
 
     tlHamburger
         .to( lineMid, { opacity: 0, duration: 0.15, ease: 'power2.out' } )
-        .to( lineTop, { y: 8, duration: 0.2, ease: 'power2.out' }, '<' )
+        .to( lineTop, { y: 8,  duration: 0.2, ease: 'power2.out' }, '<' )
         .to( lineBot, { y: -8, duration: 0.2, ease: 'power2.out' }, '<' )
-        .to( lineTop, { rotation: 45, duration: 0.2, ease: 'power2.out' } )
+        .to( lineTop, { rotation: 45,  duration: 0.2, ease: 'power2.out' } )
         .to( lineBot, { rotation: -45, duration: 0.2, ease: 'power2.out' }, '<' )
 
-    // Voci menu — entrata
-    const tlItems = gsap.timeline({ paused: true })
-
-    if ( menuItems?.length ) {
-        tlItems.from( Array.from( menuItems ), {
-            y:        60,
-            opacity:  0,
-            duration: 0.5,
-            stagger:  0.08,
-            ease:     'power3.out',
-        }, 0.2 )
-    }
-
-    if ( menuFooter ) {
-        tlItems.from( menuFooter, {
-            opacity:  0,
-            y:        20,
-            duration: 0.4,
-        }, 0.5 )
-    }
-
-    // ── Toggle ────────────────────────────────────────────────────────
+    // ── Apertura ──────────────────────────────────────────────────────
     function openMenu() {
         isOpen = true
         hamburger.setAttribute( 'aria-expanded', 'true' )
-        hamburger.setAttribute( 'aria-label', 'Chiudi menu' )
         overlay.classList.add( 'is-open' )
         overlay.setAttribute( 'aria-hidden', 'false' )
         document.body.style.overflow = 'hidden'
 
-        // Anima sfondo
+        // Sfondo clip-path
         gsap.fromTo( overlay, {
             clipPath: 'circle(0% at calc(100% - 44px) 40px)',
         }, {
@@ -91,14 +47,35 @@ document.addEventListener( 'DOMContentLoaded', () => {
             ease:     'power3.inOut',
         })
 
+        // Hamburger → X
         tlHamburger.play()
-        tlItems.restart()
+
+        // Voci menu
+        const items = [ ...( menuItems || [] ) ]
+        if ( menuFooter ) items.push( menuFooter )
+        if ( menuLogo )   items.push( menuLogo )
+
+        gsap.from( Array.from( menuItems || [] ), {
+            y:        60,
+            opacity:  0,
+            duration: 0.5,
+            stagger:  0.08,
+            ease:     'power3.out',
+            delay:    0.3,
+        })
+
+        if ( menuFooter ) {
+            gsap.from( menuFooter, { opacity: 0, y: 20, duration: 0.4, delay: 0.5 })
+        }
+        if ( menuLogo ) {
+            gsap.from( menuLogo, { opacity: 0, y: 20, duration: 0.4, delay: 0.5 })
+        }
     }
 
+    // ── Chiusura ──────────────────────────────────────────────────────
     function closeMenu() {
         isOpen = false
         hamburger.setAttribute( 'aria-expanded', 'false' )
-        hamburger.setAttribute( 'aria-label', 'Apri menu' )
         document.body.style.overflow = ''
 
         gsap.to( overlay, {
@@ -114,16 +91,20 @@ document.addEventListener( 'DOMContentLoaded', () => {
         tlHamburger.reverse()
     }
 
+    // ── Event listeners ───────────────────────────────────────────────
     hamburger.addEventListener( 'click', () => {
         isOpen ? closeMenu() : openMenu()
     })
 
-    // Chiudi con ESC
+    // Tasto X di chiusura
+    closeBtn?.addEventListener( 'click', closeMenu )
+
+    // ESC
     document.addEventListener( 'keydown', ( e ) => {
         if ( e.key === 'Escape' && isOpen ) closeMenu()
     })
 
-    // Chiudi al click su link
+    // Click su link
     menuItems?.forEach( link => {
         link.addEventListener( 'click', closeMenu )
     })

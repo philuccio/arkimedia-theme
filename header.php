@@ -19,17 +19,12 @@
     <div id="ark-menu-overlay" class="ark-menu" aria-hidden="true">
         <div class="ark-menu__inner">
 
-            <!-- Logo nel menu -->
-            <?php
-            $custom_logo_id = get_theme_mod( 'custom_logo' );
-            if ( $custom_logo_id ) :
-            ?>
-                <div class="ark-menu__logo">
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                        <?php echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'ark-menu__logo-img' ] ); ?>
-                    </a>
-                </div>
-            <?php endif; ?>
+            <!-- Tasto chiusura -->
+            <button class="ark-menu__close" id="ark-menu-close"
+                    aria-label="<?php esc_attr_e( 'Chiudi menu', 'arkimedia' ); ?>">
+                <span class="ark-menu__close-line ark-menu__close-line--1"></span>
+                <span class="ark-menu__close-line ark-menu__close-line--2"></span>
+            </button>
 
             <!-- Voci menu -->
             <nav class="ark-menu__nav" aria-label="<?php esc_attr_e( 'Menu principale', 'arkimedia' ); ?>">
@@ -43,6 +38,18 @@
                 ] );
                 ?>
             </nav>
+
+            <!-- Logo in basso a sinistra -->
+            <?php
+            $custom_logo_id = get_theme_mod( 'custom_logo' );
+            if ( $custom_logo_id ) :
+            ?>
+                <div class="ark-menu__logo">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                        <?php echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'ark-menu__logo-img' ] ); ?>
+                    </a>
+                </div>
+            <?php endif; ?>
 
             <!-- Menu secondario in basso a destra -->
             <div class="ark-menu__footer">
