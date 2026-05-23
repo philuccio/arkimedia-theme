@@ -75,7 +75,7 @@
                 <?php
                 if ( $custom_logo_id ) :
                 ?>
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo-link">
+                    <a href="<?php echo esc_url( home_url( '/home/' ) ); ?>" class="header__logo-link">
                         <?php echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'header__logo' ] ); ?>
                     </a>
                 <?php else : ?>
