@@ -176,6 +176,8 @@ $ark_includes = [
     '/inc/meta-slide.php',
     '/inc/slider-query.php',
     '/inc/shortcodes.php',
+    '/inc/cpt-portfolio.php',
+    '/inc/meta-portfolio.php',
     '/inc/customizer.php',
     '/inc/custom-css.php',
 ];
