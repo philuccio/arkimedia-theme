@@ -61,3 +61,10 @@
     } )
 
 } )( jQuery )
+
+    wp.customize( 'ark_header_sticky_bg', ( value ) => {
+        value.bind( ( newVal ) => {
+            const style = document.getElementById('arkimedia-header-sticky')
+            if ( style ) style.textContent = `.site-header.is-sticky { background: ${ newVal } !important; }`
+        })
+    })

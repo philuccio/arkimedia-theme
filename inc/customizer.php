@@ -148,6 +148,27 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
     ] );
 
     // ════════════════════════════════════════════════════════════════════
+    // SEZIONE: Header
+    // ════════════════════════════════════════════════════════════════════
+    $wp_customize->add_section( 'ark_header', [
+        'title'    => __( 'Header', 'arkimedia' ),
+        'priority' => 28,
+    ] );
+
+    $wp_customize->add_setting( 'ark_header_sticky_bg', [
+        'default'           => '#1a1a2e',
+        'sanitize_callback' => 'sanitize_hex_color',
+        'transport'         => 'postMessage',
+    ] );
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control( $wp_customize, 'ark_header_sticky_bg', [
+            'label'       => __( 'Colore sfondo header on scroll', 'arkimedia' ),
+            'description' => __( 'Colore che appare quando l'header diventa sticky.', 'arkimedia' ),
+            'section'     => 'ark_header',
+        ] )
+    );
+
+    // ════════════════════════════════════════════════════════════════════
     // SEZIONE: Splash Page
     // ════════════════════════════════════════════════════════════════════
     $wp_customize->add_section( 'ark_splash', [

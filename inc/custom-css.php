@@ -89,3 +89,10 @@ function ark_footer_dynamic_css(): void {
     echo '<style id="arkimedia-footer-bg">.site-footer { background: ' . esc_attr( $footer_bg ) . ' !important; }</style>';
 }
 add_action( 'wp_head', 'ark_footer_dynamic_css', 99 );
+
+// ── Header sticky colore dinamico ────────────────────────────────────────────
+function ark_header_sticky_css(): void {
+    $color = get_theme_mod( 'ark_header_sticky_bg', '#1a1a2e' );
+    echo '<style id="arkimedia-header-sticky">.site-header.is-sticky { background: ' . esc_attr( $color ) . ' !important; }</style>';
+}
+add_action( 'wp_head', 'ark_header_sticky_css', 100 );
