@@ -1747,3 +1747,16 @@ body {
     margin-left:  0 !important;
     margin-right: 0 !important;
 }
+
+/* ── Mappa split — pannello allineato al container ───────── */
+.ark-map--layout-split .ark-map__panel {
+    padding-left:  calc( ( 100vw - var( --container-width, 1200px ) ) / 2 + var( --container-pad, 1.5rem ) ) !important;
+    padding-right: var( --container-pad, 1.5rem ) !important;
+}
+
+@media ( max-width: 1200px ) {
+    .ark-map--layout-split .ark-map__panel {
+        padding-left:  var( --container-pad, 1.5rem ) !important;
+        padding-right: var( --container-pad, 1.5rem ) !important;
+    }
+}
