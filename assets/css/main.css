@@ -1740,3 +1740,10 @@ body {
     margin-left:  unset !important;
     margin-right: unset !important;
 }
+
+/* ── Container nested width fix ─────────────────────────── */
+.ark-container--nested {
+    max-width:    none !important;
+    margin-left:  0 !important;
+    margin-right: 0 !important;
+}

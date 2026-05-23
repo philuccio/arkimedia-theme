@@ -187,11 +187,12 @@ if ( $is_first === true && isset( $attributes['align'] ) && $attributes['align']
     $styles[] = "margin-left:calc(50% - 50vw)";
     $styles[] = "margin-right:calc(50% - 50vw)";
 } elseif ( ! $is_first ) {
-    // Container innestato — resetta qualsiasi ereditarietà
-    $styles[] = "width:" . esc_attr( $width );
+    // Container innestato — usa la larghezza impostata, mai 100vw
+    $nested_width = ( $width === '100%' || empty( $width ) ) ? 'auto' : esc_attr( $width );
+    $styles[] = "width:" . $nested_width;
     $styles[] = "max-width:" . ( $max_width ? esc_attr( $max_width ) : 'none' );
-    $styles[] = "margin-left:" . esc_attr( $ml );
-    $styles[] = "margin-right:" . esc_attr( $mr );
+    $styles[] = "margin-left:0";
+    $styles[] = "margin-right:0";
 }
 
 $inline_style = implode( ';', $styles );
