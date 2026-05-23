@@ -13,11 +13,20 @@ get_header();
         <?php
         while ( have_posts() ) :
             the_post();
-            get_template_part( 'template-parts/content/content', get_post_type() );
-        endwhile;
+            ?>
+            <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry' ); ?>>
+                <?php if ( has_post_thumbnail() ) : ?>
+                    <div class="entry__thumbnail">
+                        <?php the_post_thumbnail( 'arkimedia-card' ); ?>
+                    </div>
+                <?php endif; ?>
+                <div class="entry__content">
+                    <?php the_content(); ?>
+                </div>
+            </article>
+        <?php endwhile;
         ?>
     </div>
 </main>
 
-<?php
-get_footer();
+<?php get_footer(); ?>

@@ -31,23 +31,14 @@ get_header();
             <div class="project__body container">
 
                 <div class="project__main">
-
-                    <header class="project__header">
-                        <?php if ( $cats && ! is_wp_error( $cats ) ) : ?>
-                            <p class="project__cat">
-                                <?php echo esc_html( implode( ', ', wp_list_pluck( $cats, 'name' ) ) ); ?>
-                            </p>
-                        <?php endif; ?>
-                        <h1 class="project__title"><?php the_title(); ?></h1>
-                        <?php if ( has_excerpt() ) : ?>
-                            <p class="project__excerpt"><?php the_excerpt(); ?></p>
-                        <?php endif; ?>
-                    </header>
-
+                    <?php if ( $cats && ! is_wp_error( $cats ) ) : ?>
+                        <p class="project__cat">
+                            <?php echo esc_html( implode( ', ', wp_list_pluck( $cats, 'name' ) ) ); ?>
+                        </p>
+                    <?php endif; ?>
                     <div class="project__content">
                         <?php the_content(); ?>
                     </div>
-
                 </div>
 
                 <aside class="project__meta">
@@ -90,7 +81,6 @@ get_header();
                             </div>
                         <?php endif; ?>
                     </dl>
-
                     <a href="<?php echo esc_url( get_post_type_archive_link( 'portfolio' ) ); ?>"
                        class="project__back">
                         ← <?php esc_html_e( 'Tutti i progetti', 'arkimedia' ); ?>

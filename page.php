@@ -13,11 +13,14 @@ get_header();
         <?php
         while ( have_posts() ) :
             the_post();
-            get_template_part( 'template-parts/content/content', 'page' );
-        endwhile;
-        ?>
+            ?>
+            <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry' ); ?>>
+                <div class="entry__content">
+                    <?php the_content(); ?>
+                </div>
+            </article>
+        <?php endwhile; ?>
     </div>
 </main>
 
-<?php
-get_footer();
+<?php get_footer(); ?>
