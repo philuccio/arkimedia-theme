@@ -72,11 +72,11 @@
         },
         "width": {
             "type": "string",
-            "default": "100%"
+            "default": "200px"
         },
         "minHeight": {
             "type": "string",
-            "default": ""
+            "default": "200px"
         },
         "maxWidth": {
             "type": "string",
