@@ -163,7 +163,7 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
     $wp_customize->add_control(
         new WP_Customize_Color_Control( $wp_customize, 'ark_header_sticky_bg', [
             'label'       => __( 'Colore sfondo header on scroll', 'arkimedia' ),
-            'description' => __( 'Colore che appare quando l'header diventa sticky.', 'arkimedia' ),
+            'description' => __( 'Colore che appare quando l\'header diventa sticky.', 'arkimedia' ),
             'section'     => 'ark_header',
         ] )
     );
