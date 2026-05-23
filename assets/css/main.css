@@ -1330,3 +1330,186 @@ body.admin-bar {
 .site-footer {
     margin-top: 0 !important;
 }
+
+/* ── Header inner fix definitivo ─────────────────────────── */
+#masthead .container {
+    display:         flex !important;
+    align-items:     center !important;
+    justify-content: space-between !important;
+    height:          80px !important;
+    padding-top:     0 !important;
+    padding-bottom:  0 !important;
+    max-width:       var( --container-width ) !important;
+}
+
+#masthead .main-navigation {
+    height: auto !important;
+}
+
+#masthead .nav__list {
+    display:     flex !important;
+    align-items: center !important;
+    gap:         2rem !important;
+    margin:      0 !important;
+    padding:     0 !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   Hamburger + Menu fullscreen
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Hamburger button ────────────────────────────────────── */
+.ark-hamburger {
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    gap:             6px;
+    width:           44px;
+    height:          44px;
+    background:      none;
+    border:          none;
+    cursor:          pointer;
+    padding:         8px;
+    z-index:         1100;
+    position:        relative;
+    flex-shrink:     0;
+}
+
+.ark-hamburger__line {
+    display:       block;
+    width:         100%;
+    height:        2px;
+    background:    #ffffff;
+    border-radius: 2px;
+    transform-origin: center;
+    transition:    none; /* gestito da GSAP */
+}
+
+/* Nasconde nav desktop su mobile */
+@media ( max-width: 768px ) {
+    .main-navigation .nav__list {
+        display: none !important;
+    }
+}
+
+/* Nasconde hamburger su desktop */
+@media ( min-width: 769px ) {
+    .ark-hamburger {
+        display: none;
+    }
+}
+
+/* ── Menu overlay fullscreen ─────────────────────────────── */
+.ark-menu {
+    position:   fixed;
+    inset:      0;
+    z-index:    1050;
+    display:    flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.ark-menu.is-open {
+    pointer-events: auto;
+    visibility:     visible;
+}
+
+/* Sfondo — animato con GSAP clip-path */
+.ark-menu::before {
+    content:    '';
+    position:   absolute;
+    inset:      0;
+    background: #0a0a0a;
+    clip-path:  circle( 0% at calc( 100% - 44px ) 44px );
+    transition: none; /* gestito da GSAP */
+    z-index:    -1;
+}
+
+.ark-menu.is-open::before {
+    clip-path: circle( 150% at calc( 100% - 44px ) 44px );
+}
+
+/* Inner */
+.ark-menu__inner {
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items:     flex-start;
+    width:           100%;
+    max-width:       var( --container-width );
+    padding:         0 var( --container-pad );
+    height:          100%;
+    gap:             3rem;
+}
+
+/* Lista voci menu */
+.ark-menu__list {
+    list-style: none;
+    margin:     0;
+    padding:    0;
+    display:    flex;
+    flex-direction: column;
+    gap:        0.25rem;
+}
+
+.ark-menu__list li {
+    overflow: hidden;
+}
+
+.ark-menu__list a {
+    display:        block;
+    font-size:      clamp( 2.5rem, 8vw, 5rem );
+    font-weight:    700;
+    color:          #ffffff;
+    text-decoration: none;
+    line-height:    1.1;
+    letter-spacing: -0.02em;
+    transition:     color 0.2s ease;
+}
+
+.ark-menu__list a:hover {
+    color:   var( --color-accent, #e94560 );
+    opacity: 1;
+}
+
+/* Menu secondario in basso */
+.ark-menu__footer {
+    margin-top: auto;
+    padding-bottom: 2rem;
+}
+
+.ark-menu__secondary {
+    display:    flex;
+    gap:        2rem;
+    list-style: none;
+    margin:     0;
+    padding:    0;
+}
+
+.ark-menu__secondary a {
+    font-size:   0.8125rem;
+    color:       rgba( 255,255,255,0.4 );
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition:  color 0.2s ease;
+}
+
+.ark-menu__secondary a:hover {
+    color:   #ffffff;
+    opacity: 1;
+}
+
+/* Numero progressivo voci */
+.ark-menu__list li {
+    counter-increment: menu-counter;
+}
+
+/* Desktop — mostra nav normale, nascondi hamburger */
+@media ( min-width: 769px ) {
+    .ark-menu {
+        display: none !important;
+    }
+}

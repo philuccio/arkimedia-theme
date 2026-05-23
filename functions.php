@@ -233,3 +233,15 @@ function ark_register_block_category( array $categories ): array {
     );
 }
 add_filter( 'block_categories_all', 'ark_register_block_category' );
+
+// ── Enqueue menu hamburger ────────────────────────────────────────────────────
+function ark_enqueue_menu_assets(): void {
+    wp_enqueue_script(
+        'arkimedia-menu',
+        ARK_URI . '/assets/js/menu.js',
+        [ 'gsap' ],
+        ARK_VERSION,
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'ark_enqueue_menu_assets' );

@@ -82,3 +82,10 @@ function ark_enqueue_google_fonts(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_google_fonts' );
+
+// ── Footer background dinamico ────────────────────────────────────────────────
+function ark_footer_dynamic_css(): void {
+    $footer_bg = get_theme_mod( 'ark_color_footer_bg', '#0a0a0a' );
+    echo '<style id="arkimedia-footer-bg">.site-footer { background: ' . esc_attr( $footer_bg ) . ' !important; }</style>';
+}
+add_action( 'wp_head', 'ark_footer_dynamic_css', 99 );
