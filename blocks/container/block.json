@@ -76,7 +76,7 @@
         },
         "minHeight": {
             "type": "string",
-            "default": ""
+            "default": "200px"
         },
         "maxWidth": {
             "type": "string",

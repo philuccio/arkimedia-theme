@@ -41,3 +41,11 @@
     min-width:      200px !important;
     min-height:     200px !important;
 }
+
+/* ── Container innestato dimensioni minime ───────────────── */
+.ark-container--nested {
+    min-width:  200px !important;
+    min-height: 200px !important;
+    width:      200px !important;
+    flex-shrink: 0 !important;
+}

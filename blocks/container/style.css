@@ -25,3 +25,9 @@
     border:      2px dashed #ddd;
     border-radius: 4px;
 }
+
+/* ── Container innestato frontend ────────────────────────── */
+.ark-container--nested {
+    min-width:  0;
+    flex-shrink: 1;
+}
