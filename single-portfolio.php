@@ -22,12 +22,12 @@ get_header();
 
         <article id="post-<?php the_ID(); ?>" <?php post_class( 'project' ); ?>>
 
-            <?php if ( has_post_thumbnail() ) : ?>
-                <div class="project__cover">
-                    <?php the_post_thumbnail( 'arkimedia-hero' ); ?>
-                </div>
-            <?php endif; ?>
+            <!-- Contenuto pagina (include blocco Testata se presente) -->
+            <div class="project__content-full">
+                <?php the_content(); ?>
+            </div>
 
+            <!-- Meta e corpo progetto -->
             <div class="project__body container">
 
                 <div class="project__main">
@@ -36,9 +36,6 @@ get_header();
                             <?php echo esc_html( implode( ', ', wp_list_pluck( $cats, 'name' ) ) ); ?>
                         </p>
                     <?php endif; ?>
-                    <div class="project__content">
-                        <?php the_content(); ?>
-                    </div>
                 </div>
 
                 <aside class="project__meta">
