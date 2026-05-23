@@ -1760,3 +1760,13 @@ body {
         padding-right: var( --container-pad, 1.5rem ) !important;
     }
 }
+
+/* ── Logo link header ────────────────────────────────────── */
+.header__logo-link {
+    display:    block;
+    line-height: 0;
+}
+
+.header__logo-link:hover {
+    opacity: 0.85;
+}

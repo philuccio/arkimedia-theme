@@ -74,9 +74,11 @@
             <div class="site-header__logo">
                 <?php
                 if ( $custom_logo_id ) :
-                    echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'header__logo' ] );
-                else :
                 ?>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo-link">
+                        <?php echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'header__logo' ] ); ?>
+                    </a>
+                <?php else : ?>
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__site-name">
                         <?php bloginfo( 'name' ); ?>
                     </a>
