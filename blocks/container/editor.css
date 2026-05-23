@@ -1,0 +1,35 @@
+/* ── Container Editor Styles ─────────────────────────────── */
+
+.ark-container {
+    min-height:     40px;
+    position:       relative;
+    box-sizing:     border-box;
+}
+
+.ark-container--root {
+    outline:        2px dashed rgba( 99, 102, 241, 0.3 );
+    outline-offset: 2px;
+}
+
+.ark-container--nested {
+    outline:        1px dashed rgba( 99, 102, 241, 0.2 );
+    outline-offset: 1px;
+}
+
+/* Label tipo container */
+.ark-container::before {
+    content:          attr( data-label );
+    position:         absolute;
+    top:              -20px;
+    left:             0;
+    font-size:        10px;
+    font-weight:      600;
+    color:            rgb( 99, 102, 241 );
+    text-transform:   uppercase;
+    letter-spacing:   0.05em;
+    pointer-events:   none;
+    z-index:          10;
+    background:       white;
+    padding:          1px 4px;
+    border-radius:    2px;
+}

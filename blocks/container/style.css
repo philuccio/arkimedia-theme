@@ -1,0 +1,27 @@
+/* ── Arkimedia Container Block ───────────────────────────── */
+
+.ark-container {
+    box-sizing: border-box;
+    position:   relative;
+}
+
+.ark-container--root {
+    width: 100%;
+}
+
+.ark-container--nested {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Placeholder vuoto nell'editor */
+.ark-container:empty::before {
+    content:     'Container vuoto — aggiungi blocchi';
+    display:     block;
+    padding:     2rem;
+    text-align:  center;
+    color:       #999;
+    font-size:   0.875rem;
+    border:      2px dashed #ddd;
+    border-radius: 4px;
+}

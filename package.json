@@ -8,8 +8,9 @@
         "build:clients":     "wp-scripts build blocks/clients/index.js --output-path=blocks/clients/build",
         "build:gallery-cta": "wp-scripts build blocks/gallery-cta/index.js --output-path=blocks/gallery-cta/build",
         "build:slider":      "wp-scripts build blocks/slider/index.js --output-path=blocks/slider/build",
-        "build":             "npm run build:hero && npm run build:services && npm run build:clients && npm run build:gallery-cta && npm run build:slider",
-        "start:slider":      "wp-scripts start blocks/slider/index.js --output-path=blocks/slider/build"
+        "build:container":   "wp-scripts build blocks/container/index.js --output-path=blocks/container/build",
+        "build":             "npm run build:hero && npm run build:services && npm run build:clients && npm run build:gallery-cta && npm run build:slider && npm run build:container",
+        "start:container":   "wp-scripts start blocks/container/index.js --output-path=blocks/container/build"
     },
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"

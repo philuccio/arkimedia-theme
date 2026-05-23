@@ -1711,3 +1711,24 @@ body {
     right: auto !important;
     transform: translateX( -50% ) !important;
 }
+
+/* ── Slider frecce senza fondo ───────────────────────────── */
+.ark-slider-block .swiper-button-prev,
+.ark-slider-block .swiper-button-next {
+    background:    none !important;
+    border:        none !important;
+    box-shadow:    none !important;
+    width:         44px !important;
+    height:        44px !important;
+    color:         #ffffff !important;
+}
+
+.ark-slider-block .swiper-button-prev::after,
+.ark-slider-block .swiper-button-next::after {
+    font-size: 1.25rem !important;
+}
+
+/* ── Slider block sfondo nero default ────────────────────── */
+.ark-slider-block {
+    background: #0a0a0a !important;
+}
