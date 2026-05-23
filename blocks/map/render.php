@@ -23,23 +23,14 @@ $panel_title  = $attributes['panelTitle']  ?? 'Dove siamo';
 $panel_text   = $attributes['panelText']   ?? '';
 $address      = $attributes['address']     ?? '';
 
-// Costruisce URL embed Google Maps
-$embed_params = [
-    'pb' => sprintf(
-        '!1m18!1m12!1m3!1d3000!2d%s!3d%s!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f%s!3m3!1m2!1s0x0:0x0!2zM!5e0!3m2!1sit!2sit!4v1',
-        esc_attr( $lng ),
-        esc_attr( $lat ),
-        esc_attr( $zoom )
-    ),
-];
-
-// URL embed base senza API key
-$embed_url = add_query_arg([
-    'pb' => sprintf(
-        '!1m14!1m12!1m3!1d5000!2d%s!3d%s!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f%s!3m3!1m2!1s0x0%%3A0x0!2zM!5e0!3m2!1sit!2sit',
-        $lng, $lat, $zoom
-    ),
-], 'https://www.google.com/maps/embed' );
+// URL embed Google Maps — senza API key
+$embed_url = sprintf(
+    'https://maps.google.com/maps?q=%s,%s&z=%s&output=embed&t=%s',
+    esc_attr( $lat ),
+    esc_attr( $lng ),
+    absint( $zoom ),
+    ( $map_type === 'satellite' || $map_type === 'hybrid' ) ? 'k' : 'm'
+);
 
 $wrapper_attrs = get_block_wrapper_attributes([
     'class' => 'ark-map alignfull ark-map--layout-' . esc_attr( $layout ),

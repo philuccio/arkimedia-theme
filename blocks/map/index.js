@@ -29,7 +29,8 @@ registerBlockType( metadata.name, {
             }
         })
 
-        const embedUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5000!2d${ lng }!3d${ lat }!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f${ zoom }!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sit!2sit`
+        const mapT = mapType === "satellite" || mapType === "hybrid" ? "k" : "m"
+        const embedUrl = `https://maps.google.com/maps?q=${ lat },${ lng }&z=${ zoom }&output=embed&t=${ mapT }`
 
         return (
             <>
