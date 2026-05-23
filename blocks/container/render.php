@@ -1,6 +1,6 @@
 <?php
 /**
- * Render blocco Container — Fase 2.
+ * Render blocco Container.
  *
  * @package Arkimedia
  */
@@ -42,7 +42,6 @@ $grad_color2     = $attributes['gradientColor2'] ?? '#e94560';
 $grad_pos1       = $attributes['gradientPos1']   ?? 0;
 $grad_pos2       = $attributes['gradientPos2']   ?? 100;
 $bg_image        = $attributes['bgImageUrl']     ?? '';
-$bg_image_alt    = $attributes['bgImageAlt']     ?? '';
 $bg_size         = $attributes['bgSize']         ?? 'cover';
 $bg_position     = $attributes['bgPosition']     ?? 'center center';
 $bg_repeat       = $attributes['bgRepeat']       ?? 'no-repeat';
@@ -80,23 +79,23 @@ $is_first        = $attributes['isFirstLevel']   ?? true;
 $html_tag        = $attributes['htmlTag']        ?? 'div';
 
 // Responsive
-$md_direction    = $attributes['mdFlexDirection'] ?? '';
-$md_justify      = $attributes['mdJustify']       ?? '';
-$md_align        = $attributes['mdAlignItems']    ?? '';
-$md_gap          = $attributes['mdGap']           ?? 0;
-$md_display      = $attributes['mdDisplay']       ?? '';
-$md_grid_cols    = $attributes['mdGridColumns']   ?? 0;
-$sm_direction    = $attributes['smFlexDirection'] ?? '';
-$sm_justify      = $attributes['smJustify']       ?? '';
-$sm_align        = $attributes['smAlignItems']    ?? '';
-$sm_gap          = $attributes['smGap']           ?? 0;
-$sm_display      = $attributes['smDisplay']       ?? '';
-$sm_grid_cols    = $attributes['smGridColumns']   ?? 0;
+$md_direction   = $attributes['mdFlexDirection'] ?? '';
+$md_justify     = $attributes['mdJustify']       ?? '';
+$md_align       = $attributes['mdAlignItems']    ?? '';
+$md_gap         = $attributes['mdGap']           ?? 0;
+$md_display     = $attributes['mdDisplay']       ?? '';
+$md_grid_cols   = $attributes['mdGridColumns']   ?? 0;
+$sm_direction   = $attributes['smFlexDirection'] ?? '';
+$sm_justify     = $attributes['smJustify']       ?? '';
+$sm_align       = $attributes['smAlignItems']    ?? '';
+$sm_gap         = $attributes['smGap']           ?? 0;
+$sm_display     = $attributes['smDisplay']       ?? '';
+$sm_grid_cols   = $attributes['smGridColumns']   ?? 0;
 
 $allowed_tags = [ 'div', 'section', 'article', 'main', 'aside', 'header', 'footer', 'nav' ];
 $tag = in_array( $html_tag, $allowed_tags ) ? $html_tag : 'div';
 
-// ── Costruisci stili ───────────────────────────────────────
+// ── Stili ──────────────────────────────────────────────────
 $styles = [];
 $styles[] = "display:{$display}";
 $styles[] = "box-sizing:border-box";
@@ -124,10 +123,10 @@ if ( $use_custom_gap ) {
 }
 
 $styles[] = "width:{$width}";
-if ( $min_height )  $styles[] = "min-height:{$min_height}";
-if ( $max_width )   $styles[] = "max-width:{$max_width}";
+if ( $min_height ) $styles[] = "min-height:{$min_height}";
+if ( $max_width )  $styles[] = "max-width:{$max_width}";
 $styles[] = "overflow:{$overflow}";
-if ( $z_index )     $styles[] = "z-index:{$z_index}";
+if ( $z_index )    $styles[] = "z-index:{$z_index}";
 $styles[] = "padding:{$pt}px {$pr}px {$pb}px {$pl}px";
 $styles[] = "margin:{$mt} {$mr} {$mb} {$ml}";
 
@@ -137,11 +136,10 @@ switch ( $bg_type ) {
         if ( $bg_color ) $styles[] = "background:{$bg_color}";
         break;
     case 'gradient':
-        if ( $grad_type === 'linear' ) {
-            $styles[] = "background:linear-gradient({$grad_angle}deg,{$grad_color1} {$grad_pos1}%,{$grad_color2} {$grad_pos2}%)";
-        } else {
-            $styles[] = "background:radial-gradient(circle,{$grad_color1} {$grad_pos1}%,{$grad_color2} {$grad_pos2}%)";
-        }
+        $grad = $grad_type === 'linear'
+            ? "linear-gradient({$grad_angle}deg,{$grad_color1} {$grad_pos1}%,{$grad_color2} {$grad_pos2}%)"
+            : "radial-gradient(circle,{$grad_color1} {$grad_pos1}%,{$grad_color2} {$grad_pos2}%)";
+        $styles[] = "background:{$grad}";
         break;
     case 'image':
         if ( $bg_image ) {
@@ -173,10 +171,8 @@ if ( $box_shadow ) {
     $styles[] = "box-shadow:{$inset}{$shadow_x}px {$shadow_y}px {$shadow_blur}px {$shadow_spread}px {$shadow_color}";
 }
 
-// Opacity
 if ( $opacity < 1 ) $styles[] = "opacity:{$opacity}";
 
-// Transform
 $transforms = [];
 if ( $translate_x ) $transforms[] = "translateX({$translate_x}px)";
 if ( $translate_y ) $transforms[] = "translateY({$translate_y}px)";
@@ -184,7 +180,7 @@ if ( $rotate )      $transforms[] = "rotate({$rotate}deg)";
 if ( $scale != 1 )  $transforms[] = "scale({$scale})";
 if ( $transforms )  $styles[] = "transform:" . implode( ' ', $transforms );
 
-// Fullwidth
+// Fullwidth primo livello
 if ( $is_first && isset( $attributes['align'] ) && $attributes['align'] === 'full' ) {
     $styles[] = "width:100vw";
     $styles[] = "max-width:100vw";
@@ -194,33 +190,33 @@ if ( $is_first && isset( $attributes['align'] ) && $attributes['align'] === 'ful
 
 $inline_style = implode( ';', $styles );
 
-// CSS responsive
+// ID univoco per responsive CSS
 $block_id = 'ark-cnt-' . substr( md5( serialize( $attributes ) ), 0, 8 );
+
+// Responsive CSS
 $responsive_css = '';
-
 if ( $md_direction || $md_justify || $md_align || $md_gap || $md_display || $md_grid_cols ) {
-    $md_rules = [];
-    if ( $md_display )    $md_rules[] = "display:{$md_display}";
-    if ( $md_direction )  $md_rules[] = "flex-direction:{$md_direction}";
-    if ( $md_justify )    $md_rules[] = "justify-content:{$md_justify}";
-    if ( $md_align )      $md_rules[] = "align-items:{$md_align}";
-    if ( $md_gap )        $md_rules[] = "gap:{$md_gap}px";
-    if ( $md_grid_cols )  $md_rules[] = "grid-template-columns:repeat({$md_grid_cols},1fr)";
-    $responsive_css .= "@media(max-width:1024px){#{$block_id}{{" . implode( ';', $md_rules ) . "}}}";
+    $md = [];
+    if ( $md_display )   $md[] = "display:{$md_display}";
+    if ( $md_direction ) $md[] = "flex-direction:{$md_direction}";
+    if ( $md_justify )   $md[] = "justify-content:{$md_justify}";
+    if ( $md_align )     $md[] = "align-items:{$md_align}";
+    if ( $md_gap )       $md[] = "gap:{$md_gap}px";
+    if ( $md_grid_cols ) $md[] = "grid-template-columns:repeat({$md_grid_cols},1fr)";
+    $responsive_css .= "@media(max-width:1024px){#{$block_id}{" . implode( ';', $md ) . "}}";
 }
-
 if ( $sm_direction || $sm_justify || $sm_align || $sm_gap || $sm_display || $sm_grid_cols ) {
-    $sm_rules = [];
-    if ( $sm_display )    $sm_rules[] = "display:{$sm_display}";
-    if ( $sm_direction )  $sm_rules[] = "flex-direction:{$sm_direction}";
-    if ( $sm_justify )    $sm_rules[] = "justify-content:{$sm_justify}";
-    if ( $sm_align )      $sm_rules[] = "align-items:{$sm_align}";
-    if ( $sm_gap )        $sm_rules[] = "gap:{$sm_gap}px";
-    if ( $sm_grid_cols )  $sm_rules[] = "grid-template-columns:repeat({$sm_grid_cols},1fr)";
-    $responsive_css .= "@media(max-width:640px){#{$block_id}{{" . implode( ';', $sm_rules ) . "}}}";
+    $sm = [];
+    if ( $sm_display )   $sm[] = "display:{$sm_display}";
+    if ( $sm_direction ) $sm[] = "flex-direction:{$sm_direction}";
+    if ( $sm_justify )   $sm[] = "justify-content:{$sm_justify}";
+    if ( $sm_align )     $sm[] = "align-items:{$sm_align}";
+    if ( $sm_gap )       $sm[] = "gap:{$sm_gap}px";
+    if ( $sm_grid_cols ) $sm[] = "grid-template-columns:repeat({$sm_grid_cols},1fr)";
+    $responsive_css .= "@media(max-width:640px){#{$block_id}{" . implode( ';', $sm ) . "}}";
 }
 
-// Dati animazione per JS
+// Dati animazione
 $anim_data = $anim_type !== 'none' ? wp_json_encode([
     'type'     => $anim_type,
     'delay'    => $anim_delay,
@@ -230,9 +226,9 @@ $anim_data = $anim_type !== 'none' ? wp_json_encode([
 ]) : '';
 
 $wrapper_attrs = get_block_wrapper_attributes([
-    'id'    => $block_id,
-    'class' => 'ark-container' . ( $is_first ? ' ark-container--root' : ' ark-container--nested' ),
-    'style' => $inline_style,
+    'id'             => $block_id,
+    'class'          => 'ark-container' . ( $is_first ? ' ark-container--root' : ' ark-container--nested' ),
+    'style'          => $inline_style,
     'data-animation' => $anim_data,
 ]);
 ?>
@@ -244,12 +240,9 @@ $wrapper_attrs = get_block_wrapper_attributes([
 <<?php echo esc_attr( $tag ); ?> <?php echo $wrapper_attrs; ?>>
 
     <?php if ( $bg_type === 'image' && $overlay_color ) : ?>
-        <div class="ark-container__overlay"
-             style="position:absolute;inset:0;background:<?php echo esc_attr( $overlay_color ); ?>;mix-blend-mode:<?php echo esc_attr( $overlay_blend ); ?>;pointer-events:none;z-index:0;"></div>
+        <div style="position:absolute;inset:0;background:<?php echo esc_attr( $overlay_color ); ?>;mix-blend-mode:<?php echo esc_attr( $overlay_blend ); ?>;pointer-events:none;z-index:0;"></div>
     <?php endif; ?>
 
-    <div class="ark-container__inner" style="position:relative;z-index:1;width:100%;<?php echo $display === 'flex' ? "display:flex;flex-direction:{$flex_direction};flex-wrap:{$flex_wrap};justify-content:{$justify};align-items:{$align_items};" : ''; ?><?php echo $display === 'grid' ? "display:grid;grid-template-columns:repeat({$grid_cols},1fr);" : ''; ?><?php echo $gap ? "gap:{$gap}px;" : ''; ?>">
-        <?php echo $content; ?>
-    </div>
+    <?php echo $content; ?>
 
 </<?php echo esc_attr( $tag ); ?>>
