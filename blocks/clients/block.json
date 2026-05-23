@@ -3,7 +3,7 @@
     "name": "arkimedia/clients",
     "title": "Clienti",
     "description": "Griglia loghi clienti con eyebrow e layout a quadrati.",
-    "category": "theme",
+    "category": "arkimedia",
     "icon": "groups",
     "supports": { "html": false, "align": ["full"] },
     "attributes": {

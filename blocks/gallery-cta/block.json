@@ -1,0 +1,40 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/gallery-cta",
+    "title": "Gallery + CTA",
+    "description": "Griglia 3x3 immagini affiancata a pannello CTA con titolo, testo e pulsante.",
+    "category": "arkimedia",
+    "icon": "format-gallery",
+    "supports": { "html": false, "align": ["full"] },
+    "attributes": {
+        "align":       { "type": "string", "default": "full" },
+        "eyebrow":     { "type": "string", "default": "VISUAL ARCHIVE" },
+        "title":       { "type": "string", "default": "Gallery" },
+        "ctaEyebrow":  { "type": "string", "default": "STAY IN TOUCH" },
+        "ctaTitle":    { "type": "string", "default": "Let's create something <em>extraordinary</em> together" },
+        "ctaText":     { "type": "string", "default": "We are always open to ambitious projects and forward-thinking collaborations." },
+        "ctaLabel":    { "type": "string", "default": "GET IN TOUCH" },
+        "ctaUrl":      { "type": "string", "default": "#contatti" },
+        "bgColor":     { "type": "string", "default": "#0a0a0a" },
+        "textColor":   { "type": "string", "default": "#ffffff" },
+        "accentColor": { "type": "string", "default": "#e94560" },
+        "dividerColor":{ "type": "string", "default": "#e94560" },
+        "images": {
+            "type": "array",
+            "default": [
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" },
+                { "mediaUrl": "", "mediaAlt": "" }
+            ]
+        }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}

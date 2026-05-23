@@ -3,7 +3,7 @@
     "name": "arkimedia/services",
     "title": "Services",
     "description": "Sezione servizi con eyebrow, titolo, marquee e griglia card.",
-    "category": "theme",
+    "category": "arkimedia",
     "icon": "grid-view",
     "supports": { "html": false, "align": ["full"] },
     "attributes": {

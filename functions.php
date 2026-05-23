@@ -201,6 +201,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/hero' );
     register_block_type( ARK_DIR . '/blocks/services' );
     register_block_type( ARK_DIR . '/blocks/clients' );
+    register_block_type( ARK_DIR . '/blocks/gallery-cta' );
 }
 add_action( 'init', 'ark_register_blocks' );
 
@@ -217,3 +218,18 @@ function ark_enqueue_splash_assets(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_splash_assets' );
+
+// ── Categoria blocchi Arkimedia ───────────────────────────────────────────────
+function ark_register_block_category( array $categories ): array {
+    return array_merge(
+        [
+            [
+                'slug'  => 'arkimedia',
+                'title' => __( 'Arkimedia', 'arkimedia' ),
+                'icon'  => 'layout',
+            ],
+        ],
+        $categories
+    );
+}
+add_filter( 'block_categories_all', 'ark_register_block_category' );

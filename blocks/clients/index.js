@@ -21,8 +21,11 @@ registerBlockType( metadata.name, {
             }
         })
 
-        const updateClient = ( index, key, value ) => {
-            const updated = clients.map( ( c, i ) => i === index ? { ...c, [key]: value } : c )
+        // Aggiorna un singolo cliente salvando tutti i campi in una volta
+        const updateClient = ( index, data ) => {
+            const updated = clients.map( ( c, i ) =>
+                i === index ? { ...c, ...data } : c
+            )
             setAttributes({ clients: updated })
         }
 
@@ -35,11 +38,11 @@ registerBlockType( metadata.name, {
         }
 
         const imgStyle = {
-            width:      '100%',
-            height:     '100%',
-            objectFit:  'contain',
-            opacity:    0.8,
-            filter:     invertLogos ? 'brightness(0) invert(1)' : 'none',
+            width:     '100%',
+            height:    '100%',
+            objectFit: 'contain',
+            opacity:   0.9,
+            filter:    invertLogos ? 'brightness(0) invert(1)' : 'none',
         }
 
         return (
@@ -88,7 +91,7 @@ registerBlockType( metadata.name, {
                         <ColorPicker color={logoColor} onChange={ val => setAttributes({ logoColor: val }) } />
                     </PanelBody>
 
-                    <PanelBody title={ __( `Loghi clienti (${ clients.length })`, 'arkimedia' ) } initialOpen={false}>
+                    <PanelBody title={ __( `Loghi clienti (${ clients.length })`, 'arkimedia' ) } initialOpen={true}>
                         { clients.map( ( client, i ) => (
                             <div key={i} style={{ borderBottom:'1px solid #e0e0e0', paddingBottom:'16px', marginBottom:'16px' }}>
                                 <p style={{ fontSize:'11px', fontWeight:600, textTransform:'uppercase', marginBottom:'8px' }}>
@@ -97,49 +100,60 @@ registerBlockType( metadata.name, {
                                 <TextControl
                                     label={ __( 'Nome cliente', 'arkimedia' ) }
                                     value={client.name}
-                                    onChange={ val => updateClient( i, 'name', val ) }
+                                    onChange={ val => updateClient( i, { name: val } ) }
                                     placeholder="Es. Nordvik"
                                 />
                                 <MediaUploadCheck>
                                     <MediaUpload
-                                        onSelect={ media => {
-                                            updateClient( i, 'mediaUrl', media.url )
-                                            updateClient( i, 'mediaAlt', media.alt || client.name || '' )
-                                        }}
+                                        onSelect={ media => updateClient( i, {
+                                            mediaUrl: media.url,
+                                            mediaAlt: media.alt || client.name || '',
+                                        })}
                                         allowedTypes={['image']}
                                         value={client.mediaUrl}
                                         render={ ({ open }) => (
                                             <div>
-                                                { client.mediaUrl && (
-                                                    <img src={client.mediaUrl}
-                                                        style={{ width:'100%', height:'60px', objectFit:'contain', background:'#1a1a2e', borderRadius:'4px', marginBottom:'8px', padding:'8px' }}
-                                                    />
-                                                )}
-                                                <Button onClick={open}
+                                                { client.mediaUrl
+                                                    ? <img
+                                                        src={client.mediaUrl}
+                                                        style={{ width:'100%', height:'70px', objectFit:'contain', background:'#ffffff', borderRadius:'4px', marginBottom:'8px', padding:'8px' }}
+                                                      />
+                                                    : null
+                                                }
+                                                <Button
+                                                    onClick={open}
                                                     variant={ client.mediaUrl ? 'secondary' : 'primary' }
                                                     style={{ width:'100%', justifyContent:'center' }}>
-                                                    { client.mediaUrl ? __('Cambia logo','arkimedia') : __('Seleziona logo','arkimedia') }
+                                                    { client.mediaUrl
+                                                        ? __('Cambia logo','arkimedia')
+                                                        : __('Seleziona logo','arkimedia')
+                                                    }
                                                 </Button>
-                                                { client.mediaUrl && (
+                                                { client.mediaUrl &&
                                                     <Button
-                                                        onClick={ () => { updateClient(i,'mediaUrl',''); updateClient(i,'mediaAlt','') }}
-                                                        variant="tertiary" isDestructive
+                                                        onClick={ () => updateClient( i, { mediaUrl: '', mediaAlt: '' }) }
+                                                        variant="tertiary"
+                                                        isDestructive
                                                         style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
                                                         { __('Rimuovi logo','arkimedia') }
                                                     </Button>
-                                                )}
+                                                }
                                             </div>
                                         )}
                                     />
                                 </MediaUploadCheck>
-                                <Button onClick={ () => removeClient( i ) }
-                                    variant="tertiary" isDestructive
+                                <Button
+                                    onClick={ () => removeClient( i ) }
+                                    variant="tertiary"
+                                    isDestructive
                                     style={{ marginTop:'8px', fontSize:'11px' }}>
                                     { __('Rimuovi cliente','arkimedia') }
                                 </Button>
                             </div>
                         ))}
-                        <Button onClick={addClient} variant="primary"
+                        <Button
+                            onClick={addClient}
+                            variant="primary"
                             style={{ width:'100%', justifyContent:'center', marginTop:'8px' }}>
                             { __('+ Aggiungi cliente','arkimedia') }
                         </Button>
@@ -156,19 +170,21 @@ registerBlockType( metadata.name, {
                     <div style={{ display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'1.5rem', padding:'0 1.5rem' }}>
                         { clients.map( ( client, i ) => (
                             <div key={i} style={{
-                                width:           `${logoSize}px`,
-                                height:          `${logoSize}px`,
-                                background:      logoBg,
-                                borderRadius:    '16px',
-                                display:         'flex',
-                                alignItems:      'center',
-                                justifyContent:  'center',
-                                padding:         '1.25rem',
-                                flexShrink:      0,
+                                width:          `${logoSize}px`,
+                                height:         `${logoSize}px`,
+                                background:     logoBg,
+                                borderRadius:   '16px',
+                                display:        'flex',
+                                alignItems:     'center',
+                                justifyContent: 'center',
+                                padding:        '1.25rem',
+                                flexShrink:     0,
                             }}>
                                 { client.mediaUrl
                                     ? <img src={client.mediaUrl} style={imgStyle} />
-                                    : <span style={{ color:'rgba(255,255,255,0.2)', fontSize:'0.75rem', textAlign:'center' }}>{ `Logo ${ i + 1 }` }</span>
+                                    : <span style={{ color:'rgba(0,0,0,0.2)', fontSize:'0.75rem', textAlign:'center' }}>
+                                        { `Logo ${ i + 1 }` }
+                                      </span>
                                 }
                             </div>
                         ))}

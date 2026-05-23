@@ -3,7 +3,7 @@
     "name": "arkimedia/hero",
     "title": "Hero",
     "description": "Sezione hero fullscreen con immagine, titolo e sottotitolo personalizzabili.",
-    "category": "theme",
+    "category": "arkimedia",
     "icon": "cover-image",
     "keywords": ["hero", "banner", "cover", "fullscreen"],
     "supports": {
