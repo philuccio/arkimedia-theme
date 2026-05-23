@@ -1,0 +1,47 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/slider",
+    "title": "Slider",
+    "description": "Slider Swiper completamente configurabile — inseribile ovunque.",
+    "category": "arkimedia",
+    "icon": "slides",
+    "supports": { "html": false, "align": ["full", "wide"] },
+    "attributes": {
+        "align":           { "type": "string", "default": "full" },
+        "effect":          { "type": "string",  "default": "slide" },
+        "autoplay":        { "type": "boolean", "default": false },
+        "autoplayDelay":   { "type": "number",  "default": 4000 },
+        "loop":            { "type": "boolean", "default": true },
+        "speed":           { "type": "number",  "default": 800 },
+        "navigation":      { "type": "boolean", "default": true },
+        "pagination":      { "type": "boolean", "default": true },
+        "paginationType":  { "type": "string",  "default": "bullets" },
+        "slidesPerView":   { "type": "string",  "default": "1" },
+        "spaceBetween":    { "type": "number",  "default": 0 },
+        "centeredSlides":  { "type": "boolean", "default": false },
+        "grabCursor":      { "type": "boolean", "default": true },
+        "sliderHeight":    { "type": "string",  "default": "100vh" },
+        "gsapAnimation":   { "type": "boolean", "default": true },
+        "slides": {
+            "type": "array",
+            "default": [
+                {
+                    "title": "Titolo slide",
+                    "subtitle": "",
+                    "eyebrow": "",
+                    "ctaLabel": "",
+                    "ctaUrl": "#",
+                    "mediaUrl": "",
+                    "mediaAlt": "",
+                    "useBgColor": false,
+                    "bgColor": "#0a0a0a",
+                    "overlayColor": "rgba(0,0,0,0.45)",
+                    "textAlign": "left"
+                }
+            ]
+        }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}

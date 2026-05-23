@@ -150,7 +150,7 @@ add_action( 'wp_enqueue_scripts', 'ark_enqueue_assets' );
 function ark_page_has_slider(): bool {
     // Controlla se esiste almeno una slide per questa pagina
     // (espandibile con meta box o tassonomia)
-    return is_front_page() || is_page( 'portfolio' );
+    return is_front_page() || is_page( 'portfolio' ) || has_block( 'arkimedia/slider' );
 }
 
 // ── Widget Areas ──────────────────────────────────────────────────────────────
@@ -202,6 +202,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/services' );
     register_block_type( ARK_DIR . '/blocks/clients' );
     register_block_type( ARK_DIR . '/blocks/gallery-cta' );
+    register_block_type( ARK_DIR . '/blocks/slider' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

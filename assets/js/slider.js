@@ -70,3 +70,58 @@ document.addEventListener( 'DOMContentLoaded', () => {
     });
 
 });
+
+// ── Blocco Slider generico ────────────────────────────────────────────────────
+document.addEventListener( 'DOMContentLoaded', () => {
+
+    document.querySelectorAll( '.ark-slider-block' ).forEach( el => {
+
+        const config = JSON.parse( el.dataset.swiperConfig || '{}' )
+        const gsapAnim = config.gsapAnimation ?? true
+        delete config.gsapAnimation
+
+        // Navigazione
+        if ( config.navigation ) {
+            config.navigation = {
+                nextEl: el.querySelector( '.swiper-button-next' ),
+                prevEl: el.querySelector( '.swiper-button-prev' ),
+            }
+        }
+
+        // Paginazione
+        if ( config.pagination ) {
+            config.pagination = {
+                ...config.pagination,
+                el: el.querySelector( '.swiper-pagination' ),
+            }
+        }
+
+        const swiper = new Swiper( el.querySelector( '.ark-slider-block__swiper' ), config )
+
+        // Animazione GSAP
+        if ( gsapAnim && typeof gsap !== 'undefined' ) {
+            function animateSlide( slide ) {
+                if ( ! slide ) return
+                const els = [
+                    slide.querySelector( '.ark-slider-block__eyebrow' ),
+                    slide.querySelector( '.ark-slider-block__title' ),
+                    slide.querySelector( '.ark-slider-block__subtitle' ),
+                    slide.querySelector( '.ark-slider-block__cta' ),
+                ].filter( Boolean )
+
+                gsap.from( els, {
+                    opacity:  0,
+                    y:        40,
+                    duration: 0.7,
+                    stagger:  0.1,
+                    ease:     'power3.out',
+                    clearProps: 'all',
+                })
+            }
+
+            swiper.on( 'init', s => animateSlide( s.slides[ s.activeIndex ] ) )
+            swiper.on( 'slideChangeTransitionStart', s => animateSlide( s.slides[ s.activeIndex ] ) )
+            swiper.init()
+        }
+    })
+})

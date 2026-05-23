@@ -1,0 +1,154 @@
+/* ── Arkimedia Slider Block ──────────────────────────────── */
+
+.ark-slider-block {
+    position:   relative;
+    width:      100%;
+    overflow:   hidden;
+}
+
+/* Fullwidth */
+.ark-slider-block.alignfull {
+    width:        100vw !important;
+    max-width:    100vw !important;
+    margin-left:  calc( 50% - 50vw ) !important;
+    margin-right: calc( 50% - 50vw ) !important;
+}
+
+.ark-slider-block__swiper {
+    width:  100%;
+    height: 100%;
+}
+
+/* Slide */
+.ark-slider-block__slide {
+    position:    relative;
+    width:       100%;
+    height:      100%;
+    display:     flex;
+    align-items: center;
+    overflow:    hidden;
+}
+
+/* Background */
+.ark-slider-block__bg {
+    position: absolute;
+    inset:    0;
+    margin:   0;
+    padding:  0;
+}
+
+.ark-slider-block__bg img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    display:    block;
+}
+
+.ark-slider-block__bg--color {
+    width:  100%;
+    height: 100%;
+}
+
+.ark-slider-block__overlay {
+    position: absolute;
+    inset:    0;
+}
+
+/* Content */
+.ark-slider-block__content {
+    position:   relative;
+    z-index:    2;
+    width:      100%;
+    max-width:  var( --container-width, 1200px );
+    margin:     0 auto;
+    padding:    4rem var( --container-pad, 1.5rem );
+    color:      #ffffff;
+}
+
+.ark-slider-block__slide--align-center .ark-slider-block__content {
+    text-align: center;
+}
+
+.ark-slider-block__slide--align-right .ark-slider-block__content {
+    text-align: right;
+}
+
+/* Eyebrow */
+.ark-slider-block__eyebrow {
+    font-size:      0.8125rem;
+    font-weight:    600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity:        0.8;
+    margin-bottom:  1rem;
+}
+
+/* Title */
+.ark-slider-block__title {
+    font-size:     clamp( 2rem, 5vw, 4.5rem );
+    font-weight:   700;
+    line-height:   1.05;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+/* Subtitle */
+.ark-slider-block__subtitle {
+    font-size:     clamp( 1rem, 1.5vw, 1.25rem );
+    line-height:   1.6;
+    opacity:       0.85;
+    max-width:     600px;
+    margin-bottom: 2rem;
+}
+
+.ark-slider-block__slide--align-center .ark-slider-block__subtitle {
+    margin-left:  auto;
+    margin-right: auto;
+}
+
+/* CTA */
+.ark-slider-block__cta {
+    display:         inline-flex;
+    align-items:     center;
+    padding:         0.875rem 2rem;
+    background:      var( --color-accent, #e94560 );
+    color:           #ffffff !important;
+    font-weight:     600;
+    border-radius:   4px;
+    text-decoration: none;
+    transition:      background 0.3s ease, transform 0.3s ease;
+}
+
+.ark-slider-block__cta:hover {
+    background: var( --color-primary, #1a1a2e );
+    transform:  translateY( -2px );
+    opacity:    1;
+}
+
+/* Swiper custom */
+.ark-slider-block .swiper-button-prev,
+.ark-slider-block .swiper-button-next {
+    color: #ffffff;
+}
+
+.ark-slider-block .swiper-pagination-bullet-active {
+    background:    var( --color-accent, #e94560 );
+    width:         24px;
+    border-radius: 4px;
+}
+
+.ark-slider-block .swiper-pagination-progressbar-fill {
+    background: var( --color-accent, #e94560 );
+}
+
+.ark-slider-block .swiper-pagination-fraction {
+    color:     #ffffff;
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media ( max-width: 768px ) {
+    .ark-slider-block__content {
+        padding: 2rem var( --container-pad, 1rem ) 3rem;
+    }
+}
