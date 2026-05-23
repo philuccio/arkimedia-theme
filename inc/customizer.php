@@ -1,6 +1,6 @@
 <?php
 /**
- * Customizer — Colori, Tipografia, Splash Page.
+ * Customizer — Colori, Tipografia, Splash Page, Footer.
  *
  * @package Arkimedia
  */
@@ -25,14 +25,14 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
     ] );
 
     $color_settings = [
-        'ark_color_primary'    => [ __( 'Colore primario',            'arkimedia' ), '#1a1a2e' ],
-        'ark_color_accent'     => [ __( 'Colore accent',              'arkimedia' ), '#e94560' ],
-        'ark_color_text'       => [ __( 'Colore testo',               'arkimedia' ), '#1a1a1a' ],
-        'ark_color_text_light' => [ __( 'Colore testo secondario',    'arkimedia' ), '#555555' ],
-        'ark_color_bg'         => [ __( 'Colore sfondo',              'arkimedia' ), '#ffffff' ],
-        'ark_color_bg_alt'     => [ __( 'Colore sfondo alternativo',  'arkimedia' ), '#f5f5f5' ],
-        'ark_color_border'     => [ __( 'Colore bordi',               'arkimedia' ), '#e5e5e5' ],
-        'ark_color_footer_bg'  => [ __( 'Colore sfondo footer',       'arkimedia' ), '#1a1a2e' ],
+        'ark_color_primary'    => [ __( 'Colore primario',           'arkimedia' ), '#1a1a2e' ],
+        'ark_color_accent'     => [ __( 'Colore accent',             'arkimedia' ), '#e94560' ],
+        'ark_color_text'       => [ __( 'Colore testo',              'arkimedia' ), '#1a1a1a' ],
+        'ark_color_text_light' => [ __( 'Colore testo secondario',   'arkimedia' ), '#555555' ],
+        'ark_color_bg'         => [ __( 'Colore sfondo',             'arkimedia' ), '#ffffff' ],
+        'ark_color_bg_alt'     => [ __( 'Colore sfondo alternativo', 'arkimedia' ), '#f5f5f5' ],
+        'ark_color_border'     => [ __( 'Colore bordi',              'arkimedia' ), '#e5e5e5' ],
+        'ark_color_footer_bg'  => [ __( 'Colore sfondo footer', 'arkimedia' ), '#0a0a0a' ],
     ];
 
     foreach ( $color_settings as $id => [ $label, $default ] ) {
@@ -57,31 +57,28 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
     ] );
 
     $google_fonts = [
-        'Inter'              => 'Inter',
-        'Roboto'             => 'Roboto',
-        'Open Sans'          => 'Open Sans',
-        'Lato'               => 'Lato',
-        'Montserrat'         => 'Montserrat',
-        'Raleway'            => 'Raleway',
-        'Poppins'            => 'Poppins',
-        'Nunito'             => 'Nunito',
-        'Playfair Display'   => 'Playfair Display',
-        'Merriweather'       => 'Merriweather',
-        'Lora'               => 'Lora',
-        'PT Serif'           => 'PT Serif',
-        'Source Serif 4'     => 'Source Serif 4',
-        'DM Sans'            => 'DM Sans',
-        'DM Serif Display'   => 'DM Serif Display',
-        'Fraunces'           => 'Fraunces',
-        'Syne'               => 'Syne',
-        'Space Grotesk'      => 'Space Grotesk',
-        'Outfit'             => 'Outfit',
-        'Plus Jakarta Sans'  => 'Plus Jakarta Sans',
+        'Inter'             => 'Inter',
+        'Roboto'            => 'Roboto',
+        'Open Sans'         => 'Open Sans',
+        'Lato'              => 'Lato',
+        'Montserrat'        => 'Montserrat',
+        'Raleway'           => 'Raleway',
+        'Poppins'           => 'Poppins',
+        'Nunito'            => 'Nunito',
+        'Playfair Display'  => 'Playfair Display',
+        'Merriweather'      => 'Merriweather',
+        'Lora'              => 'Lora',
+        'PT Serif'          => 'PT Serif',
+        'Source Serif 4'    => 'Source Serif 4',
+        'DM Sans'           => 'DM Sans',
+        'DM Serif Display'  => 'DM Serif Display',
+        'Fraunces'          => 'Fraunces',
+        'Syne'              => 'Syne',
+        'Space Grotesk'     => 'Space Grotesk',
+        'Outfit'            => 'Outfit',
+        'Plus Jakarta Sans' => 'Plus Jakarta Sans',
     ];
 
-    $font_options = array_map( fn( $f ) => [ 'label' => $f, 'value' => $f ], array_keys( $google_fonts ) );
-
-    // Font titoli
     $wp_customize->add_setting( 'ark_font_heading', [
         'default'           => 'Inter',
         'sanitize_callback' => 'sanitize_text_field',
@@ -94,7 +91,6 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
         'choices' => array_combine( array_keys( $google_fonts ), array_keys( $google_fonts ) ),
     ] );
 
-    // Font corpo
     $wp_customize->add_setting( 'ark_font_body', [
         'default'           => 'Inter',
         'sanitize_callback' => 'sanitize_text_field',
@@ -107,7 +103,6 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
         'choices' => array_combine( array_keys( $google_fonts ), array_keys( $google_fonts ) ),
     ] );
 
-    // Dimensione testo base
     $wp_customize->add_setting( 'ark_font_size_base', [
         'default'           => '16',
         'sanitize_callback' => 'absint',
@@ -120,7 +115,6 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
         'input_attrs' => [ 'min' => 14, 'max' => 20, 'step' => 1 ],
     ] );
 
-    // Peso font titoli
     $wp_customize->add_setting( 'ark_font_weight_heading', [
         'default'           => '700',
         'sanitize_callback' => 'sanitize_text_field',
@@ -131,17 +125,16 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
         'section' => 'ark_typography',
         'type'    => 'select',
         'choices' => [
-            '300' => __( 'Light (300)',    'arkimedia' ),
-            '400' => __( 'Regular (400)', 'arkimedia' ),
-            '500' => __( 'Medium (500)',  'arkimedia' ),
-            '600' => __( 'SemiBold (600)','arkimedia' ),
-            '700' => __( 'Bold (700)',    'arkimedia' ),
+            '300' => __( 'Light (300)',     'arkimedia' ),
+            '400' => __( 'Regular (400)',   'arkimedia' ),
+            '500' => __( 'Medium (500)',    'arkimedia' ),
+            '600' => __( 'SemiBold (600)', 'arkimedia' ),
+            '700' => __( 'Bold (700)',      'arkimedia' ),
             '800' => __( 'ExtraBold (800)','arkimedia' ),
-            '900' => __( 'Black (900)',   'arkimedia' ),
+            '900' => __( 'Black (900)',     'arkimedia' ),
         ],
     ] );
 
-    // Interlinea corpo
     $wp_customize->add_setting( 'ark_line_height_body', [
         'default'           => '1.6',
         'sanitize_callback' => 'sanitize_text_field',
@@ -207,6 +200,26 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
             'section' => 'ark_splash',
         ] )
     );
+
+    // ════════════════════════════════════════════════════════════════════
+    // SEZIONE: Footer
+    // ════════════════════════════════════════════════════════════════════
+    $wp_customize->add_section( 'ark_footer', [
+        'title'    => __( 'Footer', 'arkimedia' ),
+        'priority' => 35,
+    ] );
+
+    $wp_customize->add_setting( 'ark_footer_piva', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'ark_footer_piva', [
+        'label'       => __( 'Partita IVA', 'arkimedia' ),
+        'description' => __( 'Es. P.IVA 01234567890', 'arkimedia' ),
+        'section'     => 'ark_footer',
+        'type'        => 'text',
+    ] );
 }
 add_action( 'customize_register', 'ark_customizer' );
 

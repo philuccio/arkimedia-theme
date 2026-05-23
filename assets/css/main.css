@@ -1221,3 +1221,112 @@ body.admin-bar {
     max-width: 200px !important;
     width:     auto !important;
 }
+
+/* ── Footer minimal 50px ─────────────────────────────────── */
+.site-footer {
+    background:  var( --color-primary );
+    color:       rgba( 255,255,255,0.6 );
+    height:      50px;
+    margin-top:  0;
+    border-top:  1px solid rgba( 255,255,255,0.08 );
+}
+
+.site-footer__inner {
+    display:         flex !important;
+    align-items:     center !important;
+    justify-content: space-between !important;
+    height:          50px !important;
+    padding-top:     0 !important;
+    padding-bottom:  0 !important;
+}
+
+.site-footer__copy {
+    font-size:   0.75rem;
+    line-height: 1;
+    margin:      0;
+    white-space: nowrap;
+}
+
+.site-footer__nav {
+    display: flex !important;
+    gap:     1.5rem !important;
+    margin:  0 !important;
+    padding: 0 !important;
+}
+
+.site-footer__nav li {
+    list-style: none !important;
+}
+
+.site-footer__nav a {
+    font-size:      0.75rem;
+    color:          rgba( 255,255,255,0.5 );
+    text-decoration: none;
+    transition:     color 0.3s ease;
+    white-space:    nowrap;
+}
+
+.site-footer__nav a:hover {
+    color:   #ffffff;
+    opacity: 1;
+}
+
+@media ( max-width: 640px ) {
+    .site-footer {
+        height: auto;
+        padding: 1rem 0;
+    }
+
+    .site-footer__inner {
+        flex-direction: column !important;
+        height:         auto !important;
+        gap:            0.75rem !important;
+        text-align:     center !important;
+    }
+}
+
+/* ── Footer reset definitivo ─────────────────────────────── */
+.site-footer {
+    background:  var( --color-primary ) !important;
+    color:       rgba( 255,255,255,0.6 ) !important;
+    height:      50px !important;
+    padding:     0 !important;
+    margin-top:  0 !important;
+    border-top:  1px solid rgba( 255,255,255,0.08 ) !important;
+}
+
+.site-footer__inner {
+    display:         flex !important;
+    align-items:     center !important;
+    justify-content: space-between !important;
+    height:          50px !important;
+    padding-top:     0 !important;
+    padding-bottom:  0 !important;
+}
+
+.site-footer__copy {
+    font-size:   0.75rem !important;
+    line-height: 1 !important;
+    margin:      0 !important;
+    padding:     0 !important;
+    white-space: nowrap !important;
+    color:       rgba( 255,255,255,0.6 ) !important;
+}
+
+.site-footer .footer__widgets,
+.site-footer .footer__bottom {
+    display: none !important;
+}
+
+/* ── Elimina spazio bianco prima del footer ──────────────── */
+.site-main,
+.entry,
+#content,
+.site-content {
+    margin-bottom:  0 !important;
+    padding-bottom: 0 !important;
+}
+
+.site-footer {
+    margin-top: 0 !important;
+}

@@ -4,35 +4,34 @@
  *
  * @package Arkimedia
  */
+
+$footer_bg = get_theme_mod( 'ark_color_footer_bg', '#0a0a0a' );
 ?>
     </div><!-- #content -->
 
-    <footer id="colophon" class="site-footer">
-        <div class="container">
+    <footer id="colophon" class="site-footer" style="background:<?php echo esc_attr( $footer_bg ); ?>;">
+        <div class="container site-footer__inner">
 
-            <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
-                <div class="footer__widgets">
-                    <?php dynamic_sidebar( 'footer-1' ); ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="footer__bottom">
-                <p class="footer__credits">
-                    &copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
-                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                        <?php bloginfo( 'name' ); ?>
-                    </a>
-                </p>
+            <p class="site-footer__copy">
+                &copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
+                <?php bloginfo( 'name' ); ?>
                 <?php
-                wp_nav_menu( [
-                    'theme_location' => 'footer',
-                    'menu_class'     => 'footer__nav',
-                    'container'      => false,
-                    'depth'          => 1,
-                    'fallback_cb'    => false,
-                ] );
+                $piva = get_theme_mod( 'ark_footer_piva', '' );
+                if ( $piva ) :
                 ?>
-            </div>
+                    &nbsp;&mdash;&nbsp;<?php echo esc_html( $piva ); ?>
+                <?php endif; ?>
+            </p>
+
+            <?php
+            wp_nav_menu( [
+                'theme_location' => 'footer',
+                'menu_class'     => 'site-footer__nav',
+                'container'      => false,
+                'depth'          => 1,
+                'fallback_cb'    => false,
+            ] );
+            ?>
 
         </div>
     </footer>
@@ -40,6 +39,5 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-
 </body>
 </html>
