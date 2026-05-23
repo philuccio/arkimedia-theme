@@ -11,12 +11,12 @@ $logo_color   = $attributes['logoColor']   ?? '#ffffff';
 $logo_size    = $attributes['logoSize']    ?? 160;
 $auto_scroll  = $attributes['autoScroll']  ?? false;
 $invert_logos = $attributes['invertLogos'] ?? false;
-$logo_bg      = $attributes['logoBg']      ?? 'rgba(255,255,255,0.06)';
+$logo_bg      = $attributes['logoBg']      ?? '#ffffff';
 $clients      = $attributes['clients']     ?? [];
 
 $clients = array_filter( $clients, fn( $c ) => ! empty( $c['mediaUrl'] ) );
 
-$img_filter = $invert_logos ? 'filter:brightness(0) invert(1);' : '';
+$img_filter = $invert_logos ? "filter:brightness(0) invert(1);" : "";
 
 $wrapper_attrs = get_block_wrapper_attributes([
     'class' => 'ark-clients alignfull',

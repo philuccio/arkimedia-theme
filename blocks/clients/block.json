@@ -14,7 +14,7 @@
         "logoSize":   { "type": "number", "default": 160 },
         "autoScroll": { "type": "boolean", "default": false },
         "invertLogos":{ "type": "boolean", "default": false },
-        "logoBg":     { "type": "string", "default": "rgba(255,255,255,0.06)" },
+        "logoBg":     { "type": "string", "default": "#ffffff" },
         "clients": {
             "type": "array",
             "default": [
