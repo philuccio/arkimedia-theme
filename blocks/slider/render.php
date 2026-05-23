@@ -84,6 +84,8 @@ $wrapper_attrs = get_block_wrapper_attributes([
                         </div>
                     <?php endif; ?>
 
+                    <?php $has_content = $eyebrow || $title || $subtitle || ( $cta_label && $cta_url ); ?>
+                    <?php if ( $has_content ) : ?>
                     <div class="ark-slider-block__content">
                         <?php if ( $eyebrow ) : ?>
                             <p class="ark-slider-block__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
@@ -101,6 +103,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
                             </a>
                         <?php endif; ?>
                     </div>
+                    <?php endif; ?>
 
                 </div>
             <?php endforeach; ?>

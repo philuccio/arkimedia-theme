@@ -26,7 +26,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
 ]);
 
 // Render singola slide logo
-function ark_client_item( array $client, string $item_size, string $img_filter ): string {
+$ark_client_item = function( array $client, string $item_size, string $img_filter ): string {
     $url        = $client['mediaUrl']  ?? '';
     $alt        = $client['mediaAlt'] ?? ( $client['name'] ?? '' );
     $client_url = $client['clientUrl'] ?? '';
@@ -40,7 +40,7 @@ function ark_client_item( array $client, string $item_size, string $img_filter )
         : $img;
 
     return '<div class="ark-clients__item" style="' . $item_size . '">' . $inner . '</div>';
-}
+};
 ?>
 
 <section <?php echo $wrapper_attrs; ?>>
@@ -54,14 +54,14 @@ function ark_client_item( array $client, string $item_size, string $img_filter )
     <div class="ark-clients__track <?php echo $auto_scroll ? 'ark-clients__track--scroll' : ''; ?>">
         <div class="ark-clients__list">
             <?php foreach ( $clients as $client ) : ?>
-                <?php echo ark_client_item( $client, $item_size, $img_filter ); ?>
+                <?php echo $ark_client_item( $client, $item_size, $img_filter ); ?>
             <?php endforeach; ?>
         </div>
 
         <?php if ( $auto_scroll ) : ?>
         <div class="ark-clients__list" aria-hidden="true">
             <?php foreach ( $clients as $client ) : ?>
-                <?php echo ark_client_item( $client, $item_size, $img_filter ); ?>
+                <?php echo $ark_client_item( $client, $item_size, $img_filter ); ?>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>

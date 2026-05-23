@@ -1692,3 +1692,22 @@ body {
     height:     100%;
     object-fit: contain;
 }
+
+/* ── Slider block content position ──────────────────────── */
+.ark-slider-block__content {
+    position:       absolute !important;
+    bottom:         100px !important;
+    left:           0 !important;
+    right:          0 !important;
+    width:          100% !important;
+    max-width:      var( --container-width, 1200px ) !important;
+    margin:         0 auto !important;
+    padding-top:    0 !important;
+    padding-bottom: 0 !important;
+}
+
+.ark-slider-block__slide--align-center .ark-slider-block__content {
+    left:  50% !important;
+    right: auto !important;
+    transform: translateX( -50% ) !important;
+}
