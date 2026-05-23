@@ -1,0 +1,30 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/map",
+    "title": "Mappa",
+    "description": "Mappa Google Maps con coordinate, zoom e pannello info.",
+    "category": "arkimedia",
+    "icon": "location",
+    "supports": { "html": false, "align": ["full", "wide"] },
+    "attributes": {
+        "align":       { "type": "string",  "default": "full" },
+        "lat":         { "type": "number",  "default": 41.9028 },
+        "lng":         { "type": "number",  "default": 12.4964 },
+        "zoom":        { "type": "number",  "default": 14 },
+        "mapType":     { "type": "string",  "default": "roadmap" },
+        "height":      { "type": "string",  "default": "500px" },
+        "layout":      { "type": "string",  "default": "full" },
+        "showMarker":  { "type": "boolean", "default": true },
+        "markerTitle": { "type": "string",  "default": "" },
+        "markerText":  { "type": "string",  "default": "" },
+        "bgColor":     { "type": "string",  "default": "#0a0a0a" },
+        "textColor":   { "type": "string",  "default": "#ffffff" },
+        "accentColor": { "type": "string",  "default": "#e94560" },
+        "panelTitle":  { "type": "string",  "default": "Dove siamo" },
+        "panelText":   { "type": "string",  "default": "" },
+        "address":     { "type": "string",  "default": "" }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}

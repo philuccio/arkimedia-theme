@@ -207,6 +207,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/container' );
     register_block_type( ARK_DIR . '/blocks/contact' );
     register_block_type( ARK_DIR . '/blocks/testata' );
+    register_block_type( ARK_DIR . '/blocks/map' );
 }
 add_action( 'init', 'ark_register_blocks' );
 
