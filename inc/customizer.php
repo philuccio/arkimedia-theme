@@ -204,43 +204,27 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
     // ════════════════════════════════════════════════════════════════════
     // SEZIONE: Contatti
     // ════════════════════════════════════════════════════════════════════
-    \$wp_customize->add_section( 'ark_contact', [
-        'title'    => __( 'Form Contatti', 'arkimedia' ),
-        'priority' => 32,
-    ] );
-
-    \$wp_customize->add_setting( 'ark_contact_email', [
-        'default'           => get_option( 'admin_email' ),
-        'sanitize_callback' => 'sanitize_email',
-        'transport'         => 'refresh',
-    ] );
-    \$wp_customize->add_control( 'ark_contact_email', [
-        'label'       => __( 'Email destinatario', 'arkimedia' ),
-        'description' => __( 'Email che riceve i messaggi del form contatti.', 'arkimedia' ),
-        'section'     => 'ark_contact',
-        'type'        => 'email',
-    ] );
-
-    // ════════════════════════════════════════════════════════════════════
     // SEZIONE: Contatti
     // ════════════════════════════════════════════════════════════════════
-    \$wp_customize->add_section( 'ark_contact', [
+    $wp_customize->add_section( 'ark_contact', [
         'title'    => __( 'Form Contatti', 'arkimedia' ),
         'priority' => 32,
     ] );
 
-    \$wp_customize->add_setting( 'ark_contact_email', [
+    $wp_customize->add_setting( 'ark_contact_email', [
         'default'           => get_option( 'admin_email' ),
         'sanitize_callback' => 'sanitize_email',
         'transport'         => 'refresh',
     ] );
-    \$wp_customize->add_control( 'ark_contact_email', [
+    $wp_customize->add_control( 'ark_contact_email', [
         'label'       => __( 'Email destinatario', 'arkimedia' ),
         'description' => __( 'Email che riceve i messaggi del form contatti.', 'arkimedia' ),
         'section'     => 'ark_contact',
         'type'        => 'email',
     ] );
 
+    // ════════════════════════════════════════════════════════════════════
+    // SEZIONE: Footer
     // ════════════════════════════════════════════════════════════════════
     // SEZIONE: Footer
     // ════════════════════════════════════════════════════════════════════
