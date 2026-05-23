@@ -14,9 +14,7 @@ get_header();
         the_post();
         ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry' ); ?>>
-            <div class="entry__content">
-                <?php the_content(); ?>
-            </div>
+            <?php the_content(); ?>
         </article>
     <?php endwhile; ?>
 </main>

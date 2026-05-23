@@ -23,7 +23,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
     if ( header ) {
         window.addEventListener( 'scroll', () => {
-            header.classList.toggle( 'is-sticky', window.scrollY > 80 );
+            header.classList.toggle( 'is-sticky', window.scrollY > 50 );
         }, { passive: true });
     }
 
