@@ -1,0 +1,256 @@
+/* ============================================================
+   Arkimedia Theme — Responsive Styles
+   ============================================================ */
+
+/* ── 1280px e sotto (xl) ─────────────────────────────────── */
+@media ( max-width: 1280px ) {
+    .container {
+        padding: 0 2rem;
+    }
+}
+
+/* ── 1024px e sotto (lg) ─────────────────────────────────── */
+@media ( max-width: 1024px ) {
+    /* Portfolio single */
+    .project__body {
+        grid-template-columns: 1fr 260px;
+        gap:                   var( --spacing-md );
+    }
+
+    /* Portfolio grid */
+    .portfolio-grid {
+        grid-template-columns: repeat( 2, 1fr );
+    }
+
+    /* Archive grid */
+    .archive__grid {
+        grid-template-columns: repeat( 2, 1fr );
+    }
+}
+
+/* ── 768px e sotto (md) ──────────────────────────────────── */
+@media ( max-width: 768px ) {
+
+    /* Navigation */
+    .nav__list {
+        display:         none;
+        position:        fixed;
+        inset:           var( --header-height ) 0 0;
+        background:      var( --color-bg );
+        flex-direction:  column;
+        align-items:     center;
+        justify-content: center;
+        gap:             var( --spacing-lg );
+        z-index:         999;
+    }
+
+    .nav__list.is-open {
+        display: flex;
+    }
+
+    .nav__toggle {
+        display: block;
+    }
+
+    /* Hero */
+    .ark-hero {
+        min-height:  90vh;
+        align-items: flex-end;
+    }
+
+    .ark-hero__content {
+        padding: 2rem var( --container-pad, 1.5rem ) 3rem;
+    }
+
+    .ark-hero__title {
+        font-size: clamp( 2rem, 8vw, 3rem );
+    }
+
+    /* Slider */
+    .slide {
+        height: 70vh;
+    }
+
+    /* Splash */
+    .ark-splash__logo {
+        width: clamp( 100px, 40vw, 180px );
+    }
+
+    /* Portfolio grid */
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Portfolio filter */
+    .portfolio-filter {
+        gap:        0.5rem;
+        padding:    0 1rem var( --spacing-sm );
+    }
+
+    .portfolio-filter__btn {
+        font-size: 0.8125rem;
+        padding:   0.4rem 1rem;
+    }
+
+    /* Single portfolio */
+    .project__body {
+        grid-template-columns: 1fr;
+    }
+
+    .project__meta {
+        position: static;
+    }
+
+    .project__cover {
+        max-height: 50vh;
+    }
+
+    /* Archive grid */
+    .archive__grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer */
+    .footer__bottom {
+        flex-direction: column;
+        gap:            var( --spacing-sm );
+        text-align:     center;
+    }
+
+    .footer__nav {
+        flex-wrap:       wrap;
+        justify-content: center;
+        gap:             var( --spacing-sm );
+    }
+
+    /* Entry fullwidth */
+    .entry--fullwidth .entry__cover {
+        max-height: 50vh;
+    }
+}
+
+/* ── 640px e sotto (sm) ──────────────────────────────────── */
+@media ( max-width: 640px ) {
+
+    /* Container */
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Spacing */
+    .site-main {
+        padding: var( --spacing-md ) 0;
+    }
+
+    /* Hero */
+    .ark-hero__subtitle {
+        font-size: 1rem;
+    }
+
+    .ark-hero__cta {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9375rem;
+    }
+
+    /* Blocco hero */
+    .wp-block-arkimedia-hero .ark-hero__title {
+        font-size: clamp( 1.75rem, 7vw, 2.5rem );
+    }
+
+    /* Portfolio item */
+    .portfolio-item__thumb {
+        aspect-ratio: 16 / 10;
+    }
+
+    /* Project details */
+    .project__details {
+        padding: 1rem;
+    }
+
+    /* Splash */
+    .ark-splash__inner {
+        gap: 1.25rem;
+    }
+
+    .ark-splash__enter-line {
+        height: 40px;
+    }
+
+    /* Footer */
+    .site-footer {
+        padding: var( --spacing-md ) 0 var( --spacing-sm );
+    }
+}
+
+/* ── 480px e sotto (xs) ──────────────────────────────────── */
+@media ( max-width: 480px ) {
+
+    /* Typography scale */
+    :root {
+        --font-size-base: 15px;
+    }
+
+    /* Nav */
+    .nav__list {
+        gap: var( --spacing-md );
+    }
+
+    .nav__list a {
+        font-size: 1.125rem;
+    }
+
+    /* Hero */
+    .ark-hero {
+        min-height: 85vh;
+    }
+
+    /* Slider */
+    .slide {
+        height: 60vh;
+    }
+
+    .slide__title {
+        font-size: clamp( 1.5rem, 6vw, 2rem );
+    }
+
+    /* Bottone */
+    .btn {
+        width:          100%;
+        justify-content: center;
+    }
+
+    /* Portfolio */
+    .portfolio-filter {
+        overflow-x: auto;
+        flex-wrap:  nowrap;
+        padding-bottom: 0.5rem;
+        justify-content: flex-start;
+        scrollbar-width: none;
+    }
+
+    .portfolio-filter::-webkit-scrollbar {
+        display: none;
+    }
+
+    .portfolio-filter__btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+
+/* ── Landscape mobile ────────────────────────────────────── */
+@media ( max-height: 500px ) and ( orientation: landscape ) {
+    .ark-hero,
+    .ark-splash {
+        min-height: 100vw;
+    }
+
+    .ark-splash__inner {
+        flex-direction: row;
+        gap:            2rem;
+    }
+
+    .ark-splash__logo {
+        width: clamp( 60px, 15vw, 120px );
+    }
+}

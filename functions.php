@@ -55,6 +55,13 @@ function ark_enqueue_assets(): void {
         ARK_VERSION
     );
 
+    wp_enqueue_style(
+        'arkimedia-responsive',
+        ARK_URI . '/assets/css/responsive.css',
+        [ 'arkimedia-style' ],
+        ARK_VERSION
+    );
+
     // Lenis (smooth scroll)
     wp_enqueue_style(
         'lenis-css',

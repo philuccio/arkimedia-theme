@@ -30,6 +30,14 @@
     --container-width: 1200px;
     --container-pad:   1.5rem;
 
+    /* Breakpoint */
+    --bp-xs:  480px;
+    --bp-sm:  640px;
+    --bp-md:  768px;
+    --bp-lg:  1024px;
+    --bp-xl:  1280px;
+    --bp-2xl: 1536px;
+
     /* Transizioni */
     --transition-base: 0.3s ease;
 
@@ -58,7 +66,7 @@ body {
     line-height:    var( --line-height-base );
     color:          var( --color-text );
     background:     var( --color-bg );
-    overflow-x:     hidden;
+    overflow-x:     clip;
 }
 
 img,
@@ -353,37 +361,7 @@ ol {
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
-@media ( max-width: 768px ) {
 
-    .nav__list {
-        display:    none;
-        position:   fixed;
-        inset:      var( --header-height ) 0 0;
-        background: var( --color-bg );
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: var( --spacing-lg );
-    }
-
-    .nav__list.is-open {
-        display: flex;
-    }
-
-    .nav__toggle {
-        display: block;
-    }
-
-    .slide {
-        height: 70vh;
-    }
-
-    .footer__bottom {
-        flex-direction: column;
-        gap:            var( --spacing-sm );
-        text-align:     center;
-    }
-}
 
 /* ── Splash Page ─────────────────────────────────────────── */
 
@@ -697,11 +675,7 @@ body:has( #splash ) #page {
     display: none;
 }
 
-@media ( max-width: 768px ) {
-    .portfolio-grid {
-        grid-template-columns: 1fr;
-    }
-}
+
 
 /* ── Single Portfolio ────────────────────────────────────── */
 .project__cover {
@@ -809,12 +783,65 @@ body:has( #splash ) #page {
     opacity: 1;
 }
 
-@media ( max-width: 768px ) {
-    .project__body {
-        grid-template-columns: 1fr;
-    }
 
-    .project__meta {
-        position: static;
-    }
+
+/* ── Hero fullwidth — override container ─────────────────── */
+.wp-block-arkimedia-hero,
+.ark-hero {
+    margin-left:  calc( -1 * var( --container-pad, 1.5rem ) );
+    margin-right: calc( -1 * var( --container-pad, 1.5rem ) );
+    width:        100vw;
+    max-width:    100vw;
+    position:     relative;
+    left:         50%;
+    right:        50%;
+    margin-left:  -50vw;
+    margin-right: -50vw;
+}
+
+/* ── Fix hero fullwidth ───────────────────────────────────── */
+.site-content .container {
+    overflow: visible;
+}
+
+.wp-block-arkimedia-hero {
+    margin-left:  -50vw !important;
+    margin-right: -50vw !important;
+    left:         50% !important;
+    right:        50% !important;
+    width:        100vw !important;
+    max-width:    100vw !important;
+    position:     relative !important;
+}
+
+/* Header sopra l'hero */
+.site-header {
+    z-index: 1000;
+}
+
+/* Rimuove overflow hidden dal site-content */
+#content,
+.site-content {
+    overflow-x: visible;
+}
+
+/* ── Hero fullwidth — approccio definitivo ───────────────── */
+.entry__content {
+    padding: 0;
+}
+
+.entry__content > .wp-block-arkimedia-hero {
+    margin-left:  calc( -50vw + 50% ) !important;
+    margin-right: calc( -50vw + 50% ) !important;
+    width:        100vw !important;
+    max-width:    100vw !important;
+}
+
+/* Rimuove padding dal site-main quando contiene hero */
+.site-main:has( .wp-block-arkimedia-hero ) {
+    padding: 0;
+}
+
+.entry:has( .wp-block-arkimedia-hero ) {
+    margin: 0;
 }
