@@ -21,7 +21,6 @@ registerBlockType( metadata.name, {
             }
         })
 
-        // Aggiorna un singolo cliente salvando tutti i campi in una volta
         const updateClient = ( index, data ) => {
             const updated = clients.map( ( c, i ) =>
                 i === index ? { ...c, ...data } : c
@@ -30,7 +29,7 @@ registerBlockType( metadata.name, {
         }
 
         const addClient = () => {
-            setAttributes({ clients: [ ...clients, { mediaUrl: '', mediaAlt: '', name: '' } ] })
+            setAttributes({ clients: [ ...clients, { mediaUrl: '', mediaAlt: '', name: '', clientUrl: '' } ] })
         }
 
         const removeClient = ( index ) => {
@@ -72,22 +71,15 @@ registerBlockType( metadata.name, {
                             label={ __( 'Inverti colore loghi (bianco)', 'arkimedia' ) }
                             checked={invertLogos}
                             onChange={ val => setAttributes({ invertLogos: val }) }
-                            help={ __( 'Applica filtro CSS per rendere i loghi bianchi', 'arkimedia' ) }
                         />
                     </PanelBody>
 
                     <PanelBody title={ __( 'Colori', 'arkimedia' ) } initialOpen={false}>
-                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',marginBottom:'8px'}}>
-                            { __('Sfondo sezione','arkimedia') }
-                        </p>
+                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',marginBottom:'8px'}}>{ __('Sfondo sezione','arkimedia') }</p>
                         <ColorPicker color={bgColor} onChange={ val => setAttributes({ bgColor: val }) } enableAlpha />
-                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',margin:'16px 0 8px'}}>
-                            { __('Sfondo quadrato logo','arkimedia') }
-                        </p>
+                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',margin:'16px 0 8px'}}>{ __('Sfondo quadrato logo','arkimedia') }</p>
                         <ColorPicker color={logoBg} onChange={ val => setAttributes({ logoBg: val }) } enableAlpha />
-                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',margin:'16px 0 8px'}}>
-                            { __('Colore eyebrow','arkimedia') }
-                        </p>
+                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',margin:'16px 0 8px'}}>{ __('Colore eyebrow','arkimedia') }</p>
                         <ColorPicker color={logoColor} onChange={ val => setAttributes({ logoColor: val }) } />
                     </PanelBody>
 
@@ -103,6 +95,13 @@ registerBlockType( metadata.name, {
                                     onChange={ val => updateClient( i, { name: val } ) }
                                     placeholder="Es. Nordvik"
                                 />
+                                <TextControl
+                                    label={ __( 'URL sito cliente', 'arkimedia' ) }
+                                    value={client.clientUrl}
+                                    onChange={ val => updateClient( i, { clientUrl: val } ) }
+                                    placeholder="https://esempio.it"
+                                    type="url"
+                                />
                                 <MediaUploadCheck>
                                     <MediaUpload
                                         onSelect={ media => updateClient( i, {
@@ -113,27 +112,20 @@ registerBlockType( metadata.name, {
                                         value={client.mediaUrl}
                                         render={ ({ open }) => (
                                             <div>
-                                                { client.mediaUrl
-                                                    ? <img
-                                                        src={client.mediaUrl}
+                                                { client.mediaUrl &&
+                                                    <img src={client.mediaUrl}
                                                         style={{ width:'100%', height:'70px', objectFit:'contain', background:'#ffffff', borderRadius:'4px', marginBottom:'8px', padding:'8px' }}
-                                                      />
-                                                    : null
+                                                    />
                                                 }
-                                                <Button
-                                                    onClick={open}
+                                                <Button onClick={open}
                                                     variant={ client.mediaUrl ? 'secondary' : 'primary' }
                                                     style={{ width:'100%', justifyContent:'center' }}>
-                                                    { client.mediaUrl
-                                                        ? __('Cambia logo','arkimedia')
-                                                        : __('Seleziona logo','arkimedia')
-                                                    }
+                                                    { client.mediaUrl ? __('Cambia logo','arkimedia') : __('Seleziona logo','arkimedia') }
                                                 </Button>
                                                 { client.mediaUrl &&
                                                     <Button
                                                         onClick={ () => updateClient( i, { mediaUrl: '', mediaAlt: '' }) }
-                                                        variant="tertiary"
-                                                        isDestructive
+                                                        variant="tertiary" isDestructive
                                                         style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
                                                         { __('Rimuovi logo','arkimedia') }
                                                     </Button>
@@ -142,18 +134,14 @@ registerBlockType( metadata.name, {
                                         )}
                                     />
                                 </MediaUploadCheck>
-                                <Button
-                                    onClick={ () => removeClient( i ) }
-                                    variant="tertiary"
-                                    isDestructive
+                                <Button onClick={ () => removeClient( i ) }
+                                    variant="tertiary" isDestructive
                                     style={{ marginTop:'8px', fontSize:'11px' }}>
                                     { __('Rimuovi cliente','arkimedia') }
                                 </Button>
                             </div>
                         ))}
-                        <Button
-                            onClick={addClient}
-                            variant="primary"
+                        <Button onClick={addClient} variant="primary"
                             style={{ width:'100%', justifyContent:'center', marginTop:'8px' }}>
                             { __('+ Aggiungi cliente','arkimedia') }
                         </Button>
@@ -162,11 +150,9 @@ registerBlockType( metadata.name, {
                 </InspectorControls>
 
                 <section { ...blockProps }>
-
                     <p style={{ textAlign:'center', fontSize:'0.75rem', fontWeight:700, letterSpacing:'0.2em', textTransform:'uppercase', color:logoColor, opacity:0.5, marginBottom:'2.5rem' }}>
                         {eyebrow}
                     </p>
-
                     <div style={{ display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'1.5rem', padding:'0 1.5rem' }}>
                         { clients.map( ( client, i ) => (
                             <div key={i} style={{
@@ -189,7 +175,6 @@ registerBlockType( metadata.name, {
                             </div>
                         ))}
                     </div>
-
                 </section>
             </>
         )

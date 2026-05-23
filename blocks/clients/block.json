@@ -7,23 +7,23 @@
     "icon": "groups",
     "supports": { "html": false, "align": ["full"] },
     "attributes": {
-        "align":      { "type": "string", "default": "full" },
-        "eyebrow":    { "type": "string", "default": "TRUSTED BY" },
-        "bgColor":    { "type": "string", "default": "#1a1a2e" },
-        "logoColor":  { "type": "string", "default": "#ffffff" },
-        "logoSize":   { "type": "number", "default": 160 },
-        "autoScroll": { "type": "boolean", "default": false },
-        "invertLogos":{ "type": "boolean", "default": false },
-        "logoBg":     { "type": "string", "default": "#ffffff" },
+        "align":       { "type": "string", "default": "full" },
+        "eyebrow":     { "type": "string", "default": "TRUSTED BY" },
+        "bgColor":     { "type": "string", "default": "#1a1a2e" },
+        "logoColor":   { "type": "string", "default": "#ffffff" },
+        "logoSize":    { "type": "number", "default": 160 },
+        "autoScroll":  { "type": "boolean", "default": false },
+        "invertLogos": { "type": "boolean", "default": false },
+        "logoBg":      { "type": "string", "default": "#ffffff" },
         "clients": {
             "type": "array",
             "default": [
-                { "mediaUrl": "", "mediaAlt": "", "name": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "" }
+                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" }
             ]
         }
     },
