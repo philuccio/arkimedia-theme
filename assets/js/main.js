@@ -53,3 +53,20 @@ if ( filterBtns.length ) {
         })
     })
 }
+
+// ── Fancybox init ─────────────────────────────────────────────────────────────
+document.addEventListener( 'DOMContentLoaded', () => {
+    if ( typeof Fancybox !== 'undefined' ) {
+        Fancybox.bind( '[data-fancybox]', {
+            animated:  true,
+            closeButton: true,
+            Toolbar: {
+                display: {
+                    left:   [ 'infobar' ],
+                    middle: [],
+                    right:  [ 'slideshow', 'fullscreen', 'close' ],
+                },
+            },
+        })
+    }
+})

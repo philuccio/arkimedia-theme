@@ -49,9 +49,13 @@ $wrapper_attrs = get_block_wrapper_attributes([
             ?>
                 <div class="ark-gallery-cta__cell">
                     <?php if ( $url ) : ?>
-                        <img src="<?php echo esc_url( $url ); ?>"
-                             alt="<?php echo esc_attr( $alt ); ?>"
-                             loading="lazy">
+                        <a href="<?php echo esc_url( $url ); ?>"
+                           data-fancybox="gallery-cta"
+                           data-caption="<?php echo esc_attr( $alt ); ?>">
+                            <img src="<?php echo esc_url( $url ); ?>"
+                                 alt="<?php echo esc_attr( $alt ); ?>"
+                                 loading="lazy">
+                        </a>
                     <?php else : ?>
                         <div class="ark-gallery-cta__cell--empty"></div>
                     <?php endif; ?>

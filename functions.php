@@ -265,3 +265,21 @@ function ark_enqueue_contact_assets(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_contact_assets' );
+
+// ── Enqueue Fancybox ──────────────────────────────────────────────────────────
+function ark_enqueue_fancybox(): void {
+    wp_enqueue_style(
+        'fancybox-css',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css',
+        [],
+        '5.0'
+    );
+    wp_enqueue_script(
+        'fancybox-js',
+        'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js',
+        [],
+        '5.0',
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'ark_enqueue_fancybox' );
