@@ -3,8 +3,13 @@
     "version": "1.0.0",
     "description": "Arkimedia WordPress Theme",
     "scripts": {
-        "build": "wp-scripts build blocks/hero/index.js --output-path=blocks/hero/build",
-        "start": "wp-scripts start blocks/hero/index.js --output-path=blocks/hero/build"
+        "build:hero":     "wp-scripts build blocks/hero/index.js --output-path=blocks/hero/build",
+        "build:services": "wp-scripts build blocks/services/index.js --output-path=blocks/services/build",
+        "build:clients":  "wp-scripts build blocks/clients/index.js --output-path=blocks/clients/build",
+        "build":          "npm run build:hero && npm run build:services && npm run build:clients",
+        "start:hero":     "wp-scripts start blocks/hero/index.js --output-path=blocks/hero/build",
+        "start:services": "wp-scripts start blocks/services/index.js --output-path=blocks/services/build",
+        "start:clients":  "wp-scripts start blocks/clients/index.js --output-path=blocks/clients/build"
     },
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"

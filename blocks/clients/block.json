@@ -1,0 +1,33 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/clients",
+    "title": "Clienti",
+    "description": "Griglia loghi clienti con eyebrow e layout a quadrati.",
+    "category": "theme",
+    "icon": "groups",
+    "supports": { "html": false, "align": ["full"] },
+    "attributes": {
+        "align":      { "type": "string", "default": "full" },
+        "eyebrow":    { "type": "string", "default": "TRUSTED BY" },
+        "bgColor":    { "type": "string", "default": "#1a1a2e" },
+        "logoColor":  { "type": "string", "default": "#ffffff" },
+        "logoSize":   { "type": "number", "default": 160 },
+        "autoScroll": { "type": "boolean", "default": false },
+        "invertLogos":{ "type": "boolean", "default": false },
+        "logoBg":     { "type": "string", "default": "rgba(255,255,255,0.06)" },
+        "clients": {
+            "type": "array",
+            "default": [
+                { "mediaUrl": "", "mediaAlt": "", "name": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "" },
+                { "mediaUrl": "", "mediaAlt": "", "name": "" }
+            ]
+        }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}

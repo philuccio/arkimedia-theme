@@ -1196,3 +1196,28 @@ body.admin-bar {
 .entry--fullwidth .entry__body {
     padding-top: 0 !important;
 }
+
+/* ── Header 80px + logo 65px ─────────────────────────────── */
+:root {
+    --header-height: 80px;
+}
+
+.site-header,
+.main-navigation,
+.header__top,
+.header__top .container {
+    height: 80px !important;
+}
+
+.header__logo {
+    height:    65px !important;
+    max-width: 200px !important;
+    width:     auto !important;
+}
+
+/* ── Logo 55px ───────────────────────────────────────────── */
+.header__logo {
+    height:    55px !important;
+    max-width: 200px !important;
+    width:     auto !important;
+}

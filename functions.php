@@ -199,6 +199,8 @@ foreach ( $ark_includes as $file ) {
 // ── Blocchi Gutenberg custom ──────────────────────────────────────────────────
 function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/hero' );
+    register_block_type( ARK_DIR . '/blocks/services' );
+    register_block_type( ARK_DIR . '/blocks/clients' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

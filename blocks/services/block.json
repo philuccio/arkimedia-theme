@@ -1,0 +1,31 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/services",
+    "title": "Services",
+    "description": "Sezione servizi con eyebrow, titolo, marquee e griglia card.",
+    "category": "theme",
+    "icon": "grid-view",
+    "supports": { "html": false, "align": ["full"] },
+    "attributes": {
+        "align":          { "type": "string", "default": "full" },
+        "eyebrow":        { "type": "string", "default": "SERVICES" },
+        "title":          { "type": "string", "default": "OUT OF HOME" },
+        "marqueeText":    { "type": "string", "default": "DYNAMIC ADV • POSTER 6X3 • MAXI FORMATO • MEDIA • DYNAMIC ADV • POSTER 6X3 • MAXI FORMATO • MEDIA •" },
+        "marqueeFontSize":{ "type": "number", "default": 13 },
+        "cards": {
+            "type": "array",
+            "default": [
+                { "title": "Poster 6x3",    "text": "High-impact large-format billboards commanding attention.", "mediaUrl": "", "mediaAlt": "" },
+                { "title": "Maxi Formato",  "text": "Oversized advertising installations that dominate the skyline.", "mediaUrl": "", "mediaAlt": "" },
+                { "title": "Dynamic Adv",   "text": "Digital advertising that adapts and engages audiences.", "mediaUrl": "", "mediaAlt": "" },
+                { "title": "Media",         "text": "Strategic media planning for maximum brand exposure.", "mediaUrl": "", "mediaAlt": "" }
+            ]
+        },
+        "bgColor":    { "type": "string", "default": "#0a0a0a" },
+        "textColor":  { "type": "string", "default": "#ffffff" },
+        "accentColor":{ "type": "string", "default": "#e94560" }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}
