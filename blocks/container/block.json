@@ -11,9 +11,7 @@
             "full",
             "wide"
         ],
-        "inserter": true,
-        "__experimentalLayout": true,
-        "layout": true
+        "inserter": true
     },
     "attributes": {
         "align": {
@@ -359,5 +357,6 @@
     "usesContext": [],
     "editorScript": "file:./build/index.js",
     "editorStyle": "file:./build/index.css",
-    "style": "file:./style.css"
+    "style": "file:./style.css",
+    "render": "file:./render.php"
 }

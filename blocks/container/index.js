@@ -115,13 +115,10 @@ registerBlockType( metadata.name, {
         const a = attributes
         const containerStyle = buildStyle( a )
         const blockProps = useBlockProps({ style: containerStyle })
-        const innerBlocksProps = useInnerBlocksProps(
-            { style: containerStyle, className: blockProps.className },
-            {
-                renderAppender: InnerBlocks.ButtonBlockAppender,
-                templateLock:   false,
-            }
-        )
+        const innerBlocksProps = useInnerBlocksProps( blockProps, {
+            renderAppender: InnerBlocks.ButtonBlockAppender,
+            templateLock:   false,
+        })
 
         const Spacing = ( { label, value, onChange, max = 200 } ) => (
             <RangeControl label={label} value={value} onChange={onChange} min={0} max={max} step={1} />
@@ -493,12 +490,7 @@ registerBlockType( metadata.name, {
         )
     },
 
-    save( { attributes } ) {
-        const blockProps = useBlockProps.save()
-        return (
-            <div { ...blockProps }>
-                <InnerBlocks.Content />
-            </div>
-        )
+    save() {
+        return <InnerBlocks.Content />
     },
 })
