@@ -1513,3 +1513,45 @@ body.admin-bar {
         display: none !important;
     }
 }
+
+/* ── Menu overlay padding top ────────────────────────────── */
+.ark-menu__inner {
+    padding-top:    120px !important;
+    padding-bottom: 2rem !important;
+}
+
+/* ── Menu overlay layout aggiornato ──────────────────────── */
+.ark-menu__inner {
+    padding-top:    80px !important;
+    padding-bottom: 2rem !important;
+    justify-content: flex-start !important;
+}
+
+/* Logo nel menu */
+.ark-menu__logo {
+    display:     block;
+    margin-bottom: 3rem;
+}
+
+.ark-menu__logo img {
+    height:    45px !important;
+    width:     auto !important;
+    display:   block;
+}
+
+/* Menu footer in basso a destra */
+.ark-menu__footer {
+    position:  absolute !important;
+    bottom:    2rem !important;
+    right:     var( --container-pad ) !important;
+    margin:    0 !important;
+    padding:   0 !important;
+}
+
+/* ── Logo img nel menu ───────────────────────────────────── */
+.ark-menu__logo-img {
+    height:    45px !important;
+    width:     auto !important;
+    display:   block !important;
+    max-width: 200px !important;
+}

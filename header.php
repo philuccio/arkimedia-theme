@@ -18,6 +18,20 @@
     <!-- Menu fullscreen overlay -->
     <div id="ark-menu-overlay" class="ark-menu" aria-hidden="true">
         <div class="ark-menu__inner">
+
+            <!-- Logo nel menu -->
+            <?php
+            $custom_logo_id = get_theme_mod( 'custom_logo' );
+            if ( $custom_logo_id ) :
+            ?>
+                <div class="ark-menu__logo">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                        <?php echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'ark-menu__logo-img' ] ); ?>
+                    </a>
+                </div>
+            <?php endif; ?>
+
+            <!-- Voci menu -->
             <nav class="ark-menu__nav" aria-label="<?php esc_attr_e( 'Menu principale', 'arkimedia' ); ?>">
                 <?php
                 wp_nav_menu( [
@@ -29,6 +43,8 @@
                 ] );
                 ?>
             </nav>
+
+            <!-- Menu secondario in basso a destra -->
             <div class="ark-menu__footer">
                 <?php
                 wp_nav_menu( [
@@ -40,6 +56,7 @@
                 ] );
                 ?>
             </div>
+
         </div>
     </div>
 
@@ -49,7 +66,6 @@
             <!-- Logo -->
             <div class="site-header__logo">
                 <?php
-                $custom_logo_id = get_theme_mod( 'custom_logo' );
                 if ( $custom_logo_id ) :
                     echo wp_get_attachment_image( $custom_logo_id, 'full', false, [ 'class' => 'header__logo' ] );
                 else :
