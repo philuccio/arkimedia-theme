@@ -187,6 +187,7 @@ $ark_includes = [
     '/inc/meta-portfolio.php',
     '/inc/customizer.php',
     '/inc/custom-css.php',
+    '/inc/contact-form.php',
 ];
 
 foreach ( $ark_includes as $file ) {
@@ -204,6 +205,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/gallery-cta' );
     register_block_type( ARK_DIR . '/blocks/slider' );
     register_block_type( ARK_DIR . '/blocks/container' );
+    register_block_type( ARK_DIR . '/blocks/contact' );
 }
 add_action( 'init', 'ark_register_blocks' );
 
@@ -247,3 +249,17 @@ function ark_enqueue_menu_assets(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_menu_assets' );
+
+// ── Enqueue contact form JS ───────────────────────────────────────────────────
+function ark_enqueue_contact_assets(): void {
+    if ( ! has_block( 'arkimedia/contact' ) ) return;
+
+    wp_enqueue_script(
+        'arkimedia-contact',
+        ARK_URI . '/assets/js/contact.js',
+        [ 'gsap' ],
+        ARK_VERSION,
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'ark_enqueue_contact_assets' );

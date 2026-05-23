@@ -1,0 +1,273 @@
+/* ── Arkimedia Contact Section ───────────────────────────── */
+
+.ark-contact {
+    padding: 6rem 0;
+}
+
+.ark-contact__inner {
+    display:   flex;
+    gap:       4rem;
+    align-items: flex-start;
+}
+
+/* Colonna info */
+.ark-contact__eyebrow {
+    font-size:      0.75rem;
+    font-weight:    700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom:  1rem;
+}
+
+.ark-contact__title {
+    font-size:     clamp( 2rem, 4vw, 3.5rem );
+    font-weight:   700;
+    line-height:   1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.ark-contact__intro {
+    font-size:     1.0625rem;
+    line-height:   1.7;
+    opacity:       0.75;
+    margin-bottom: 2.5rem;
+}
+
+/* Lista contatti */
+.ark-contact__list {
+    list-style: none;
+    margin:     0 0 2rem;
+    padding:    0;
+    display:    flex;
+    flex-direction: column;
+    gap:        1.5rem;
+}
+
+.ark-contact__item {
+    display:     flex;
+    align-items: flex-start;
+    gap:         1rem;
+}
+
+.ark-contact__icon {
+    font-size:   1.25rem;
+    flex-shrink: 0;
+    margin-top:  0.125rem;
+}
+
+.ark-contact__item-content {
+    display:        flex;
+    flex-direction: column;
+    gap:            0.25rem;
+}
+
+.ark-contact__item-label {
+    font-size:      0.75rem;
+    font-weight:    600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity:        0.5;
+}
+
+.ark-contact__item-value {
+    font-size:   1rem;
+    font-weight: 500;
+    opacity:     0.9;
+    color:       inherit;
+    text-decoration: none;
+    transition:  opacity 0.2s ease;
+}
+
+.ark-contact__item-value:hover {
+    opacity: 1;
+}
+
+/* Orari */
+.ark-contact__hours {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.ark-contact__hours-title {
+    font-size:      0.75rem;
+    font-weight:    700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom:  1rem;
+}
+
+.ark-contact__hours-list {
+    list-style: none;
+    margin:     0;
+    padding:    0;
+    display:    flex;
+    flex-direction: column;
+    gap:        0.5rem;
+}
+
+.ark-contact__hours-list li {
+    display:         flex;
+    justify-content: space-between;
+    font-size:       0.9375rem;
+    opacity:         0.75;
+}
+
+/* Form */
+.ark-contact__form {
+    display:        flex;
+    flex-direction: column;
+    gap:            1.25rem;
+}
+
+.ark-contact__form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:     1.25rem;
+}
+
+.ark-contact__field {
+    display:        flex;
+    flex-direction: column;
+    gap:            0.5rem;
+}
+
+.ark-contact__field label {
+    font-size:      0.8125rem;
+    font-weight:    600;
+    letter-spacing: 0.04em;
+    opacity:        0.7;
+}
+
+.ark-contact__field input,
+.ark-contact__field textarea {
+    width:         100%;
+    padding:       0.875rem 1rem;
+    border:        1px solid;
+    border-radius: 6px;
+    font-size:     0.9375rem;
+    font-family:   inherit;
+    outline:       none;
+    transition:    border-color 0.2s ease, background 0.2s ease;
+    resize:        vertical;
+    box-sizing:    border-box;
+}
+
+.ark-contact__field input:focus,
+.ark-contact__field textarea:focus {
+    border-color: var( --color-accent, #e94560 ) !important;
+}
+
+/* Privacy */
+.ark-contact__privacy {
+    display:     flex;
+    align-items: flex-start;
+    gap:         0.75rem;
+    font-size:   0.8125rem;
+    opacity:     0.75;
+    line-height: 1.5;
+}
+
+.ark-contact__privacy input[type="checkbox"] {
+    flex-shrink:   0;
+    margin-top:    0.2rem;
+    width:         16px;
+    height:        16px;
+    cursor:        pointer;
+    accent-color:  var( --color-accent, #e94560 );
+}
+
+/* Feedback */
+.ark-contact__feedback {
+    padding:       0.875rem 1rem;
+    border-radius: 6px;
+    font-size:     0.9375rem;
+    display:       none;
+}
+
+.ark-contact__feedback.is-success {
+    display:    block;
+    background: rgba( 34, 197, 94, 0.15 );
+    color:      #22c55e;
+    border:     1px solid rgba( 34, 197, 94, 0.3 );
+}
+
+.ark-contact__feedback.is-error {
+    display:    block;
+    background: rgba( 239, 68, 68, 0.15 );
+    color:      #ef4444;
+    border:     1px solid rgba( 239, 68, 68, 0.3 );
+}
+
+/* Submit */
+.ark-contact__submit {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             0.75rem;
+    padding:         1rem 2.5rem;
+    color:           #ffffff;
+    font-size:       0.9375rem;
+    font-weight:     700;
+    letter-spacing:  0.05em;
+    border:          none;
+    border-radius:   6px;
+    cursor:          pointer;
+    transition:      opacity 0.3s ease, transform 0.3s ease;
+    align-self:      flex-start;
+    font-family:     inherit;
+}
+
+.ark-contact__submit:hover {
+    opacity:   0.85;
+    transform: translateY( -2px );
+}
+
+.ark-contact__submit.is-loading {
+    opacity:        0.7;
+    pointer-events: none;
+}
+
+/* Spinner */
+.ark-contact__submit-spinner {
+    display: none;
+    width:   18px;
+    height:  18px;
+    border:  2px solid rgba(255,255,255,0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: ark-spin 0.7s linear infinite;
+}
+
+.ark-contact__submit.is-loading .ark-contact__submit-spinner {
+    display: block;
+}
+
+@keyframes ark-spin {
+    to { transform: rotate( 360deg ); }
+}
+
+/* Responsive */
+@media ( max-width: 1024px ) {
+    .ark-contact__inner {
+        gap: 3rem;
+    }
+}
+
+@media ( max-width: 768px ) {
+    .ark-contact__inner {
+        flex-direction: column;
+        gap:            3rem;
+    }
+
+    .ark-contact__info,
+    .ark-contact__form-wrap {
+        flex: none !important;
+        width: 100% !important;
+    }
+
+    .ark-contact__form-row {
+        grid-template-columns: 1fr;
+    }
+}

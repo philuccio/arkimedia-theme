@@ -1,0 +1,48 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/contact",
+    "title": "Contact Section",
+    "description": "Sezione contatti completa con info e form.",
+    "category": "arkimedia",
+    "icon": "email",
+    "supports": { "html": false, "align": ["full"] },
+    "attributes": {
+        "align":           { "type": "string",  "default": "full" },
+        "eyebrow":         { "type": "string",  "default": "CONTATTI" },
+        "title":           { "type": "string",  "default": "Parliamo del tuo progetto" },
+        "intro":           { "type": "string",  "default": "Siamo sempre aperti a nuove collaborazioni e progetti ambiziosi." },
+        "bgColor":         { "type": "string",  "default": "#0a0a0a" },
+        "textColor":       { "type": "string",  "default": "#ffffff" },
+        "accentColor":     { "type": "string",  "default": "#e94560" },
+        "inputBg":         { "type": "string",  "default": "rgba(255,255,255,0.05)" },
+        "inputBorder":     { "type": "string",  "default": "rgba(255,255,255,0.15)" },
+        "columnLayout":    { "type": "string",  "default": "50-50" },
+        "showPhone":       { "type": "boolean", "default": true },
+        "showSubject":     { "type": "boolean", "default": true },
+        "showHours":       { "type": "boolean", "default": false },
+        "btnLabel":        { "type": "string",  "default": "Invia messaggio" },
+        "successMessage":  { "type": "string",  "default": "Messaggio inviato! Ti risponderemo presto." },
+        "errorMessage":    { "type": "string",  "default": "Errore nell'invio. Riprova più tardi." },
+        "privacyText":     { "type": "string",  "default": "Ho letto e accetto la" },
+        "privacyLabel":    { "type": "string",  "default": "Privacy Policy" },
+        "privacyUrl":      { "type": "string",  "default": "/privacy-policy" },
+        "contacts": {
+            "type": "array",
+            "default": [
+                { "icon": "📍", "label": "Indirizzo", "value": "Via Roma 1, Milano", "url": "" },
+                { "icon": "📞", "label": "Telefono",  "value": "+39 02 1234567", "url": "tel:+390212345678" },
+                { "icon": "✉️", "label": "Email",     "value": "info@arkimedia.it", "url": "mailto:info@arkimedia.it" }
+            ]
+        },
+        "hours": {
+            "type": "array",
+            "default": [
+                { "days": "Lun – Ven", "time": "9:00 – 18:00" },
+                { "days": "Sabato",    "time": "10:00 – 14:00" }
+            ]
+        }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}
