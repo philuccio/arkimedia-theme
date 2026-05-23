@@ -114,6 +114,12 @@ registerBlockType( metadata.name, {
     edit( { attributes, setAttributes } ) {
         const a = attributes
         const containerStyle = buildStyle( a )
+        // Se non è primo livello, rimuovi fullwidth
+        if ( ! a.isFirstLevel ) {
+            delete containerStyle.marginLeft
+            delete containerStyle.marginRight
+            if ( containerStyle.width === '100vw' ) containerStyle.width = a.width || '100%'
+        }
         const blockProps = useBlockProps({ style: containerStyle })
         const innerBlocksProps = useInnerBlocksProps( blockProps, {
             renderAppender: InnerBlocks.ButtonBlockAppender,

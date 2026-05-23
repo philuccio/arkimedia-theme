@@ -180,12 +180,18 @@ if ( $rotate )      $transforms[] = "rotate({$rotate}deg)";
 if ( $scale != 1 )  $transforms[] = "scale({$scale})";
 if ( $transforms )  $styles[] = "transform:" . implode( ' ', $transforms );
 
-// Fullwidth primo livello
-if ( $is_first && isset( $attributes['align'] ) && $attributes['align'] === 'full' ) {
+// Fullwidth SOLO primo livello esplicito
+if ( $is_first === true && isset( $attributes['align'] ) && $attributes['align'] === 'full' ) {
     $styles[] = "width:100vw";
     $styles[] = "max-width:100vw";
     $styles[] = "margin-left:calc(50% - 50vw)";
     $styles[] = "margin-right:calc(50% - 50vw)";
+} elseif ( ! $is_first ) {
+    // Container innestato — resetta qualsiasi ereditarietà
+    $styles[] = "width:" . esc_attr( $width );
+    $styles[] = "max-width:" . ( $max_width ? esc_attr( $max_width ) : 'none' );
+    $styles[] = "margin-left:" . esc_attr( $ml );
+    $styles[] = "margin-right:" . esc_attr( $mr );
 }
 
 $inline_style = implode( ';', $styles );

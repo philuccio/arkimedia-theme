@@ -1732,3 +1732,11 @@ body {
 .ark-slider-block {
     background: #0a0a0a !important;
 }
+
+/* ── Container nested reset fullwidth ────────────────────── */
+.ark-container--nested {
+    width:        unset !important;
+    max-width:    unset !important;
+    margin-left:  unset !important;
+    margin-right: unset !important;
+}
