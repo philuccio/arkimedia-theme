@@ -455,27 +455,7 @@ registerBlockType( metadata.name, {
         )
     },
 
-    save( { attributes: a } ) {
-        const style = buildStyle( a )
-        const blockProps = useBlockProps.save({
-            style,
-            className: 'ark-row' + ( a.isFullwidth ? ' ark-row--fullwidth' : '' ),
-            'data-animation': a.animationType !== 'none' ? JSON.stringify({
-                type:     a.animationType,
-                delay:    a.animationDelay,
-                duration: a.animationDuration,
-                trigger:  a.animationTrigger,
-                scrub:    a.animationScrub,
-            }) : undefined,
-        })
-
-        return (
-            <a.htmlTag { ...blockProps }>
-                { a.bgType === 'image' && a.overlayColor && (
-                    <div className="ark-row__overlay" style={{ background: a.overlayColor }} />
-                )}
-                <InnerBlocks.Content />
-            </a.htmlTag>
-        )
+    save() {
+        return <InnerBlocks.Content />
     },
 })
