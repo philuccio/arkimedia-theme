@@ -1790,3 +1790,9 @@ body {
     padding:    0 var( --container-pad, 1.5rem );
     box-sizing: border-box;
 }
+
+/* ── Gallery margini da testata e footer ─────────────────── */
+.ark-gallery {
+    margin-top:    100px !important;
+    margin-bottom: 100px !important;
+}
