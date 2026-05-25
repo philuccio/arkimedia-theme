@@ -12,8 +12,9 @@
         "build:contact":     "wp-scripts build blocks/contact/index.js --output-path=blocks/contact/build",
         "build:testata":     "wp-scripts build blocks/testata/index.js --output-path=blocks/testata/build",
         "build:map":         "wp-scripts build blocks/map/index.js --output-path=blocks/map/build",
-        "build":             "npm run build:hero && npm run build:services && npm run build:clients && npm run build:gallery-cta && npm run build:slider && npm run build:container && npm run build:contact && npm run build:testata && npm run build:map",
-        "start:map":         "wp-scripts start blocks/map/index.js --output-path=blocks/map/build"
+        "build:gallery":     "wp-scripts build blocks/gallery/index.js --output-path=blocks/gallery/build",
+        "build":             "npm run build:hero && npm run build:services && npm run build:clients && npm run build:gallery-cta && npm run build:slider && npm run build:container && npm run build:contact && npm run build:testata && npm run build:map && npm run build:gallery",
+        "start:gallery":     "wp-scripts start blocks/gallery/index.js --output-path=blocks/gallery/build"
     },
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"

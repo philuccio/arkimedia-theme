@@ -208,6 +208,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/contact' );
     register_block_type( ARK_DIR . '/blocks/testata' );
     register_block_type( ARK_DIR . '/blocks/map' );
+    register_block_type( ARK_DIR . '/blocks/gallery' );
 }
 add_action( 'init', 'ark_register_blocks' );
 
