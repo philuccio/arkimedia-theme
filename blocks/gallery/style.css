@@ -131,3 +131,18 @@
         grid-row:    span 1 !important;
     }
 }
+
+/* ── Gallery immagini angoli arrotondati ─────────────────── */
+.ark-gallery__item {
+    border-radius: 8px;
+    overflow:      hidden;
+}
+
+.ark-gallery__item img {
+    border-radius: 8px;
+}
+
+.ark-gallery__item a {
+    border-radius: 8px;
+    overflow:      hidden;
+}

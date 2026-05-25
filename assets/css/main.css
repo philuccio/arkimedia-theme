@@ -1782,3 +1782,11 @@ body {
     padding-top:    var( --spacing-lg ) !important;
     padding-bottom: var( --spacing-xl ) !important;
 }
+
+/* ── Gallery nel container ───────────────────────────────── */
+.ark-gallery .ark-gallery__grid {
+    max-width:  var( --container-width, 1200px );
+    margin:     0 auto;
+    padding:    0 var( --container-pad, 1.5rem );
+    box-sizing: border-box;
+}
