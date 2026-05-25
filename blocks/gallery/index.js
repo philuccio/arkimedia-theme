@@ -25,7 +25,7 @@ registerBlockType( metadata.name, {
 
         // Verifica se Virtual Media Folders è attivo
         useEffect( () => {
-            wp.apiFetch({ path: '/wp/v2/vmfo_folder?per_page=100' })
+            wp.apiFetch({ path: '/arkimedia/v1/vmf-folders' })
                 .then( data => {
                     setPluginActive( true )
                     if ( Array.isArray( data ) ) {
