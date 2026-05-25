@@ -30,13 +30,8 @@
     z-index:  1;
 }
 
-/* ── Align items figli diretti ───────────────────────────── */
-.ark-row > * {
-    display:        flex;
-    flex-direction: column;
-    align-self:     stretch;
-}
 
-.ark-row > * > * {
-    height: 100%;
+/* ── Align items sul wrapper Gutenberg ───────────────────── */
+.ark-row > .wp-block {
+    align-self: var( --ark-row-align, auto );
 }
