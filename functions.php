@@ -210,6 +210,9 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/testata' );
     register_block_type( ARK_DIR . '/blocks/map' );
     register_block_type( ARK_DIR . '/blocks/gallery' );
+    register_block_type( ARK_DIR . '/blocks/portfolio-meta' );
+    register_block_type( ARK_DIR . '/blocks/ark-text' );
+    register_block_type( ARK_DIR . '/blocks/ark-image' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

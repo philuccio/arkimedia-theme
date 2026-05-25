@@ -30,13 +30,7 @@ get_header();
             <!-- Meta e corpo progetto -->
             <div class="project__body container">
 
-                <div class="project__main">
-                    <?php if ( $cats && ! is_wp_error( $cats ) ) : ?>
-                        <p class="project__cat">
-                            <?php echo esc_html( implode( ', ', wp_list_pluck( $cats, 'name' ) ) ); ?>
-                        </p>
-                    <?php endif; ?>
-                </div>
+                <div class="project__main"></div>
 
                 <aside class="project__meta">
                     <dl class="project__details">

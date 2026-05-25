@@ -1,0 +1,29 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/text",
+    "title": "Testo",
+    "description": "Blocco testo completamente configurabile.",
+    "category": "arkimedia",
+    "icon": "editor-paragraph",
+    "supports": { "html": false },
+    "attributes": {
+        "content":      { "type": "string",  "default": "" },
+        "fontSize":     { "type": "string",  "default": "1rem" },
+        "fontWeight":   { "type": "string",  "default": "400" },
+        "lineHeight":   { "type": "string",  "default": "1.6" },
+        "letterSpacing":{ "type": "string",  "default": "0" },
+        "textAlign":    { "type": "string",  "default": "left" },
+        "textTransform":{ "type": "string",  "default": "none" },
+        "color":        { "type": "string",  "default": "" },
+        "maxWidth":     { "type": "string",  "default": "" },
+        "paddingTop":   { "type": "number",  "default": 0 },
+        "paddingRight": { "type": "number",  "default": 0 },
+        "paddingBottom":{ "type": "number",  "default": 0 },
+        "paddingLeft":  { "type": "number",  "default": 0 },
+        "marginTop":    { "type": "number",  "default": 0 },
+        "marginBottom": { "type": "number",  "default": 0 },
+        "htmlTag":      { "type": "string",  "default": "p" }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js"
+}

@@ -1,0 +1,23 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/portfolio-meta",
+    "title": "Portfolio Meta",
+    "description": "Pannello dettagli progetto: cliente, anno, ruolo, durata, URL.",
+    "category": "arkimedia",
+    "icon": "info",
+    "supports": { "html": false },
+    "attributes": {
+        "client":   { "type": "string", "default": "" },
+        "year":     { "type": "string", "default": "" },
+        "role":     { "type": "string", "default": "" },
+        "duration": { "type": "string", "default": "" },
+        "url":      { "type": "string", "default": "" },
+        "urlLabel": { "type": "string", "default": "Visita il sito" },
+        "bgColor":  { "type": "string", "default": "" },
+        "textColor":{ "type": "string", "default": "" },
+        "showBack": { "type": "boolean","default": true }
+    },
+    "render": "file:./render.php",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./style.css"
+}
