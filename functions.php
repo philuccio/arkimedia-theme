@@ -188,6 +188,7 @@ $ark_includes = [
     '/inc/customizer.php',
     '/inc/custom-css.php',
     '/inc/contact-form.php',
+    '/inc/gallery-api.php',
 ];
 
 foreach ( $ark_includes as $file ) {
