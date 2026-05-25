@@ -29,3 +29,14 @@
     position: relative;
     z-index:  1;
 }
+
+/* ── Align items figli diretti ───────────────────────────── */
+.ark-row > * {
+    display:        flex;
+    flex-direction: column;
+    align-self:     stretch;
+}
+
+.ark-row > * > * {
+    height: 100%;
+}
