@@ -1,0 +1,31 @@
+/* ── Arkimedia Row Block ─────────────────────────────────── */
+
+.ark-row {
+    box-sizing: border-box;
+    position:   relative;
+}
+
+.ark-row--fullwidth {
+    width:        100vw !important;
+    max-width:    100vw !important;
+    margin-left:  calc( 50% - 50vw ) !important;
+    margin-right: calc( 50% - 50vw ) !important;
+}
+
+/* Blocchi figli diretti prendono spazio equo di default */
+.ark-row > * {
+    min-width: 0;
+}
+
+/* Overlay sfondo immagine */
+.ark-row__overlay {
+    position:       absolute;
+    inset:          0;
+    pointer-events: none;
+    z-index:        0;
+}
+
+.ark-row > *:not(.ark-row__overlay) {
+    position: relative;
+    z-index:  1;
+}

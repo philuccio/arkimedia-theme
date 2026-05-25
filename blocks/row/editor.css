@@ -1,0 +1,11 @@
+/* ── Row Editor ──────────────────────────────────────────── */
+
+.ark-row {
+    min-height:  60px;
+    outline:     2px dashed rgba( 99, 102, 241, 0.3 );
+    outline-offset: 3px;
+}
+
+.ark-row:focus-within {
+    outline-color: rgba( 99, 102, 241, 0.6 );
+}
