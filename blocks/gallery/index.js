@@ -25,7 +25,7 @@ registerBlockType( metadata.name, {
 
         // Verifica se Virtual Media Folders è attivo
         useEffect( () => {
-            fetch( '/wp-json/wp/v2/vmfo_folder?per_page=100' )
+            fetch( ( window.wpApiSettings?.root || '/wp-json/' ) + 'wp/v2/vmfo_folder?per_page=100' )
                 .then( r => {
                     if ( r.ok ) {
                         setPluginActive( true )
