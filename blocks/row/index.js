@@ -229,6 +229,16 @@ registerBlockType( metadata.name, {
                             />
                         </> }
 
+                        <SelectControl label={ __('Align items (verticale)','arkimedia') } value={a.alignItems}
+                            options={[
+                                { label:'Stretch',  value:'stretch' },
+                                { label:'Start',    value:'flex-start' },
+                                { label:'Center',   value:'center' },
+                                { label:'End',      value:'flex-end' },
+                                { label:'Baseline', value:'baseline' },
+                            ]}
+                            onChange={ v => setAttributes({ alignItems: v }) }
+                        />
                         <ToggleControl label={ __('Gap colonna/riga separati','arkimedia') } checked={a.useCustomGap} onChange={ v => setAttributes({ useCustomGap: v }) } />
                         { a.useCustomGap ? <>
                             <Sp label="Column gap (px)" value={a.columnGap} onChange={ v => setAttributes({ columnGap: v }) } max={100} />
