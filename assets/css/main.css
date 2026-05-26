@@ -879,7 +879,6 @@ html {
     width:          100% !important;
     max-width:      100% !important;
     padding:        4rem 1.5rem !important;
-    color:          #ffffff !important;
     box-sizing:     border-box !important;
 }
 
@@ -1070,7 +1069,6 @@ html {
     max-width:      var( --container-width ) !important;
     margin:         0 auto !important;
     padding:        calc( var( --header-height ) + 2rem ) var( --container-pad ) 4rem !important;
-    color:          #ffffff !important;
     box-sizing:     border-box !important;
 }
 
@@ -1984,4 +1982,10 @@ section.ark-hero .ark-hero__content {
 .ark-hero .ark-hero__title--1[style],
 .ark-hero .ark-hero__title--2[style] {
     color: revert-layer !important;
+}
+
+/* ── Hero titoli — colore da attributo style ─────────────── */
+section.ark-hero .ark-hero__content .ark-hero__title--1,
+section.ark-hero .ark-hero__content .ark-hero__title--2 {
+    color: unset;
 }
