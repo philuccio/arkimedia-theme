@@ -178,6 +178,70 @@
         "paddingRight": {
             "type": "number",
             "default": 0
+        },
+        "title1PaddingTop": {
+            "type": "number",
+            "default": 0
+        },
+        "title1PaddingBottom": {
+            "type": "number",
+            "default": 0
+        },
+        "title1PaddingLeft": {
+            "type": "number",
+            "default": 0
+        },
+        "title1PaddingRight": {
+            "type": "number",
+            "default": 0
+        },
+        "title1MarginTop": {
+            "type": "number",
+            "default": 0
+        },
+        "title1MarginBottom": {
+            "type": "number",
+            "default": 0
+        },
+        "title1MarginLeft": {
+            "type": "number",
+            "default": 0
+        },
+        "title1MarginRight": {
+            "type": "number",
+            "default": 0
+        },
+        "title2PaddingTop": {
+            "type": "number",
+            "default": 0
+        },
+        "title2PaddingBottom": {
+            "type": "number",
+            "default": 0
+        },
+        "title2PaddingLeft": {
+            "type": "number",
+            "default": 0
+        },
+        "title2PaddingRight": {
+            "type": "number",
+            "default": 0
+        },
+        "title2MarginTop": {
+            "type": "number",
+            "default": 0
+        },
+        "title2MarginBottom": {
+            "type": "number",
+            "default": 0
+        },
+        "title2MarginLeft": {
+            "type": "number",
+            "default": 0
+        },
+        "title2MarginRight": {
+            "type": "number",
+            "default": 0
         }
     },
     "render": "file:./render.php",

@@ -118,6 +118,16 @@ registerBlockType( metadata.name, {
                             ]}
                             onChange={ v => setAttributes({ title1Weight: v }) }
                         />
+                        <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Padding (px)</p>
+                        <RangeControl label="Top"    value={attributes.title1PaddingTop}    onChange={ v => setAttributes({ title1PaddingTop: v }) }    min={0} max={200} />
+                        <RangeControl label="Bottom" value={attributes.title1PaddingBottom} onChange={ v => setAttributes({ title1PaddingBottom: v }) } min={0} max={200} />
+                        <RangeControl label="Left"   value={attributes.title1PaddingLeft}   onChange={ v => setAttributes({ title1PaddingLeft: v }) }   min={0} max={200} />
+                        <RangeControl label="Right"  value={attributes.title1PaddingRight}  onChange={ v => setAttributes({ title1PaddingRight: v }) }  min={0} max={200} />
+                        <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Margin (px)</p>
+                        <RangeControl label="Top"    value={attributes.title1MarginTop}    onChange={ v => setAttributes({ title1MarginTop: v }) }    min={-100} max={200} />
+                        <RangeControl label="Bottom" value={attributes.title1MarginBottom} onChange={ v => setAttributes({ title1MarginBottom: v }) } min={-100} max={200} />
+                        <RangeControl label="Left"   value={attributes.title1MarginLeft}   onChange={ v => setAttributes({ title1MarginLeft: v }) }   min={-100} max={200} />
+                        <RangeControl label="Right"  value={attributes.title1MarginRight}  onChange={ v => setAttributes({ title1MarginRight: v }) }  min={-100} max={200} />
                     </PanelBody>
 
                     {/* ── Titolo 2 ── */}
@@ -149,6 +159,16 @@ registerBlockType( metadata.name, {
                             ]}
                             onChange={ v => setAttributes({ title2Weight: v }) }
                         />
+                        <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Padding (px)</p>
+                        <RangeControl label="Top"    value={attributes.title2PaddingTop}    onChange={ v => setAttributes({ title2PaddingTop: v }) }    min={0} max={200} />
+                        <RangeControl label="Bottom" value={attributes.title2PaddingBottom} onChange={ v => setAttributes({ title2PaddingBottom: v }) } min={0} max={200} />
+                        <RangeControl label="Left"   value={attributes.title2PaddingLeft}   onChange={ v => setAttributes({ title2PaddingLeft: v }) }   min={0} max={200} />
+                        <RangeControl label="Right"  value={attributes.title2PaddingRight}  onChange={ v => setAttributes({ title2PaddingRight: v }) }  min={0} max={200} />
+                        <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Margin (px)</p>
+                        <RangeControl label="Top"    value={attributes.title2MarginTop}    onChange={ v => setAttributes({ title2MarginTop: v }) }    min={-100} max={200} />
+                        <RangeControl label="Bottom" value={attributes.title2MarginBottom} onChange={ v => setAttributes({ title2MarginBottom: v }) } min={-100} max={200} />
+                        <RangeControl label="Left"   value={attributes.title2MarginLeft}   onChange={ v => setAttributes({ title2MarginLeft: v }) }   min={-100} max={200} />
+                        <RangeControl label="Right"  value={attributes.title2MarginRight}  onChange={ v => setAttributes({ title2MarginRight: v }) }  min={-100} max={200} />
                     </PanelBody>
 
                     {/* ── Sottotitolo ── */}
