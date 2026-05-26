@@ -1947,3 +1947,20 @@ body {
 .site-header.is-sticky .nav__list li.current-menu-item a {
     color: var( --color-accent, #e94560 );
 }
+
+/* ── Hero titoli — specificità aumentata ─────────────────── */
+section.ark-hero .ark-hero__title--1,
+section.ark-hero .ark-hero__title--2 {
+    color: unset !important;
+}
+
+/* ── Hero content — posizione bottom-left ────────────────── */
+section.ark-hero {
+    align-items: flex-end !important;
+}
+
+section.ark-hero .ark-hero__content {
+    width:      100% !important;
+    max-width:  var( --container-width, 1200px ) !important;
+    margin:     0 auto !important;
+}

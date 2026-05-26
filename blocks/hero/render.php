@@ -108,14 +108,14 @@ $wrapper_attrs = get_block_wrapper_attributes([
 
         <?php if ( $title ) : ?>
             <h1 class="ark-hero__title ark-hero__title--1"
-                style="font-size:<?php echo esc_attr( $title1_size ); ?>;font-weight:<?php echo esc_attr( $title1_weight ); ?>;color:<?php echo esc_attr( $title1_color ); ?>;line-height:1;letter-spacing:-0.02em;margin:0;">
+                style="font-size:<?php echo esc_attr( $title1_size ); ?> !important;font-weight:<?php echo esc_attr( $title1_weight ); ?> !important;color:<?php echo esc_attr( $title1_color ); ?> !important;line-height:1 !important;letter-spacing:-0.02em !important;margin:0 !important;">
                 <?php echo wp_kses_post( $title ); ?>
             </h1>
         <?php endif; ?>
 
         <?php if ( $title2 ) : ?>
             <p class="ark-hero__title ark-hero__title--2"
-               style="font-size:<?php echo esc_attr( $title2_size ); ?>;font-weight:<?php echo esc_attr( $title2_weight ); ?>;color:<?php echo esc_attr( $title2_color ); ?>;line-height:1;letter-spacing:-0.02em;margin:0;">
+               style="font-size:<?php echo esc_attr( $title2_size ); ?> !important;font-weight:<?php echo esc_attr( $title2_weight ); ?> !important;color:<?php echo esc_attr( $title2_color ); ?> !important;line-height:1 !important;letter-spacing:-0.02em !important;margin:0 !important;">
                 <?php echo wp_kses_post( $title2 ); ?>
             </p>
         <?php endif; ?>
