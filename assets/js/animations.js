@@ -247,29 +247,45 @@ function initParallax() {
         })
     })
 
-    // Parallax sfondo Hero — scroll listener diretto
-    const heroEls = document.querySelectorAll( '.ark-hero' )
+    // Parallax sfondo Hero — RAF loop
+    const heroEls    = document.querySelectorAll( '.ark-hero' )
     const testataEls = document.querySelectorAll( '.ark-testata' )
 
     if ( heroEls.length || testataEls.length ) {
-        window.addEventListener( 'scroll', () => {
-            const scrollY = window.scrollY
+
+        let currentScroll = 0
+        let targetScroll  = 0
+
+        function updateParallax() {
+            currentScroll += ( targetScroll - currentScroll ) * 0.1
+            const scrollY = currentScroll
 
             heroEls.forEach( hero => {
-                const rect = hero.getBoundingClientRect()
-                if ( rect.bottom < 0 || rect.top > window.innerHeight ) return
-                const progress = scrollY / hero.offsetHeight
-                hero.style.backgroundPositionY = ( 30 * progress ) + '%'
+                if ( hero.offsetTop > scrollY + window.innerHeight ) return
+                const progress = Math.min( 1, scrollY / ( hero.offsetHeight || 1 ) )
+                hero.style.backgroundPositionY = `${ 50 + progress * 20 }%`
             })
 
             testataEls.forEach( el => {
-                const rect = el.getBoundingClientRect()
-                if ( rect.bottom < 0 ) return
                 const offsetTop = el.offsetTop
-                const progress  = Math.max( 0, ( scrollY - offsetTop + window.innerHeight ) / ( el.offsetHeight + window.innerHeight ) )
-                el.style.backgroundPositionY = ( progress * 30 ) + '%'
+                if ( offsetTop > scrollY + window.innerHeight ) return
+                const progress = Math.min( 1, Math.max( 0,
+                    ( scrollY - offsetTop + window.innerHeight ) /
+                    ( el.offsetHeight + window.innerHeight )
+                ))
+                el.style.backgroundPositionY = `${ progress * 30 }%`
             })
+
+            requestAnimationFrame( updateParallax )
+        }
+
+        window.addEventListener( 'scroll', () => {
+            targetScroll = window.scrollY
         }, { passive: true })
+
+        // Avvia il loop
+        heroEls.forEach( h => { h.style.backgroundPositionY = '50%' })
+        requestAnimationFrame( updateParallax )
     }
 }
 
