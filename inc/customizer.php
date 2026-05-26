@@ -280,3 +280,46 @@ function ark_customizer_preview_js(): void {
     );
 }
 add_action( 'customize_preview_init', 'ark_customizer_preview_js' );
+
+// ── Animazioni globali ────────────────────────────────────────────────────────
+function ark_register_animations_customizer( WP_Customize_Manager $wp_customize ): void {
+
+    $wp_customize->add_section( 'ark_animations', [
+        'title'    => __( 'Animazioni', 'arkimedia' ),
+        'priority' => 35,
+    ] );
+
+    $wp_customize->add_setting( 'ark_animations_enabled', [
+        'default'           => true,
+        'sanitize_callback' => 'rest_sanitize_boolean',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'ark_animations_enabled', [
+        'label'   => __( 'Abilita animazioni on-scroll', 'arkimedia' ),
+        'section' => 'ark_animations',
+        'type'    => 'checkbox',
+    ] );
+
+    $wp_customize->add_setting( 'ark_parallax_enabled', [
+        'default'           => true,
+        'sanitize_callback' => 'rest_sanitize_boolean',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'ark_parallax_enabled', [
+        'label'   => __( 'Abilita effetti parallax', 'arkimedia' ),
+        'section' => 'ark_animations',
+        'type'    => 'checkbox',
+    ] );
+
+    $wp_customize->add_setting( 'ark_lenis_enabled', [
+        'default'           => true,
+        'sanitize_callback' => 'rest_sanitize_boolean',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'ark_lenis_enabled', [
+        'label'   => __( 'Abilita smooth scroll (Lenis)', 'arkimedia' ),
+        'section' => 'ark_animations',
+        'type'    => 'checkbox',
+    ] );
+}
+add_action( 'customize_register', 'ark_register_animations_customizer' );

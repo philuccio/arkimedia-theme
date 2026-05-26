@@ -1989,3 +1989,25 @@ section.ark-hero .ark-hero__content .ark-hero__title--1,
 section.ark-hero .ark-hero__content .ark-hero__title--2 {
     color: unset;
 }
+
+/* ── Parallax Testata ────────────────────────────────────── */
+.ark-testata {
+    will-change: transform;
+    transform:   translateZ(0);
+}
+
+/* ── Parallax Hero bg ────────────────────────────────────── */
+.ark-hero {
+    will-change: transform;
+}
+
+.ark-hero__bg,
+.ark-hero__bg img {
+    will-change: transform;
+    transform:   translateZ(0) scale(1.1);
+}
+
+/* ── Elementi parallax generici ──────────────────────────── */
+[data-parallax] {
+    will-change: transform;
+}

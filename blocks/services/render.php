@@ -56,7 +56,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
                 $card_media = $card['mediaUrl'] ?? '';
                 $card_alt   = $card['mediaAlt'] ?? '';
             ?>
-                <article class="ark-services__card">
+                <article class="ark-services__card" data-stagger-item>
                     <?php if ( $card_media ) : ?>
                         <figure class="ark-services__card-thumb">
                             <img src="<?php echo esc_url( $card_media ); ?>"

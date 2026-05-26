@@ -289,3 +289,13 @@ function ark_enqueue_fancybox(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_fancybox' );
+
+// ── Passa impostazioni animazioni al JS ───────────────────────────────────────
+function ark_localize_animations(): void {
+    wp_localize_script( 'arkimedia-animations', 'ArkAnimations', [
+        'enabled'  => (bool) get_theme_mod( 'ark_animations_enabled', true ),
+        'parallax' => (bool) get_theme_mod( 'ark_parallax_enabled',   true ),
+        'lenis'    => (bool) get_theme_mod( 'ark_lenis_enabled',       true ),
+    ]);
+}
+add_action( 'wp_enqueue_scripts', 'ark_localize_animations', 20 );
