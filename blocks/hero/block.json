@@ -5,28 +5,183 @@
     "description": "Sezione hero fullscreen con immagine, titolo e sottotitolo personalizzabili.",
     "category": "arkimedia",
     "icon": "cover-image",
-    "keywords": ["hero", "banner", "cover", "fullscreen"],
+    "keywords": [
+        "hero",
+        "banner",
+        "cover",
+        "fullscreen"
+    ],
     "supports": {
         "html": false,
-        "align": ["full"],
+        "align": [
+            "full"
+        ],
         "alignWide": true
     },
     "attributes": {
-        "align":        { "type": "string", "default": "full" },
-        "title":        { "type": "string", "default": "Il tuo titolo principale" },
-        "subtitle":     { "type": "string", "default": "Il tuo sottotitolo" },
-        "eyebrow":      { "type": "string", "default": "" },
-        "ctaLabel":     { "type": "string", "default": "" },
-        "ctaUrl":       { "type": "string", "default": "#" },
-        "mediaId":      { "type": "integer", "default": 0 },
-        "mediaUrl":     { "type": "string", "default": "" },
-        "mediaAlt":     { "type": "string", "default": "" },
-        "overlayColor": { "type": "string", "default": "rgba(0,0,0,0.45)" },
-        "textAlign":    { "type": "string", "default": "left" },
-        "minHeight":    { "type": "string", "default": "100vh" }
+        "align": {
+            "type": "string",
+            "default": "full"
+        },
+        "title": {
+            "type": "string",
+            "default": "Il tuo titolo principale"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Il tuo sottotitolo"
+        },
+        "eyebrow": {
+            "type": "string",
+            "default": ""
+        },
+        "ctaLabel": {
+            "type": "string",
+            "default": ""
+        },
+        "ctaUrl": {
+            "type": "string",
+            "default": "#"
+        },
+        "mediaId": {
+            "type": "integer",
+            "default": 0
+        },
+        "mediaUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "mediaAlt": {
+            "type": "string",
+            "default": ""
+        },
+        "overlayColor": {
+            "type": "string",
+            "default": "rgba(0,0,0,0.45)"
+        },
+        "textAlign": {
+            "type": "string",
+            "default": "left"
+        },
+        "minHeight": {
+            "type": "string",
+            "default": "100vh"
+        },
+        "title2": {
+            "type": "string",
+            "default": ""
+        },
+        "title1Color": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "title1Size": {
+            "type": "string",
+            "default": "clamp(3rem,9vw,8rem)"
+        },
+        "title1Weight": {
+            "type": "string",
+            "default": "900"
+        },
+        "title2Color": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "title2Size": {
+            "type": "string",
+            "default": "clamp(3rem,9vw,8rem)"
+        },
+        "title2Weight": {
+            "type": "string",
+            "default": "900"
+        },
+        "subtitleColor": {
+            "type": "string",
+            "default": "rgba(255,255,255,0.85)"
+        },
+        "subtitleSize": {
+            "type": "string",
+            "default": "clamp(1rem,2vw,1.375rem)"
+        },
+        "eyebrowColor": {
+            "type": "string",
+            "default": ""
+        },
+        "ctaBgColor": {
+            "type": "string",
+            "default": ""
+        },
+        "ctaTextColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "ctaUrl2": {
+            "type": "string",
+            "default": ""
+        },
+        "ctaLabel2": {
+            "type": "string",
+            "default": ""
+        },
+        "bgType": {
+            "type": "string",
+            "default": "image"
+        },
+        "bgColor": {
+            "type": "string",
+            "default": "#0a0a0a"
+        },
+        "gradientType": {
+            "type": "string",
+            "default": "linear"
+        },
+        "gradientAngle": {
+            "type": "number",
+            "default": 135
+        },
+        "gradientColor1": {
+            "type": "string",
+            "default": "#1a1a2e"
+        },
+        "gradientColor2": {
+            "type": "string",
+            "default": "#e94560"
+        },
+        "bgAttachment": {
+            "type": "string",
+            "default": "scroll"
+        },
+        "bgPosition": {
+            "type": "string",
+            "default": "center center"
+        },
+        "bgSize": {
+            "type": "string",
+            "default": "cover"
+        },
+        "contentPosition": {
+            "type": "string",
+            "default": "bottom-left"
+        },
+        "paddingTop": {
+            "type": "number",
+            "default": 0
+        },
+        "paddingBottom": {
+            "type": "number",
+            "default": 80
+        },
+        "paddingLeft": {
+            "type": "number",
+            "default": 0
+        },
+        "paddingRight": {
+            "type": "number",
+            "default": 0
+        }
     },
     "render": "file:./render.php",
     "editorScript": "file:./build/index.js",
-    "editorStyle":  "file:./editor.css",
-    "style":        "file:./style.css"
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css"
 }
