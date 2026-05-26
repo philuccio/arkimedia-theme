@@ -1829,10 +1829,9 @@ body {
     font-family:    'Poppins', sans-serif !important;
     font-weight:    900 !important;
     font-size:      clamp( 3rem, 9vw, 8rem ) !important;
-    line-height:    1 !important;
+    color:          inherit;
     letter-spacing: -0.02em !important;
     margin-bottom:  0.25rem !important;
-    color:          #ffffff !important;
 }
 
 /* Prima riga del titolo — colore accent */
@@ -1963,4 +1962,15 @@ section.ark-hero .ark-hero__content {
     width:      100% !important;
     max-width:  var( --container-width, 1200px ) !important;
     margin:     0 auto !important;
+}
+
+/* ── Hero titoli colore inline ha precedenza ─────────────── */
+.ark-hero__title--1[style*="color"],
+.ark-hero__title--2[style*="color"] {
+    color: unset !important;
+}
+
+.ark-hero__title--1,
+.ark-hero__title--2 {
+    color: inherit;
 }
