@@ -38,24 +38,7 @@ function initLenis() {
         })
         gsap.ticker.lagSmoothing( 0 )
 
-        ScrollTrigger.scrollerProxy( document.body, {
-            scrollTop( value ) {
-                if ( arguments.length ) {
-                    lenis.scrollTo( value )
-                }
-                return lenis.scroll
-            },
-            getBoundingClientRect() {
-                return {
-                    top:    0,
-                    left:   0,
-                    width:  window.innerWidth,
-                    height: window.innerHeight,
-                }
-            },
-        })
 
-        ScrollTrigger.defaults({ scroller: document.body })
     }
 }
 
@@ -264,36 +247,30 @@ function initParallax() {
         })
     })
 
-    // Parallax sfondo Hero — usa background-position
-    document.querySelectorAll( '.ark-hero' ).forEach( hero => {
-        gsap.fromTo( hero,
-            { backgroundPositionY: '0%' },
-            {
-                backgroundPositionY: '30%',
-                ease:  'none',
-                scrollTrigger: {
-                    trigger: hero,
-                    start:   'top top',
-                    end:     'bottom top',
-                    scrub:   true,
-                }
-            }
-        )
-    })
+    // Parallax sfondo Hero — scroll listener diretto
+    const heroEls = document.querySelectorAll( '.ark-hero' )
+    const testataEls = document.querySelectorAll( '.ark-testata' )
 
-    // Parallax sfondo Testata
-    document.querySelectorAll( '.ark-testata' ).forEach( el => {
-        gsap.to( el, {
-            backgroundPositionY: '30%',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: el,
-                start:   'top top',
-                end:     'bottom top',
-                scrub:   true,
-            }
-        })
-    })
+    if ( heroEls.length || testataEls.length ) {
+        window.addEventListener( 'scroll', () => {
+            const scrollY = window.scrollY
+
+            heroEls.forEach( hero => {
+                const rect = hero.getBoundingClientRect()
+                if ( rect.bottom < 0 || rect.top > window.innerHeight ) return
+                const progress = scrollY / hero.offsetHeight
+                hero.style.backgroundPositionY = ( 30 * progress ) + '%'
+            })
+
+            testataEls.forEach( el => {
+                const rect = el.getBoundingClientRect()
+                if ( rect.bottom < 0 ) return
+                const offsetTop = el.offsetTop
+                const progress  = Math.max( 0, ( scrollY - offsetTop + window.innerHeight ) / ( el.offsetHeight + window.innerHeight ) )
+                el.style.backgroundPositionY = ( progress * 30 ) + '%'
+            })
+        }, { passive: true })
+    }
 }
 
 // ── Animazioni blocchi specifici ──────────────────────────────────────────────
