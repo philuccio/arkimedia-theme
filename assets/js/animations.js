@@ -31,9 +31,31 @@ function initLenis() {
 
     // Sincronizza Lenis con ScrollTrigger
     if ( typeof ScrollTrigger !== 'undefined' ) {
-        lenis.on( 'scroll', ScrollTrigger.update )
-        gsap.ticker.add( time => lenis.raf( time * 1000 ) )
+        lenis.on( 'scroll', () => ScrollTrigger.update() )
+
+        gsap.ticker.add( ( time ) => {
+            lenis.raf( time * 1000 )
+        })
         gsap.ticker.lagSmoothing( 0 )
+
+        ScrollTrigger.scrollerProxy( document.body, {
+            scrollTop( value ) {
+                if ( arguments.length ) {
+                    lenis.scrollTo( value )
+                }
+                return lenis.scroll
+            },
+            getBoundingClientRect() {
+                return {
+                    top:    0,
+                    left:   0,
+                    width:  window.innerWidth,
+                    height: window.innerHeight,
+                }
+            },
+        })
+
+        ScrollTrigger.defaults({ scroller: document.body })
     }
 }
 
@@ -242,21 +264,21 @@ function initParallax() {
         })
     })
 
-    // Parallax sfondo Hero
+    // Parallax sfondo Hero — usa background-position
     document.querySelectorAll( '.ark-hero' ).forEach( hero => {
-        const bg = hero.querySelector( '.ark-hero__bg img, .ark-hero__bg' )
-        if ( ! bg ) return
-
-        gsap.to( bg, {
-            y:    '20%',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: hero,
-                start:   'top top',
-                end:     'bottom top',
-                scrub:   true,
+        gsap.fromTo( hero,
+            { backgroundPositionY: '0%' },
+            {
+                backgroundPositionY: '30%',
+                ease:  'none',
+                scrollTrigger: {
+                    trigger: hero,
+                    start:   'top top',
+                    end:     'bottom top',
+                    scrub:   true,
+                }
             }
-        })
+        )
     })
 
     // Parallax sfondo Testata
@@ -385,6 +407,44 @@ function initBlockAnimations() {
             scrollTrigger: {
                 trigger:      el,
                 start:        'top 80%',
+                toggleActions: 'play none none none',
+            }
+        })
+    })
+
+    // ── Gallery CTA — testo ──────────────────────────────────────────────────
+    document.querySelectorAll( '.ark-gallery-cta__header' ).forEach( el => {
+        const children = [
+            el.querySelector( '.ark-gallery-cta__eyebrow' ),
+            el.querySelector( '.ark-gallery-cta__title' ),
+        ].filter( Boolean )
+
+        if ( children.length ) {
+            gsap.from( children, {
+                y:        40,
+                opacity:  0,
+                duration: 0.7,
+                stagger:  0.15,
+                ease:     'power3.out',
+                scrollTrigger: {
+                    trigger:      el,
+                    start:        'top 85%',
+                    toggleActions: 'play none none none',
+                }
+            })
+        }
+    })
+
+    // ── Gallery CTA — pannello CTA ────────────────────────────────────────────
+    document.querySelectorAll( '.ark-gallery-cta__cta' ).forEach( el => {
+        gsap.from( el, {
+            x:        60,
+            opacity:  0,
+            duration: 0.8,
+            ease:     'power3.out',
+            scrollTrigger: {
+                trigger:      el,
+                start:        'top 85%',
                 toggleActions: 'play none none none',
             }
         })
