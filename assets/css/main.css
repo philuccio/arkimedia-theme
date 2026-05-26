@@ -1974,3 +1974,14 @@ section.ark-hero .ark-hero__content {
 .ark-hero__title--2 {
     color: inherit;
 }
+
+/* ── Hero titoli — colore inline sempre prevalente ───────── */
+.ark-hero .ark-hero__title--1,
+.ark-hero .ark-hero__title--2 {
+    color: inherit !important;
+}
+
+.ark-hero .ark-hero__title--1[style],
+.ark-hero .ark-hero__title--2[style] {
+    color: revert-layer !important;
+}
