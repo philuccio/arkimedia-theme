@@ -116,6 +116,7 @@ switch ( $bg_type ) {
 
 $wrapper_style = "min-height:{$min_height};position:relative;overflow:hidden;width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);{$bg_style}";
 
+$block_id = 'ark-hero-' . substr( md5( serialize( $attributes ) ), 0, 8 );
 $wrapper_attrs = get_block_wrapper_attributes([
     'class' => 'ark-hero',
     'style' => $wrapper_style,
@@ -126,7 +127,15 @@ $t1_style = "font-size:{$title1_size};font-weight:{$title1_weight};color:{$title
 $t2_style = "font-size:{$title2_size};font-weight:{$title2_weight};color:{$title2_color};line-height:1;letter-spacing:-0.02em;display:block;padding:{$title2_pt}px {$title2_pr}px {$title2_pb}px {$title2_pl}px;margin:{$title2_mt}px {$title2_mr}px {$title2_mb}px {$title2_ml}px;";
 ?>
 
-<section <?php echo $wrapper_attrs; ?>>
+<?php if ( $title || $title2 ) : ?>
+<style>
+#<?php echo esc_attr( $block_id ); ?> .ark-hero__title--1 { color: <?php echo esc_attr( $title1_color ); ?> !important; }
+#<?php echo esc_attr( $block_id ); ?> .ark-hero__title--2 { color: <?php echo esc_attr( $title2_color ); ?> !important; }
+#<?php echo esc_attr( $block_id ); ?> .ark-hero__subtitle  { color: <?php echo esc_attr( $subtitle_color ); ?> !important; }
+</style>
+<?php endif; ?>
+
+<section id="<?php echo esc_attr( $block_id ); ?>" <?php echo $wrapper_attrs; ?>>
 
     <?php if ( $overlay ) : ?>
         <div style="position:absolute;inset:0;background:<?php echo esc_attr( $overlay ); ?>;z-index:1;pointer-events:none;"></div>
