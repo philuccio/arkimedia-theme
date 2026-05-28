@@ -478,8 +478,8 @@ function initLenisParallax() {
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener( 'DOMContentLoaded', () => {
     initLenis()
-    initScrollAnimations()
-    initParallax()
-    initBlockAnimations()
-    // initLenisParallax() — disabilitato, causa scroll a scatti
+    // initScrollAnimations() — test
+    // initParallax() — test
+    // initBlockAnimations() — test
+    // initLenisParallax() — disabilitato
 })
