@@ -481,5 +481,5 @@ document.addEventListener( 'DOMContentLoaded', () => {
     initScrollAnimations()
     initParallax()
     initBlockAnimations()
-    initLenisParallax()
+    // initLenisParallax() — disabilitato, causa scroll a scatti
 })
