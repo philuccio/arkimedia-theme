@@ -251,43 +251,7 @@ function initParallax() {
     const heroEls    = document.querySelectorAll( '.ark-hero' )
     const testataEls = document.querySelectorAll( '.ark-testata' )
 
-    if ( heroEls.length || testataEls.length ) {
 
-        heroEls.forEach( h => { h.style.backgroundPositionY = 'calc(50% + 0px)' })
-
-        // Usa Lenis scroll invece di window.scrollY per evitare scatti
-        if ( lenis ) {
-            lenis.on( 'scroll', ( { scroll } ) => {
-                heroEls.forEach( hero => {
-                    const heroH = hero.offsetHeight || window.innerHeight
-                    if ( scroll > heroH ) return
-                    const py = scroll * 0.4
-                    hero.style.backgroundPositionY = 'calc(50% + ' + py + 'px)'
-                })
-
-                testataEls.forEach( el => {
-                    const offsetTop = el.offsetTop
-                    if ( offsetTop > scroll + window.innerHeight ) return
-                    const progress = Math.min( 1, Math.max( 0,
-                        ( scroll - offsetTop + window.innerHeight ) /
-                        ( el.offsetHeight + window.innerHeight )
-                    ))
-                    el.style.backgroundPositionY = ( progress * 40 ) + '%'
-                })
-            })
-        } else {
-            // Fallback senza Lenis
-            window.addEventListener( 'scroll', () => {
-                const scrollY = window.scrollY
-                heroEls.forEach( hero => {
-                    const heroH = hero.offsetHeight || window.innerHeight
-                    if ( scrollY > heroH ) return
-                    const py = scrollY * 0.4
-                    hero.style.backgroundPositionY = 'calc(50% + ' + py + 'px)'
-                })
-            }, { passive: true })
-        }
-    }
 
 
 // ── Animazioni blocchi specifici ──────────────────────────────────────────────
