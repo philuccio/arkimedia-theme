@@ -477,7 +477,7 @@ function initLenisParallax() {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener( 'DOMContentLoaded', () => {
-    initLenis()
+    // initLenis() — test
     // initScrollAnimations() — test
     // initParallax() — test
     // initBlockAnimations() — test
