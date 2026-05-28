@@ -854,13 +854,6 @@ body:has( #splash ) #page {
 
 #content,
 .site-content,
-.site-main,
-body,
-html {
-    overflow-x: clip !important;
-    max-width:  100% !important;
-}
-
 .wp-block-arkimedia-hero,
 .ark-hero {
     position:     relative !important;
@@ -1105,10 +1098,10 @@ html {
 
 body,
 html {
-    overflow-x: clip !important;
-    width:      100% !important;
-    margin:     0 !important;
-    padding:    0 !important;
+    overflow-x: hidden;
+    width:      100%;
+    margin:     0;
+    padding:    0;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -2012,13 +2005,10 @@ section.ark-hero .ark-hero__content .ark-hero__title--2 {
     will-change: transform;
 }
 
-/* ── Fix overflow per Lenis smooth scroll ────────────────── */
-html {
-    overflow-x: clip !important;
-    overflow-y: auto !important;
-}
 
+/* ── Scroll base — nessun blocco ─────────────────────────── */
+html,
 body {
-    overflow-x: clip !important;
-    overflow-y: auto !important;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
