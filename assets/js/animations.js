@@ -247,23 +247,20 @@ function initParallax() {
         })
     })
 
-    // Parallax sfondo Hero — RAF loop
+    // Parallax sfondo Hero e Testata — scroll listener
     const heroEls    = document.querySelectorAll( '.ark-hero' )
     const testataEls = document.querySelectorAll( '.ark-testata' )
 
     if ( heroEls.length || testataEls.length ) {
 
-        let currentScroll = 0
-        let targetScroll  = 0
-
-        function updateParallax() {
-            currentScroll += ( targetScroll - currentScroll ) * 0.1
-            const scrollY = currentScroll
+        function onParallaxScroll() {
+            const scrollY = window.scrollY
 
             heroEls.forEach( hero => {
-                if ( hero.offsetTop > scrollY + window.innerHeight ) return
-                const progress = Math.min( 1, scrollY / ( hero.offsetHeight || 1 ) )
-                hero.style.backgroundPositionY = `${ 50 + progress * 20 }%`
+                const heroH = hero.offsetHeight || window.innerHeight
+                if ( scrollY > heroH ) return
+                const py = scrollY * 0.5
+                hero.style.backgroundPositionY = 'calc(50% + ' + py + 'px)'
             })
 
             testataEls.forEach( el => {
@@ -273,21 +270,15 @@ function initParallax() {
                     ( scrollY - offsetTop + window.innerHeight ) /
                     ( el.offsetHeight + window.innerHeight )
                 ))
-                el.style.backgroundPositionY = `${ progress * 30 }%`
+                el.style.backgroundPositionY = ( progress * 40 ) + '%'
             })
-
-            requestAnimationFrame( updateParallax )
         }
 
-        window.addEventListener( 'scroll', () => {
-            targetScroll = window.scrollY
-        }, { passive: true })
-
-        // Avvia il loop
-        heroEls.forEach( h => { h.style.backgroundPositionY = '50%' })
-        requestAnimationFrame( updateParallax )
+        heroEls.forEach( h => { h.style.backgroundPositionY = 'calc(50% + 0px)' })
+        window.addEventListener( 'scroll', onParallaxScroll, { passive: true } )
+        onParallaxScroll()
     }
-}
+
 
 // ── Animazioni blocchi specifici ──────────────────────────────────────────────
 function initBlockAnimations() {
