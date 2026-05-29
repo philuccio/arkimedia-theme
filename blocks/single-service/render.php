@@ -42,10 +42,24 @@ $shadow_color   = $attributes['shadowColor']     ?? 'rgba(0,0,0,0.3)';
 $shadow_blur    = $attributes['shadowBlur']      ?? 30;
 $shadow_spread  = $attributes['shadowSpread']    ?? 0;
 $anim_type      = $attributes['animationType']   ?? 'none';
+$is_fullwidth   = $attributes['isFullwidth']     ?? false;
+$block_pt       = $attributes['blockPaddingTop']    ?? 0;
+$block_pb       = $attributes['blockPaddingBottom'] ?? 0;
+$block_pl       = $attributes['blockPaddingLeft']   ?? 0;
+$block_pr       = $attributes['blockPaddingRight']  ?? 0;
+$block_mt       = $attributes['blockMarginTop']     ?? 0;
+$block_mb       = $attributes['blockMarginBottom']  ?? 0;
 
 $block_id = 'ark-ss-' . substr( md5( serialize( $attributes ) ), 0, 8 );
 
-$wrapper_style = "background:{$bg_color};min-height:{$min_height};width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);display:flex;flex-direction:" . ( $image_position === 'right' ? 'row-reverse' : 'row' ) . ";align-items:{$align_items};gap:{$gap}px;overflow:hidden;";
+// Larghezza: fullwidth o container
+if ( $is_fullwidth ) {
+    $width_style = "width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);";
+} else {
+    $width_style = "width:100%;max-width:var(--container-width,1200px);margin-left:auto;margin-right:auto;";
+}
+
+$wrapper_style = "background:{$bg_color};min-height:{$min_height};{$width_style}display:flex;flex-direction:" . ( $image_position === 'right' ? 'row-reverse' : 'row' ) . ";align-items:{$align_items};gap:{$gap}px;overflow:hidden;padding:{$block_pt}px {$block_pr}px {$block_pb}px {$block_pl}px;margin-top:{$block_mt}px;margin-bottom:{$block_mb}px;";
 
 if ( $border_radius ) $wrapper_style .= "border-radius:{$border_radius}px;";
 if ( $box_shadow ) $wrapper_style .= "box-shadow:0 0 {$shadow_blur}px {$shadow_spread}px {$shadow_color};";

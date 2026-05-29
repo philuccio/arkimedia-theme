@@ -23,6 +23,9 @@ registerBlockType( metadata.name, {
             textPaddingTop, textPaddingBottom, textPaddingLeft, textPaddingRight,
             borderRadius, boxShadow, shadowColor, shadowBlur, shadowSpread,
             animationType,
+            isFullwidth,
+            blockPaddingTop, blockPaddingBottom, blockPaddingLeft, blockPaddingRight,
+            blockMarginTop, blockMarginBottom,
         } = attributes
 
         const isReversed = imagePosition === 'right'
@@ -37,10 +40,13 @@ registerBlockType( metadata.name, {
             overflow:       'hidden',
             borderRadius:   borderRadius ? `${ borderRadius }px` : undefined,
             boxShadow:      boxShadow ? `0 0 ${ shadowBlur }px ${ shadowSpread }px ${ shadowColor }` : undefined,
-            width:          '100vw',
-            maxWidth:       '100vw',
-            marginLeft:     'calc(50% - 50vw)',
-            marginRight:    'calc(50% - 50vw)',
+            width:          isFullwidth ? '100vw' : '100%',
+            maxWidth:       isFullwidth ? '100vw' : 'var(--container-width,1200px)',
+            marginLeft:     isFullwidth ? 'calc(50% - 50vw)' : 'auto',
+            marginRight:    isFullwidth ? 'calc(50% - 50vw)' : 'auto',
+            padding:        `${ blockPaddingTop }px ${ blockPaddingRight }px ${ blockPaddingBottom }px ${ blockPaddingLeft }px`,
+            marginTop:      blockMarginTop ? `${ blockMarginTop }px` : undefined,
+            marginBottom:   blockMarginBottom ? `${ blockMarginBottom }px` : undefined,
         }
 
         const ctaStyle_computed = {
@@ -169,6 +175,13 @@ registerBlockType( metadata.name, {
                             // ── Tab Layout ────────────────────────────────────
                             if ( tab.name === 'layout' ) return (
                                 <div style={{ padding: '12px' }}>
+                                    <PanelBody title={ __('Larghezza','arkimedia') } initialOpen={true}>
+                                        <ToggleControl
+                                            label={ __('Fullwidth (100vw)','arkimedia') }
+                                            checked={isFullwidth}
+                                            onChange={ v => setAttributes({ isFullwidth: v }) }
+                                        />
+                                    </PanelBody>
                                     <PanelBody title={ __('Proporzioni','arkimedia') } initialOpen={true}>
                                         <TextControl label={ __('Flex immagine (es. 1)','arkimedia') } value={imageFlex} onChange={ v => setAttributes({ imageFlex: v }) } help="Es. 1 = 33%, 2 = 50%" />
                                         <TextControl label={ __('Flex testo (es. 2)','arkimedia') }    value={textFlex}  onChange={ v => setAttributes({ textFlex: v }) } />
@@ -198,6 +211,16 @@ registerBlockType( metadata.name, {
                                         <Sp label="Bottom" value={textPaddingBottom} onChange={ v => setAttributes({ textPaddingBottom: v }) } />
                                         <Sp label="Left"   value={textPaddingLeft}   onChange={ v => setAttributes({ textPaddingLeft: v }) } />
                                         <Sp label="Right"  value={textPaddingRight}  onChange={ v => setAttributes({ textPaddingRight: v }) } />
+                                    </PanelBody>
+                                    <PanelBody title={ __('Padding blocco','arkimedia') } initialOpen={false}>
+                                        <Sp label="Top"    value={blockPaddingTop}    onChange={ v => setAttributes({ blockPaddingTop: v }) } />
+                                        <Sp label="Bottom" value={blockPaddingBottom} onChange={ v => setAttributes({ blockPaddingBottom: v }) } />
+                                        <Sp label="Left"   value={blockPaddingLeft}   onChange={ v => setAttributes({ blockPaddingLeft: v }) } />
+                                        <Sp label="Right"  value={blockPaddingRight}  onChange={ v => setAttributes({ blockPaddingRight: v }) } />
+                                    </PanelBody>
+                                    <PanelBody title={ __('Margin blocco','arkimedia') } initialOpen={false}>
+                                        <Sp label="Top"    value={blockMarginTop}    onChange={ v => setAttributes({ blockMarginTop: v }) } max={300} />
+                                        <Sp label="Bottom" value={blockMarginBottom} onChange={ v => setAttributes({ blockMarginBottom: v }) } max={300} />
                                     </PanelBody>
                                 </div>
                             )
