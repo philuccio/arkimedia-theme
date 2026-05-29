@@ -214,6 +214,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/ark-text' );
     register_block_type( ARK_DIR . '/blocks/ark-image' );
     register_block_type( ARK_DIR . '/blocks/row' );
+    register_block_type( ARK_DIR . '/blocks/single-service' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

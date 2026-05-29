@@ -1,0 +1,40 @@
+/* ── Single Service Block ────────────────────────────────── */
+
+.ark-single-service {
+    box-sizing: border-box;
+}
+
+.ark-single-service__image {
+    flex-shrink: 0;
+}
+
+.ark-single-service__text {
+    box-sizing: border-box;
+}
+
+.ark-single-service__title {
+    font-family: var( --font-heading, 'Poppins', sans-serif );
+}
+
+.ark-single-service__cta:hover {
+    opacity: 0.85;
+    transform: translateX( 4px );
+}
+
+/* Responsive */
+@media ( max-width: 768px ) {
+    .ark-single-service {
+        flex-direction: column !important;
+    }
+
+    .ark-single-service__image {
+        min-height: 300px !important;
+        width:      100% !important;
+        flex:       none !important;
+    }
+
+    .ark-single-service__text {
+        flex: none !important;
+        width: 100% !important;
+    }
+}
