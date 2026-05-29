@@ -809,8 +809,8 @@ body:has( #splash ) #page {
     margin-right: -50vw !important;
     left:         50% !important;
     right:        50% !important;
-    width:        100vw !important;
-    max-width:    100vw !important;
+    width:        100% !important;
+    max-width:    100% !important;
     position:     relative !important;
 }
 
@@ -833,8 +833,8 @@ body:has( #splash ) #page {
 .entry__content > .wp-block-arkimedia-hero {
     margin-left:  calc( -50vw + 50% ) !important;
     margin-right: calc( -50vw + 50% ) !important;
-    width:        100vw !important;
-    max-width:    100vw !important;
+    width:        100% !important;
+    max-width:    100% !important;
 }
 
 /* Rimuove padding dal site-main quando contiene hero */
@@ -859,8 +859,8 @@ body:has( #splash ) #page {
     position:     relative !important;
     left:         auto !important;
     right:        auto !important;
-    width:        100vw !important;
-    max-width:    100vw !important;
+    width:        100% !important;
+    max-width:    100% !important;
     margin-left:  calc( 50% - 50vw ) !important;
     margin-right: calc( 50% - 50vw ) !important;
 }
@@ -1026,8 +1026,8 @@ body:has( #splash ) #page {
 .wp-block-arkimedia-hero,
 .ark-hero {
     position:     relative !important;
-    width:        100vw !important;
-    max-width:    100vw !important;
+    width:        100% !important;
+    max-width:    100% !important;
     min-height:   100vh;
     margin-left:  calc( 50% - 50vw ) !important;
     margin-right: calc( 50% - 50vw ) !important;
