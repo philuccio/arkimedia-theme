@@ -52,14 +52,8 @@ $block_mb       = $attributes['blockMarginBottom']  ?? 0;
 
 $block_id = 'ark-ss-' . substr( md5( serialize( $attributes ) ), 0, 8 );
 
-// Larghezza: fullwidth o container
-if ( $is_fullwidth ) {
-    $width_style = "width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);";
-} else {
-    $width_style = "width:100%;max-width:var(--container-width,1200px);margin-left:auto;margin-right:auto;";
-}
-
-$wrapper_style = "background:{$bg_color};min-height:{$min_height};{$width_style}display:flex;flex-direction:" . ( $image_position === 'right' ? 'row-reverse' : 'row' ) . ";align-items:{$align_items};gap:{$gap}px;overflow:hidden;padding:{$block_pt}px {$block_pr}px {$block_pb}px {$block_pl}px;margin-top:{$block_mt}px;margin-bottom:{$block_mb}px;";
+// Sempre fullwidth come sfondo, contenuto dentro container
+$wrapper_style = "background:{$bg_color};width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-top:{$block_mt}px;margin-bottom:{$block_mb}px;padding:{$block_pt}px {$block_pr}px {$block_pb}px {$block_pl}px;";
 
 if ( $border_radius ) $wrapper_style .= "border-radius:{$border_radius}px;";
 if ( $box_shadow ) $wrapper_style .= "box-shadow:0 0 {$shadow_blur}px {$shadow_spread}px {$shadow_color};";
@@ -84,8 +78,11 @@ $wrapper_attrs = get_block_wrapper_attributes([
 
 <div <?php echo $wrapper_attrs; ?>>
 
+    <!-- Inner container -->
+    <div class="ark-single-service__inner" style="display:flex;flex-direction:<?php echo $image_position === 'right' ? 'row-reverse' : 'row'; ?>;align-items:<?php echo esc_attr( $align_items ); ?>;gap:<?php echo absint( $gap ); ?>px;max-width:var(--container-width,1200px);margin:0 auto;min-height:<?php echo esc_attr( $min_height ); ?>;">
+
     <?php if ( $image_url ) : ?>
-    <div class="ark-single-service__image" style="flex:<?php echo esc_attr( $image_flex ); ?>;min-height:<?php echo esc_attr( $min_height ); ?>;position:relative;overflow:hidden;">
+    <div class="ark-single-service__image" style="flex:<?php echo esc_attr( $image_flex ); ?>;position:relative;overflow:hidden;align-self:stretch;">
         <img src="<?php echo esc_url( $image_url ); ?>"
              alt="<?php echo esc_attr( $image_alt ); ?>"
              loading="lazy"
@@ -117,5 +114,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
         <?php endif; ?>
 
     </div>
+
+    </div><!-- /.ark-single-service__inner -->
 
 </div>

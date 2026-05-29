@@ -39,17 +39,22 @@
     }
 }
 
-/* ── Allineamento container ──────────────────────────────── */
-.ark-single-service:not(.is-fullwidth) {
-    max-width: var( --container-width, 1200px ) !important;
-    width:     100% !important;
-    margin-left:  auto !important;
-    margin-right: auto !important;
+/* ── Wrapper fullwidth ───────────────────────────────────── */
+.ark-single-service {
+    width:     100vw !important;
+    max-width: 100vw !important;
+    margin-left:  calc( 50% - 50vw ) !important;
+    margin-right: calc( 50% - 50vw ) !important;
 }
 
-/* Il wrapper Gutenberg non deve aggiungere larghezza extra */
-.wp-block-arkimedia-single-service {
-    max-width: var( --container-width, 1200px ) !important;
-    margin-left:  auto !important;
-    margin-right: auto !important;
+/* ── Inner container ─────────────────────────────────────── */
+.ark-single-service__inner {
+    width:     100%;
+    max-width: var( --container-width, 1200px );
+    margin:    0 auto;
+}
+
+/* Immagine alta quanto il testo */
+.ark-single-service__image {
+    align-self: stretch;
 }

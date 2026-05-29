@@ -266,20 +266,21 @@ registerBlockType( metadata.name, {
 
                 {/* Preview editor */}
                 <div { ...blockProps }>
-                    { imageUrl && (
-                        <div style={{ flex: imageFlex, minHeight, position:'relative', overflow:'hidden', flexShrink:0 }}>
-                            <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} />
+                    <div style={{ display:'flex', flexDirection: isReversed ? 'row-reverse' : 'row', alignItems, gap:`${ gap }px`, maxWidth:'var(--container-width,1200px)', margin:'0 auto', minHeight }}>
+                        { imageUrl ? (
+                            <div style={{ flex: imageFlex, position:'relative', overflow:'hidden', alignSelf:'stretch' }}>
+                                <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} />
+                            </div>
+                        ) : (
+                            <div style={{ flex: imageFlex, background:'rgba(255,255,255,0.05)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                                <span style={{ opacity:0.3, fontSize:'0.875rem' }}>{ __('Seleziona immagine','arkimedia') }</span>
+                            </div>
+                        )}
+                        <div style={{ flex: textFlex, padding:`${ textPaddingTop }px ${ textPaddingRight }px ${ textPaddingBottom }px ${ textPaddingLeft }px`, display:'flex', flexDirection:'column', justifyContent:'center' }}>
+                            { title && <h2 style={{ fontSize:titleSize, fontWeight:titleWeight, color:titleColor, lineHeight:titleLineHeight, margin:'0 0 1.25rem' }}>{title}</h2> }
+                            { description && <p style={{ fontSize:descSize, color:descColor, lineHeight:1.7, margin:'0 0 2rem' }}>{description}</p> }
+                            { ctaLabel && <div><span style={ ctaStyle_computed }>{ctaLabel} →</span></div> }
                         </div>
-                    )}
-                    { ! imageUrl && (
-                        <div style={{ flex: imageFlex, minHeight, background:'rgba(255,255,255,0.05)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                            <span style={{ opacity:0.3, fontSize:'0.875rem' }}>{ __('Seleziona immagine','arkimedia') }</span>
-                        </div>
-                    )}
-                    <div style={{ flex: textFlex, padding:`${ textPaddingTop }px ${ textPaddingRight }px ${ textPaddingBottom }px ${ textPaddingLeft }px`, display:'flex', flexDirection:'column', justifyContent:'center' }}>
-                        { title && <h2 style={{ fontSize:titleSize, fontWeight:titleWeight, color:titleColor, lineHeight:titleLineHeight, margin:'0 0 1.25rem' }}>{title}</h2> }
-                        { description && <p style={{ fontSize:descSize, color:descColor, lineHeight:1.7, margin:'0 0 2rem' }}>{description}</p> }
-                        { ctaLabel && <div><span style={ ctaStyle_computed }>{ctaLabel} →</span></div> }
                     </div>
                 </div>
             </>
