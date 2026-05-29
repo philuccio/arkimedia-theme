@@ -480,7 +480,7 @@ function initLenisParallax() {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener( 'DOMContentLoaded', () => {
-    initLenis()
+    // initLenis() — disabilitato, scroll nativo macOS già fluido
     initScrollAnimations()
     initParallax()
     initBlockAnimations()
