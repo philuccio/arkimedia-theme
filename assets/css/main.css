@@ -1028,8 +1028,7 @@ body:has( #splash ) #page {
     position:     relative !important;
     width:        100vw !important;
     max-width:    100vw !important;
-    height:       100vh !important;
-    min-height:   100vh !important;
+    min-height:   100vh;
     margin-left:  calc( 50% - 50vw ) !important;
     margin-right: calc( 50% - 50vw ) !important;
     display:      flex !important;
@@ -1130,8 +1129,6 @@ html {
     position:     relative !important;
     width:        100% !important;
     max-width:    100% !important;
-    height:       100vh !important;
-    min-height:   100vh !important;
     margin:       0 !important;
     padding:      0 !important;
     left:         auto !important;
