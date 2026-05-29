@@ -79,10 +79,10 @@ $wrapper_attrs = get_block_wrapper_attributes([
 <div <?php echo $wrapper_attrs; ?>>
 
     <!-- Inner container -->
-    <div class="ark-single-service__inner" style="display:flex;flex-direction:<?php echo $image_position === 'right' ? 'row-reverse' : 'row'; ?>;align-items:<?php echo esc_attr( $align_items ); ?>;gap:<?php echo absint( $gap ); ?>px;width:calc(100% - (var(--container-pad,1.5rem) * 2));max-width:var(--container-width,1200px);margin:0 auto;min-height:<?php echo esc_attr( $min_height ); ?>;box-sizing:border-box;">
+    <div class="ark-single-service__inner" style="display:flex;flex-direction:<?php echo $image_position === 'right' ? 'row-reverse' : 'row'; ?>;align-items:<?php echo esc_attr( $align_items ); ?>;gap:<?php echo absint( $gap ); ?>px;width:100%;max-width:var(--container-width,1200px);margin:0 auto;min-height:<?php echo esc_attr( $min_height ); ?>;box-sizing:border-box;padding:0 var(--container-pad,1.5rem);">
 
     <?php if ( $image_url ) : ?>
-    <div class="ark-single-service__image" style="flex:<?php echo esc_attr( $image_flex ); ?>;position:relative;overflow:hidden;align-self:stretch;">
+    <div class="ark-single-service__image" style="flex:<?php echo esc_attr( $image_flex ); ?>;position:relative;overflow:hidden;align-self:stretch;margin-<?php echo $image_position === 'right' ? 'right' : 'left'; ?>:calc(-1 * var(--container-pad,1.5rem));">
         <img src="<?php echo esc_url( $image_url ); ?>"
              alt="<?php echo esc_attr( $image_alt ); ?>"
              loading="lazy"
