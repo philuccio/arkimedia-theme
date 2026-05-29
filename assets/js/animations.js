@@ -18,9 +18,12 @@ function initLenis() {
     if ( ! lenisEnabled ) return
 
     lenis = new Lenis({
-        duration:  1.2,
-        easing:    t => Math.min( 1, 1.001 - Math.pow( 2, -10 * t ) ),
-        smooth:    true,
+        duration:        0.8,
+        easing:          t => Math.min( 1, 1.001 - Math.pow( 2, -10 * t ) ),
+        smoothWheel:     true,
+        smoothTouch:     false,
+        wheelMultiplier: 1,
+        touchMultiplier: 1,
     })
 
     function raf( time ) {
@@ -477,9 +480,9 @@ function initLenisParallax() {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener( 'DOMContentLoaded', () => {
-    // initLenis() — test
-    // initScrollAnimations() — test
-    // initParallax() — test
-    // initBlockAnimations() — test
+    initLenis()
+    initScrollAnimations()
+    initParallax()
+    initBlockAnimations()
     // initLenisParallax() — disabilitato
 })
