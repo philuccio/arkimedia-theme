@@ -76,7 +76,7 @@ if ( $cta_style === 'filled' ) {
 
 $wrapper_attrs = get_block_wrapper_attributes([
     'id'             => $block_id,
-    'class'          => 'ark-single-service',
+    'class'          => 'ark-single-service' . ( $is_fullwidth ? ' is-fullwidth' : '' ),
     'style'          => $wrapper_style,
     'data-animation' => $anim_type !== 'none' ? $anim_type : '',
 ]);

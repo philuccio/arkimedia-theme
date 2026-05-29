@@ -38,3 +38,18 @@
         width: 100% !important;
     }
 }
+
+/* ── Allineamento container ──────────────────────────────── */
+.ark-single-service:not(.is-fullwidth) {
+    max-width: var( --container-width, 1200px ) !important;
+    width:     100% !important;
+    margin-left:  auto !important;
+    margin-right: auto !important;
+}
+
+/* Il wrapper Gutenberg non deve aggiungere larghezza extra */
+.wp-block-arkimedia-single-service {
+    max-width: var( --container-width, 1200px ) !important;
+    margin-left:  auto !important;
+    margin-right: auto !important;
+}
