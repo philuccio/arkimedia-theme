@@ -89,7 +89,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
         <?php endif; ?>
     <?php endif; ?>
 
-    <div class="ark-testata__content">
+    <div class="ark-testata__content container">
         <?php if ( $eyebrow ) : ?>
             <p class="ark-testata__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
         <?php endif; ?>

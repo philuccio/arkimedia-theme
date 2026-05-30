@@ -46,7 +46,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
     <div class="ark-contact__inner container">
 
         <!-- Colonna sinistra -->
-        <div class="ark-contact__info" style="flex:0 0 <?php echo esc_attr( $col_left ); ?>;">
+        <div class="ark-contact__info" style="flex:1 1 <?php echo esc_attr( $col_left ); ?>;min-width:0;box-sizing:border-box;">
 
             <?php if ( $eyebrow ) : ?>
                 <p class="ark-contact__eyebrow" style="color:<?php echo esc_attr( $accent ); ?>">
@@ -108,7 +108,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
         </div>
 
         <!-- Colonna destra — Form -->
-        <div class="ark-contact__form-wrap" style="flex:0 0 <?php echo esc_attr( $col_right ); ?>;">
+        <div class="ark-contact__form-wrap" style="flex:1 1 <?php echo esc_attr( $col_right ); ?>;min-width:0;box-sizing:border-box;">
 
             <form class="ark-contact__form"
                   data-success="<?php echo esc_attr( $success_msg ); ?>"
