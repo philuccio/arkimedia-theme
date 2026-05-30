@@ -215,6 +215,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/ark-image' );
     register_block_type( ARK_DIR . '/blocks/row' );
     register_block_type( ARK_DIR . '/blocks/card' );
+    register_block_type( ARK_DIR . '/blocks/cta' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

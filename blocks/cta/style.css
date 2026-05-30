@@ -1,0 +1,26 @@
+/* ── Arkimedia CTA Block ─────────────────────────────────── */
+
+.ark-cta {
+    box-sizing: border-box;
+}
+
+.ark-cta__btn {
+    cursor: pointer;
+}
+
+.ark-cta__btn:hover {
+    opacity: 0.85;
+    transform: translateY( -2px );
+}
+
+/* Responsive */
+@media ( max-width: 768px ) {
+    .ark-cta--b .container > div:first-child {
+        flex: none !important;
+        width: 100% !important;
+    }
+
+    .ark-cta__btns {
+        justify-content: center !important;
+    }
+}
