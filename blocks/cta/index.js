@@ -153,6 +153,7 @@ registerBlockType( metadata.name, {
                                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                                         <ColorPicker color={descColor} onChange={ v => setAttributes({ descColor: v }) } enableAlpha />
                                         <TextControl label={ __('Font size','arkimedia') } value={descSize} onChange={ v => setAttributes({ descSize: v }) } />
+                                        <TextControl label={ __('Line height','arkimedia') } value={descLineHeight} onChange={ v => setAttributes({ descLineHeight: v }) } />
                                     </PanelBody>
                                     <PanelBody title={ __('CTA Primario','arkimedia') } initialOpen={true}>
                                         <TextControl label={ __('Testo','arkimedia') } value={cta1Label} onChange={ v => setAttributes({ cta1Label: v }) } />
