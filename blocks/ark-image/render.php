@@ -62,16 +62,27 @@ $wrapper_attrs = get_block_wrapper_attributes([
 
 <figure <?php echo $wrapper_attrs; ?>>
     <?php
-// Wrapper con aspect-ratio per garantire il funzionamento anche in flex container
+// Wrapper per garantire il funzionamento in flex container
 $wrap_style = '';
-if ( $aspect_ratio ) {
-    $wrap_style = "aspect-ratio:{$aspect_ratio};position:relative;overflow:hidden;width:{$width};";
+$use_wrapper = false;
+
+if ( $height !== 'auto' && $height ) {
+    // Altezza fissa — usa height sul wrapper
+    $use_wrapper = true;
+    $wrap_style  = "height:{$height};width:{$width};position:relative;overflow:hidden;";
     if ( $radius ) $wrap_style .= "border-radius:{$radius}px;";
-    $img_style = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
+    $img_style   = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
+    if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
+} elseif ( $aspect_ratio ) {
+    // Aspect ratio — usa wrapper con padding trick
+    $use_wrapper = true;
+    $wrap_style  = "aspect-ratio:{$aspect_ratio};position:relative;overflow:hidden;width:{$width};";
+    if ( $radius ) $wrap_style .= "border-radius:{$radius}px;";
+    $img_style   = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
     if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
 }
 ?>
-<?php if ( $aspect_ratio ) : ?>
+<?php if ( $use_wrapper ) : ?>
     <div style="<?php echo esc_attr( $wrap_style ); ?>">
 <?php endif; ?>
 
@@ -79,7 +90,7 @@ if ( $aspect_ratio ) {
         <a href="<?php echo esc_url( $media_url ); ?>"
            data-fancybox="image-<?php echo get_the_ID(); ?>"
            <?php if ( $caption ) : ?>data-caption="<?php echo esc_attr( $caption ); ?>"<?php endif; ?>
-           <?php if ( $aspect_ratio ) : ?>style="position:absolute;inset:0;display:block;"<?php endif; ?>>
+           <?php if ( $use_wrapper ) : ?>style="position:absolute;inset:0;display:block;"<?php endif; ?>>
             <img src="<?php echo esc_url( $media_url ); ?>"
                  alt="<?php echo esc_attr( $media_alt ); ?>"
                  loading="lazy"
@@ -89,7 +100,7 @@ if ( $aspect_ratio ) {
         <a href="<?php echo esc_url( $link_url ); ?>"
            target="<?php echo esc_attr( $link_target ); ?>"
            <?php if ( $link_target === '_blank' ) : ?>rel="noopener noreferrer"<?php endif; ?>
-           <?php if ( $aspect_ratio ) : ?>style="position:absolute;inset:0;display:block;"<?php endif; ?>>
+           <?php if ( $use_wrapper ) : ?>style="position:absolute;inset:0;display:block;"<?php endif; ?>>
             <img src="<?php echo esc_url( $media_url ); ?>"
                  alt="<?php echo esc_attr( $media_alt ); ?>"
                  loading="lazy"
@@ -102,7 +113,7 @@ if ( $aspect_ratio ) {
              style="<?php echo esc_attr( $img_style ); ?>">
     <?php endif; ?>
 
-<?php if ( $aspect_ratio ) : ?>
+<?php if ( $use_wrapper ) : ?>
     </div>
 <?php endif; ?>
 
