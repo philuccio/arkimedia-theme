@@ -38,7 +38,7 @@ $align_style = match( $align ) {
     default  => '',
 };
 
-$wrapper_style = "padding-top:{$pt}px;padding-bottom:{$pb}px;margin-top:{$mt}px;margin-bottom:{$mb}px;{$align_style}";
+$wrapper_style = "padding-top:{$pt}px;padding-bottom:{$pb}px;margin-top:{$mt}px;margin-bottom:{$mb}px;{$align_style}width:{$width};min-width:0;";
 if ( $max_width ) $wrapper_style .= "max-width:{$max_width};";
 if ( $max_width || $align !== 'none' ) $wrapper_style .= "display:block;";
 
