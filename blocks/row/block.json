@@ -96,7 +96,7 @@
         },
         "paddingRight": {
             "type": "number",
-            "default": 24
+            "default": 0
         },
         "paddingBottom": {
             "type": "number",
@@ -104,7 +104,7 @@
         },
         "paddingLeft": {
             "type": "number",
-            "default": 24
+            "default": 0
         },
         "marginTop": {
             "type": "string",
