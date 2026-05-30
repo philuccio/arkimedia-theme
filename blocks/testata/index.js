@@ -6,8 +6,7 @@ import {
     MediaUploadCheck,
 } from '@wordpress/block-editor'
 import {
-    PanelBody, TextControl, ToggleControl, SelectControl,
-    RangeControl, Button, ColorPicker,
+    PanelBody, TextControl, ToggleControl, SelectControl, RangeControl, Button, ColorPicker,
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
@@ -210,6 +209,13 @@ registerBlockType( metadata.name, {
 
                         <p style={{fontSize:'11px',fontWeight:600,margin:'16px 0 8px'}}>{ __('Colore testo','arkimedia') }</p>
                         <ColorPicker color={textColor} onChange={ v => setAttributes({ textColor: v }) } />
+                    </PanelBody>
+
+                    <PanelBody title={ __( 'Padding', 'arkimedia' ) } initialOpen={false}>
+                        <RangeControl label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) }    min={0} max={300} step={4} />
+                        <RangeControl label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } min={0} max={300} step={4} />
+                        <RangeControl label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) }   min={0} max={200} step={4} />
+                        <RangeControl label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) }  min={0} max={200} step={4} />
                     </PanelBody>
 
                 </InspectorControls>

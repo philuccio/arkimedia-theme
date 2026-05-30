@@ -25,6 +25,10 @@ $bg_size         = $attributes['bgSize']         ?? 'cover';
 $bg_position     = $attributes['bgPosition']     ?? 'center center';
 $bg_attachment   = $attributes['bgAttachment']   ?? 'scroll';
 $text_color      = $attributes['textColor']      ?? '#ffffff';
+$pt              = $attributes['paddingTop']     ?? 0;
+$pb              = $attributes['paddingBottom']  ?? 64;
+$pl              = $attributes['paddingLeft']    ?? 0;
+$pr              = $attributes['paddingRight']   ?? 0;
 $title_size      = $attributes['titleSize']      ?? 'clamp(2.5rem,5vw,5rem)';
 $content_pos     = $attributes['contentPosition'] ?? 'bottom';
 
@@ -89,7 +93,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
         <?php endif; ?>
     <?php endif; ?>
 
-    <div class="ark-testata__content container">
+    <div class="ark-testata__content container" style="padding-top:<?php echo absint($pt); ?>px;padding-bottom:<?php echo absint($pb); ?>px;padding-left:<?php echo absint($pl); ?>px;padding-right:<?php echo absint($pr); ?>px;">
         <?php if ( $eyebrow ) : ?>
             <p class="ark-testata__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
         <?php endif; ?>
