@@ -11,7 +11,21 @@
 /* Card dentro griglia o flex — occupa tutto lo spazio disponibile */
 .ark-row .ark-card,
 .wp-block-arkimedia-row .ark-card {
-    width:  100%;
+    width:      100%;
+    height:     100%;
+    align-self: stretch;
+}
+
+/* Layout E — si estende all'altezza del contenitore */
+.ark-card--e {
+    height: 100%;
+}
+
+.ark-card--e > div {
+    height: 100%;
+}
+
+.ark-card--e .ark-card__image-wrap {
     height: 100%;
 }
 
