@@ -35,3 +35,23 @@
 .ark-row > .wp-block {
     align-self: var( --ark-row-align, auto );
 }
+
+/* ── Responsive mobile — flex diventa colonna ────────────── */
+@media ( max-width: 768px ) {
+    .ark-row {
+        flex-direction: column !important;
+        min-height:     auto !important;
+    }
+
+    .ark-row > * {
+        width:   100% !important;
+        flex:    none !important;
+        min-width: 0 !important;
+    }
+}
+
+@media ( max-width: 1024px ) {
+    .ark-row {
+        flex-wrap: wrap !important;
+    }
+}
