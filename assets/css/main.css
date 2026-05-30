@@ -28,7 +28,7 @@
 
     /* Layout */
     --container-width: 1200px;
-    --container-pad:   1.5rem;
+    --container-pad:   0rem;
 
     /* Breakpoint */
     --bp-xs:  480px;
@@ -96,7 +96,13 @@ ol {
     width:     100%;
     max-width: var( --container-width );
     margin:    0 auto;
-    padding:   0 var( --container-pad );
+    padding:   0;
+}
+
+@media ( max-width: 1200px ) {
+    .container {
+        padding: 0 var( --container-pad );
+    }
 }
 
 /* ── Accessibilità ───────────────────────────────────────── */
@@ -2026,5 +2032,12 @@ body {
 
     .ark-hero__subtitle {
         font-size: 1rem !important;
+    }
+}
+
+/* ── Container pad — solo mobile ────────────────────────── */
+@media ( max-width: 1200px ) {
+    :root {
+        --container-pad: 1.5rem;
     }
 }
