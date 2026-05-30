@@ -109,6 +109,12 @@ $wrapper_attrs = get_block_wrapper_attributes([
     'data-delay'     => $anim_delay ? $anim_delay / 1000 : '',
 ]);
 
+// Style tag per margin che il wrapper Gutenberg non sovrascrive
+$margin_css = '';
+if ( $mt || $mb || $ml || $mr ) {
+    $margin_css = "<style>#{$block_id}.ark-card{margin:{$mt}px {$mr}px {$mb}px {$ml}px !important;}</style>";
+}
+
 // Helper: testo contenuto — closure per evitare redeclare su più istanze
 $ark_card_text = function( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ) {
     ob_start();
@@ -140,6 +146,7 @@ $ark_card_text = function( $title, $tag, $title_size, $title_weight, $title_colo
 };
 ?>
 
+<?php echo $margin_css; ?>
 <div <?php echo $wrapper_attrs; ?>>
 
     <?php if ( $link_url ) : ?>
