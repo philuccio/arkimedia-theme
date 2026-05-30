@@ -1,10 +1,11 @@
 /* ── Arkimedia Image Block ───────────────────────────────── */
 
 .ark-image {
-    margin:   0;
-    width:    100%;
+    margin:    0;
+    width:     100%;
     min-width: 0;
-    display:  block;
+    display:   block;
+    flex:      1 1 auto;
 }
 
 .ark-image img {
