@@ -85,3 +85,35 @@
         border-radius: 12px;
     }
 }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media ( max-width: 768px ) {
+    .ark-clients {
+        padding: 2rem 0 3rem;
+    }
+
+    .ark-clients__track {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        padding: 0 1.5rem;
+    }
+
+    .ark-clients__track--scroll {
+        flex-wrap:  nowrap;
+        animation:  ark-clients-scroll 20s linear infinite;
+        padding:    0;
+    }
+
+    .ark-clients__item {
+        width:  72px !important;
+        height: 72px !important;
+    }
+}
+
+@media ( max-width: 480px ) {
+    .ark-clients__item {
+        width:  60px !important;
+        height: 60px !important;
+    }
+}
