@@ -55,3 +55,11 @@
         flex-wrap: wrap !important;
     }
 }
+
+/* ── Riga Avanzata — larghezza responsive ────────────────── */
+@media ( max-width: 1200px ) {
+    .ark-row {
+        width:     100% !important;
+        max-width: 100% !important;
+    }
+}
