@@ -127,3 +127,10 @@
         height: 60px !important;
     }
 }
+
+/* ── Nascondi su mobile ──────────────────────────────────── */
+@media ( max-width: 768px ) {
+    .ark-clients {
+        display: none !important;
+    }
+}
