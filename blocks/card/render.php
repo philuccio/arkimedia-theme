@@ -184,14 +184,16 @@ $ark_card_text = function( $title, $tag, $title_size, $title_weight, $title_colo
         </div>
 
     <?php elseif ( $layout === 'E' ) : ?>
-        <div style="display:flex;flex-direction:row;height:<?php echo esc_attr( $card_height ); ?>;overflow:hidden;<?php echo $bg_style; ?>">
-            <?php if ( $image_url ) : ?>
-                <div style="flex:<?php echo esc_attr( $image_flex ); ?>;position:relative;overflow:hidden;flex-shrink:0;">
-                    <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="ark-card__img" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:<?php echo esc_attr( $object_fit ); ?>;object-position:<?php echo esc_attr( $object_pos ); ?>;transition:transform 0.5s ease;">
+        <div style="height:<?php echo esc_attr( $card_height ); ?>;overflow:hidden;<?php echo $bg_style; ?>display:flex;align-items:center;">
+            <div style="display:flex;flex-direction:row;width:100%;max-width:var(--container-width,1200px);margin:0 auto;height:100%;padding:0 var(--container-pad,1.5rem);box-sizing:border-box;">
+                <?php if ( $image_url ) : ?>
+                    <div style="flex:<?php echo esc_attr( $image_flex ); ?>;position:relative;overflow:hidden;flex-shrink:0;margin-left:calc(-1 * var(--container-pad,1.5rem));">
+                        <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="ark-card__img" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:<?php echo esc_attr( $object_fit ); ?>;object-position:<?php echo esc_attr( $object_pos ); ?>;transition:transform 0.5s ease;">
+                    </div>
+                <?php endif; ?>
+                <div style="flex:2;display:flex;align-items:center;overflow:auto;">
+                    <?php echo $ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
                 </div>
-            <?php endif; ?>
-            <div style="flex:2;display:flex;align-items:center;overflow:auto;">
-                <?php echo $ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
             </div>
         </div>
 
