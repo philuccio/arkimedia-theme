@@ -107,8 +107,8 @@ $wrapper_attrs = get_block_wrapper_attributes([
     'data-delay'     => $anim_delay ? $anim_delay / 1000 : '',
 ]);
 
-// Helper: testo contenuto
-function ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ) {
+// Helper: testo contenuto — closure per evitare redeclare su più istanze
+$ark_card_text = function( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ) {
     ob_start();
     ?>
     <div class="ark-card__body" style="padding:<?php echo absint($pt); ?>px <?php echo absint($pr); ?>px <?php echo absint($pb); ?>px <?php echo absint($pl); ?>px;display:flex;flex-direction:column;">
@@ -135,7 +135,7 @@ function ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, 
     </div>
     <?php
     return ob_get_clean();
-}
+};
 ?>
 
 <div <?php echo $wrapper_attrs; ?>>
@@ -189,7 +189,7 @@ function ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, 
             <?php endif; ?>
         </div>
         <div style="<?php echo $bg_style; ?>">
-            <?php echo ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
+            <?php echo $ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
         </div>
 
     <?php
@@ -197,7 +197,7 @@ function ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, 
     elseif ( $layout === 'C' ) :
     ?>
         <div style="<?php echo $bg_style; ?>height:100%;min-height:inherit;">
-            <?php echo ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
+            <?php echo $ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
         </div>
 
     <?php
@@ -211,7 +211,7 @@ function ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, 
                 </div>
             <?php endif; ?>
             <div style="flex:2;display:flex;align-items:center;">
-                <?php echo ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
+                <?php echo $ark_card_text( $title, $tag, $title_size, $title_weight, $title_color, $title_lh, $eyebrow, $eyebrow_color, $eyebrow_bg, $description, $desc_color, $desc_size, $cta_label, $cta_url, $cta_css, $pt, $pr, $pb, $pl ); ?>
             </div>
         </div>
 
