@@ -98,7 +98,7 @@ switch ( $cta_style ) {
 
 $block_id = 'ark-card-' . substr( md5( serialize( $attributes ) ), 0, 8 );
 
-$wrapper_style = "border-radius:{$border_radius}px;overflow:hidden;position:relative;margin:{$mt}px {$mr}px {$mb}px {$ml}px;";
+$wrapper_style = "border-radius:{$border_radius}px;overflow:hidden;position:relative;margin:{$mt}px {$mr}px {$mb}px {$ml}px;height:100%;";
 if ( $border_width ) $wrapper_style .= "border:{$border_width}px solid {$border_color};";
 
 $wrapper_attrs = get_block_wrapper_attributes([
