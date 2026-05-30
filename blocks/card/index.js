@@ -317,7 +317,7 @@ registerBlockType( metadata.name, {
                 {/* Preview editor */}
                 <div { ...blockProps }>
                     { layout === 'A' && (
-                        <div style={{ ...(useAspectRatio ? { aspectRatio } : { height: cardHeight }), position:'relative', width:'100%', ...bgStyle }}>
+                        <div style={{ ...(useAspectRatio ? { aspectRatio } : { height: cardHeight }), position:'relative', width:'100%', overflow:'hidden', ...bgStyle }}>
                             { imageUrl && <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} /> }
                             <div style={{ position:'absolute', inset:0, background:overlayColor, zIndex:1 }} />
                             <div style={{ position:'absolute', inset:0, zIndex:2, display:'flex', flexDirection:'column', justifyContent:pos.justifyContent, alignItems:pos.alignItems, textAlign:pos.textAlign, padding:`${ paddingTop }px ${ paddingRight }px ${ paddingBottom }px ${ paddingLeft }px` }}>
@@ -338,9 +338,9 @@ registerBlockType( metadata.name, {
                     )}
                     { layout === 'C' && <TextContent /> }
                     { layout === 'E' && (
-                        <div style={{ display:'flex', flexDirection:'row', ...bgStyle }}>
+                        <div style={{ display:'flex', flexDirection:'row', height:cardHeight, overflow:'hidden', ...bgStyle }}>
                             { imageUrl ? (
-                                <div style={{ flex:imageFlex, position:'relative', overflow:'hidden', minHeight:'200px' }}>
+                                <div style={{ flex:imageFlex, position:'relative', overflow:'hidden', flexShrink:0 }}>
                                     <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} />
                                 </div>
                             ) : (
