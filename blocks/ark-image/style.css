@@ -41,3 +41,13 @@
     display: block;
     overflow: hidden;
 }
+
+/* ── Ark Image in flex container ─────────────────────────── */
+.ark-image {
+    min-width:  0;
+    align-self: stretch;
+}
+
+.ark-image > div {
+    min-width: inherit;
+}
