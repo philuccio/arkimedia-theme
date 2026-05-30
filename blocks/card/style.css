@@ -1,0 +1,47 @@
+/* ── Arkimedia Card Block ─────────────────────────────────── */
+
+.ark-card {
+    position:   relative;
+    box-sizing: border-box;
+    height:     100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Link che copre tutta la card */
+.ark-card__link {
+    position: absolute;
+    inset:    0;
+    z-index:  3;
+}
+
+/* Hover effects */
+.ark-card--hover-zoom:hover .ark-card__img {
+    transform: scale( 1.06 );
+}
+
+.ark-card--hover-lift:hover {
+    transform:  translateY( -6px );
+    box-shadow: 0 20px 40px rgba( 0,0,0,0.3 );
+}
+
+.ark-card--hover-overlay:hover .ark-card__overlay {
+    opacity: 0.7;
+}
+
+/* Layout B — immagine top */
+.ark-card--b .ark-card__image-wrap {
+    overflow: hidden;
+}
+
+/* Layout E — responsive mobile */
+@media ( max-width: 640px ) {
+    .ark-card--e > div {
+        flex-direction: column !important;
+    }
+
+    .ark-card--e .ark-card__image-wrap {
+        min-height: 200px !important;
+        flex: none !important;
+        width: 100% !important;
+    }
+}
