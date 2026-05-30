@@ -69,3 +69,8 @@
         width: 100% !important;
     }
 }
+
+/* ── CTA — larghezza contenuto ───────────────────────────── */
+.ark-card__cta {
+    align-self: flex-start;
+}
