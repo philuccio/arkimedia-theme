@@ -18,23 +18,17 @@
 
 /* Layout E — si estende all'altezza del contenitore */
 .ark-card--e {
-    align-self: stretch !important;
+    align-self: stretch;
 }
 
 .ark-card--e > div {
-    height:     100% !important;
-    min-height: inherit !important;
+    display: flex;
+    flex-direction: row;
+    min-height: 200px;
 }
 
 .ark-card--e .ark-card__image-wrap {
-    height:     100% !important;
-    min-height: inherit !important;
     flex-shrink: 0;
-}
-
-/* Riga Avanzata flex — card E si estende */
-.ark-row.ark-row .ark-card--e {
-    height: 100% !important;
 }
 
 /* Link che copre tutta la card */
