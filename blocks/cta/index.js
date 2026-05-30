@@ -15,7 +15,7 @@ registerBlockType( metadata.name, {
         const {
             layout, eyebrow, eyebrowColor,
             title, titleColor, titleSize, titleWeight, titleLineHeight,
-            description, descColor, descSize,
+            description, descColor, descSize, descLineHeight,
             cta1Label, cta1Url, cta1Style, cta1BgColor, cta1TextColor,
             cta2Label, cta2Url, cta2Style, cta2BgColor, cta2TextColor,
             bgType, bgColor, gradientAngle, gradientColor1, gradientColor2,

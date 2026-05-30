@@ -106,7 +106,8 @@ $wrapper_attrs = get_block_wrapper_attributes([
 $content_style = "position:relative;z-index:2;padding:{$pt}px {$pr}px {$pb}px {$pl}px;";
 $title_style   = "font-size:{$title_size};font-weight:{$title_weight};color:{$title_color};line-height:{$title_lh};margin:0 0 1rem;";
 $eyebrow_style = "font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 1rem;" . ( $eyebrow_color ? "color:{$eyebrow_color};" : "color:var(--color-accent,#e94560);" );
-$desc_style    = "font-size:{$desc_size};color:{$desc_color};line-height:1.7;margin:0 0 2rem;";
+$desc_line_height = $attributes['descLineHeight'] ?? '1.7';
+$desc_style    = "font-size:{$desc_size};color:{$desc_color};line-height:{$desc_line_height};margin:0 0 2rem;";
 ?>
 
 <div <?php echo $wrapper_attrs; ?>>
