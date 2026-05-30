@@ -22,6 +22,7 @@ registerBlockType( metadata.name, {
             bgColor, gradientType, gradientAngle, gradientColor1, gradientColor2,
             overlayColor, bgSize, bgPosition, bgAttachment,
             textColor, titleSize, contentPosition,
+            paddingTop, paddingBottom, paddingLeft, paddingRight,
         } = attributes
 
         // Costruisce lo stile sfondo
