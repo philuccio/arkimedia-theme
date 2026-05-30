@@ -68,5 +68,7 @@
 @media ( max-width: 1024px ) {
     .ark-row[style*="grid"] {
         grid-template-columns: 1fr !important;
+        padding-left:  1rem !important;
+        padding-right: 1rem !important;
     }
 }
