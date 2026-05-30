@@ -43,8 +43,13 @@ $wrapper_style = "padding-top:{$pt}px;padding-bottom:{$pb}px;margin-top:{$mt}px;
 if ( $max_width ) $wrapper_style .= "max-width:{$max_width};";
 if ( $max_width || $align !== 'none' ) $wrapper_style .= "display:block;";
 
-$img_style = "width:{$width};height:{$height};object-fit:{$object_fit};object-position:{$object_pos};border-radius:{$radius}px;opacity:{$opacity};display:block;";
-if ( $aspect_ratio ) $img_style .= "aspect-ratio:{$aspect_ratio};";
+$img_style = "width:{$width};object-fit:{$object_fit};object-position:{$object_pos};border-radius:{$radius}px;opacity:{$opacity};display:block;";
+// Altezza: aspect-ratio o height fisso
+if ( $aspect_ratio && ! $height || $height === 'auto' ) {
+    $img_style .= "aspect-ratio:{$aspect_ratio};height:auto;";
+} else {
+    $img_style .= "height:{$height};";
+}
 if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
 
 $hover_class = $hover !== 'none' ? ' ark-image--hover-' . esc_attr( $hover ) : '';
@@ -56,10 +61,25 @@ $wrapper_attrs = get_block_wrapper_attributes([
 ?>
 
 <figure <?php echo $wrapper_attrs; ?>>
+    <?php
+// Wrapper con aspect-ratio per garantire il funzionamento anche in flex container
+$wrap_style = '';
+if ( $aspect_ratio ) {
+    $wrap_style = "aspect-ratio:{$aspect_ratio};position:relative;overflow:hidden;width:{$width};";
+    if ( $border_radius ) $wrap_style .= "border-radius:{$radius}px;";
+    $img_style = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
+    if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
+}
+?>
+<?php if ( $aspect_ratio ) : ?>
+    <div style="<?php echo esc_attr( $wrap_style ); ?>">
+<?php endif; ?>
+
     <?php if ( $lightbox ) : ?>
         <a href="<?php echo esc_url( $media_url ); ?>"
            data-fancybox="image-<?php echo get_the_ID(); ?>"
-           <?php if ( $caption ) : ?>data-caption="<?php echo esc_attr( $caption ); ?>"<?php endif; ?>>
+           <?php if ( $caption ) : ?>data-caption="<?php echo esc_attr( $caption ); ?>"<?php endif; ?>
+           <?php if ( $aspect_ratio ) : ?>style="position:absolute;inset:0;display:block;"<?php endif; ?>>
             <img src="<?php echo esc_url( $media_url ); ?>"
                  alt="<?php echo esc_attr( $media_alt ); ?>"
                  loading="lazy"
@@ -68,7 +88,8 @@ $wrapper_attrs = get_block_wrapper_attributes([
     <?php elseif ( $link_url ) : ?>
         <a href="<?php echo esc_url( $link_url ); ?>"
            target="<?php echo esc_attr( $link_target ); ?>"
-           <?php if ( $link_target === '_blank' ) : ?>rel="noopener noreferrer"<?php endif; ?>>
+           <?php if ( $link_target === '_blank' ) : ?>rel="noopener noreferrer"<?php endif; ?>
+           <?php if ( $aspect_ratio ) : ?>style="position:absolute;inset:0;display:block;"<?php endif; ?>>
             <img src="<?php echo esc_url( $media_url ); ?>"
                  alt="<?php echo esc_attr( $media_alt ); ?>"
                  loading="lazy"
@@ -80,6 +101,10 @@ $wrapper_attrs = get_block_wrapper_attributes([
              loading="lazy"
              style="<?php echo esc_attr( $img_style ); ?>">
     <?php endif; ?>
+
+<?php if ( $aspect_ratio ) : ?>
+    </div>
+<?php endif; ?>
 
     <?php if ( $caption ) : ?>
         <figcaption class="ark-image__caption">
