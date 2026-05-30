@@ -208,6 +208,10 @@
         "useAspectRatio": {
             "type": "boolean",
             "default": true
+        },
+        "imagePosition": {
+            "type": "string",
+            "default": "left"
         }
     },
     "render": "file:./render.php",

@@ -13,7 +13,7 @@ registerBlockType( metadata.name, {
 
     edit( { attributes, setAttributes } ) {
         const {
-            layout, imageUrl, imageAlt, imageId, objectFit, objectPosition,
+            layout, imageUrl, imageAlt, imageId, objectFit, objectPosition, imagePosition,
             aspectRatio, imageFlex,
             eyebrow, eyebrowColor, eyebrowBg,
             title, titleTag, titleColor, titleSize, titleWeight, titleLineHeight,
@@ -150,9 +150,13 @@ registerBlockType( metadata.name, {
                                                     onChange={ v => setAttributes({ cardHeight: v }) }
                                                 />
                                             )}
-                                            { layout === 'E' && (
+                                            { layout === 'E' && (<>
+                                                <ToggleGroupControl label={ __('Posizione immagine','arkimedia') } value={imagePosition} onChange={ v => setAttributes({ imagePosition: v }) } isBlock>
+                                                    <ToggleGroupControlOption value="left"  label="← Sinistra" />
+                                                    <ToggleGroupControlOption value="right" label="Destra →" />
+                                                </ToggleGroupControl>
                                                 <TextControl label={ __('Flex immagine (es. 1)','arkimedia') } value={imageFlex} onChange={ v => setAttributes({ imageFlex: v }) } />
-                                            )}
+                                            </>)}
                                         </PanelBody>
                                     )}
 
@@ -338,7 +342,7 @@ registerBlockType( metadata.name, {
                     )}
                     { layout === 'C' && <TextContent /> }
                     { layout === 'E' && (
-                        <div style={{ display:'flex', flexDirection:'row', height:cardHeight, overflow:'hidden', ...bgStyle }}>
+                        <div style={{ display:'flex', flexDirection: imagePosition === 'right' ? 'row-reverse' : 'row', height:cardHeight, overflow:'hidden', ...bgStyle }}>
                             { imageUrl ? (
                                 <div style={{ flex:imageFlex, position:'relative', overflow:'hidden', flexShrink:0 }}>
                                     <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} />
