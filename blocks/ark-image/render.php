@@ -66,7 +66,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
 $wrap_style = '';
 if ( $aspect_ratio ) {
     $wrap_style = "aspect-ratio:{$aspect_ratio};position:relative;overflow:hidden;width:{$width};";
-    if ( $border_radius ) $wrap_style .= "border-radius:{$radius}px;";
+    if ( $radius ) $wrap_style .= "border-radius:{$radius}px;";
     $img_style = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
     if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
 }
