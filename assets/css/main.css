@@ -2041,3 +2041,40 @@ body {
         --container-pad: 1.5rem;
     }
 }
+
+/* ── Riga Avanzata — fix mobile ──────────────────────────── */
+@media ( max-width: 768px ) {
+    .ark-row {
+        overflow-x: hidden !important;
+    }
+
+    .ark-row > * {
+        max-width:  100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Testo — padding laterale su mobile */
+    .ark-row .wp-block-arkimedia-ark-text,
+    .ark-row p,
+    .ark-row .ark-text {
+        padding-left:  1.5rem !important;
+        padding-right: 1.5rem !important;
+        box-sizing:    border-box !important;
+    }
+
+    /* Immagine — altezza minima su mobile */
+    .ark-row .wp-block-arkimedia-ark-image,
+    .ark-row .ark-image {
+        min-height: 280px !important;
+    }
+
+    .ark-row .ark-image > div {
+        min-height: 280px !important;
+    }
+
+    .ark-row .ark-image img {
+        min-height: 280px !important;
+        object-fit: cover !important;
+    }
+}
