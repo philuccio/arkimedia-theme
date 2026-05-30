@@ -54,6 +54,8 @@ $ml             = $attributes['marginLeft']        ?? 0;
 $mr             = $attributes['marginRight']       ?? 0;
 $anim_type      = $attributes['animationType']    ?? 'none';
 $anim_delay     = $attributes['animationDelay']   ?? 0;
+$card_height    = $attributes['cardHeight']        ?? '400px';
+$use_aspect     = $attributes['useAspectRatio']    ?? true;
 
 // Tag titolo
 $allowed_tags = [ 'h2', 'h3', 'h4', 'h5', 'p', 'span' ];
@@ -147,8 +149,11 @@ $ark_card_text = function( $title, $tag, $title_size, $title_weight, $title_colo
     <?php
     // ── Layout A — Cover ──────────────────────────────────────────────────────
     if ( $layout === 'A' ) :
+        $cover_size = $use_aspect
+            ? "aspect-ratio:{$aspect_ratio};"
+            : "height:{$card_height};";
     ?>
-        <div class="ark-card__cover" style="aspect-ratio:<?php echo esc_attr( $aspect_ratio ); ?>;position:relative;<?php echo $bg_style; ?>">
+        <div class="ark-card__cover" style="<?php echo $cover_size; ?>position:relative;<?php echo $bg_style; ?>width:100%;">
             <?php if ( $image_url ) : ?>
                 <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="ark-card__img" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:<?php echo esc_attr( $object_fit ); ?>;object-position:<?php echo esc_attr( $object_pos ); ?>;transition:transform 0.5s ease;">
             <?php endif; ?>
@@ -181,7 +186,8 @@ $ark_card_text = function( $title, $tag, $title_size, $title_weight, $title_colo
     // ── Layout B — Immagine top + testo sotto ─────────────────────────────────
     elseif ( $layout === 'B' ) :
     ?>
-        <div class="ark-card__image-wrap" style="aspect-ratio:<?php echo esc_attr( $aspect_ratio ); ?>;position:relative;overflow:hidden;">
+        <?php $img_size = $use_aspect ? "aspect-ratio:{$aspect_ratio};" : "height:{$card_height};"; ?>
+        <div class="ark-card__image-wrap" style="<?php echo $img_size; ?>position:relative;overflow:hidden;">
             <?php if ( $image_url ) : ?>
                 <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="ark-card__img" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:<?php echo esc_attr( $object_fit ); ?>;object-position:<?php echo esc_attr( $object_pos ); ?>;transition:transform 0.5s ease;">
             <?php else : ?>

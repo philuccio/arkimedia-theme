@@ -26,7 +26,7 @@ registerBlockType( metadata.name, {
             hoverEffect,
             paddingTop, paddingBottom, paddingLeft, paddingRight,
             marginTop, marginBottom, marginLeft, marginRight,
-            animationType, animationDelay,
+            animationType, animationDelay, cardHeight, useAspectRatio,
         } = attributes
 
         const bgStyle = bgType === 'gradient'
@@ -129,6 +129,25 @@ registerBlockType( metadata.name, {
                                                         { label:'2:3',  value:'2/3' },
                                                     ]}
                                                     onChange={ v => setAttributes({ aspectRatio: v }) }
+                                                />
+                                            )}
+                                            <ToggleControl
+                                                label={ __('Usa aspect ratio','arkimedia') }
+                                                checked={useAspectRatio}
+                                                onChange={ v => setAttributes({ useAspectRatio: v }) }
+                                            />
+                                            { ! useAspectRatio && (
+                                                <SelectControl label={ __('Altezza card','arkimedia') } value={cardHeight}
+                                                    options={[
+                                                        { label:'300px', value:'300px' },
+                                                        { label:'400px', value:'400px' },
+                                                        { label:'500px', value:'500px' },
+                                                        { label:'600px', value:'600px' },
+                                                        { label:'700px', value:'700px' },
+                                                        { label:'80vh',  value:'80vh' },
+                                                        { label:'100vh', value:'100vh' },
+                                                    ]}
+                                                    onChange={ v => setAttributes({ cardHeight: v }) }
                                                 />
                                             )}
                                             { layout === 'E' && (
@@ -298,7 +317,7 @@ registerBlockType( metadata.name, {
                 {/* Preview editor */}
                 <div { ...blockProps }>
                     { layout === 'A' && (
-                        <div style={{ aspectRatio, position:'relative', ...bgStyle }}>
+                        <div style={{ ...(useAspectRatio ? { aspectRatio } : { height: cardHeight }), position:'relative', width:'100%', ...bgStyle }}>
                             { imageUrl && <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} /> }
                             <div style={{ position:'absolute', inset:0, background:overlayColor, zIndex:1 }} />
                             <div style={{ position:'absolute', inset:0, zIndex:2, display:'flex', flexDirection:'column', justifyContent:pos.justifyContent, alignItems:pos.alignItems, textAlign:pos.textAlign, padding:`${ paddingTop }px ${ paddingRight }px ${ paddingBottom }px ${ paddingLeft }px` }}>
@@ -311,7 +330,7 @@ registerBlockType( metadata.name, {
                     )}
                     { layout === 'B' && (
                         <>
-                            <div style={{ aspectRatio, position:'relative', overflow:'hidden' }}>
+                            <div style={{ ...(useAspectRatio ? { aspectRatio } : { height: cardHeight }), position:'relative', overflow:'hidden' }}>
                                 { imageUrl ? <img src={imageUrl} alt={imageAlt} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit, objectPosition }} /> : <div style={{ position:'absolute', inset:0, ...bgStyle }} /> }
                             </div>
                             <TextContent />
