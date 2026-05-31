@@ -1,8 +1,8 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck, useBlockEditContext } from '@wordpress/block-editor'
-import { useDispatch } from '@wordpress/data'
+import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor'
 import { PanelBody, TextControl, TextareaControl, Button, ColorPicker, RangeControl } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
+import { useDispatch } from '@wordpress/data'
 import metadata from './block.json'
 
 registerBlockType( metadata.name, {
@@ -25,8 +25,9 @@ registerBlockType( metadata.name, {
         })
 
         const updateCard = ( index, key, value ) => {
-            const updated = cards.map( ( c, i ) => i === index ? { ...c, [key]: value } : c )
-            setAttributes({ cards: updated })
+            const updated = JSON.parse( JSON.stringify( cards ) )
+            updated[ index ] = { ...updated[ index ], [key]: value }
+            updateBlockAttributes( clientId, { cards: [ ...updated ] } )
         }
 
         return (
