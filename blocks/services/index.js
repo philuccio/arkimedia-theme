@@ -1,5 +1,4 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { useState, useEffect } from '@wordpress/element'
 import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor'
 import { PanelBody, TextControl, TextareaControl, Button, ColorPicker, RangeControl } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
@@ -8,8 +7,6 @@ import metadata from './block.json'
 registerBlockType( metadata.name, {
 
     edit( { attributes, setAttributes } ) {
-        const [ localCards, setLocalCards ] = useState( cards )
-        useEffect( () => { setLocalCards( cards ) }, [] )
         const { eyebrow, title, marqueeText, marqueeFontSize, cards, bgColor, textColor, accentColor } = attributes
 
         const blockProps = useBlockProps({
@@ -26,10 +23,7 @@ registerBlockType( metadata.name, {
         })
 
         const updateCard = ( index, key, value ) => {
-            const updated = localCards.map( ( c, i ) =>
-                i === index ? { ...c, [key]: value } : c
-            )
-            setLocalCards( updated )
+            const updated = cards.map( ( c, i ) => i === index ? { ...c, [key]: value } : c )
             setAttributes({ cards: updated })
         }
 
@@ -89,7 +83,7 @@ registerBlockType( metadata.name, {
                         />
                     </PanelBody>
 
-                    { localCards.map( ( card, i ) => (
+                    { cards.map( ( card, i ) => (
                         <PanelBody key={i} title={ `Card ${ i + 1 }: ${ card.title || '—' }` } initialOpen={false}>
                             <TextControl
                                 label={ __( 'Titolo card', 'arkimedia' ) }
@@ -160,7 +154,7 @@ registerBlockType( metadata.name, {
 
                     {/* Cards grid */}
                     <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'1.5rem', maxWidth:'1200px', margin:'0 auto', padding:'0 1.5rem' }}>
-                        { localCards.map( ( card, i ) => (
+                        { cards.map( ( card, i ) => (
                             <div key={i} style={{ background:'rgba(255,255,255,0.04)', borderRadius:'8px', overflow:'hidden' }}>
                                 { card.mediaUrl
                                     ? <img src={card.mediaUrl} style={{ width:'100%', aspectRatio:'16/10', objectFit:'cover', display:'block' }} />
