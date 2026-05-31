@@ -2138,3 +2138,52 @@ body {
 .ark-menu__list .menu-item-has-children.is-open > .ark-submenu-toggle {
     transform: translateY( -50% ) rotate( 45deg );
 }
+
+/* ── Menu desktop — sottomenu ────────────────────────────── */
+.main-navigation .nav__list {
+    display:         flex;
+    align-items:     center;
+    gap:             2rem;
+    list-style:      none;
+    margin:          0;
+    padding:         0;
+}
+
+.main-navigation .nav__list > li {
+    position: relative;
+}
+
+.main-navigation .nav__list .sub-menu {
+    display:       none;
+    position:      absolute;
+    top:           calc( 100% + 0.5rem );
+    left:          0;
+    min-width:     200px;
+    background:    var( --color-bg, #0a0a0a );
+    border:        1px solid rgba( 255,255,255,0.1 );
+    border-radius: 4px;
+    padding:       0.5rem 0;
+    list-style:    none;
+    margin:        0;
+    z-index:       999;
+    box-shadow:    0 8px 24px rgba( 0,0,0,0.3 );
+}
+
+.main-navigation .nav__list > li:hover > .sub-menu {
+    display: block;
+}
+
+.main-navigation .nav__list .sub-menu a {
+    display:     block;
+    padding:     0.5rem 1.25rem;
+    font-size:   0.875rem;
+    white-space: nowrap;
+    color:       inherit;
+    opacity:     0.75;
+    transition:  opacity 0.2s ease, color 0.2s ease;
+}
+
+.main-navigation .nav__list .sub-menu a:hover {
+    opacity: 1;
+    color:   var( --color-accent, #e94560 );
+}
