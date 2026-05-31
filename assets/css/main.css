@@ -2156,7 +2156,7 @@ body {
 .main-navigation .nav__list .sub-menu {
     display:       none;
     position:      absolute;
-    top:           calc( 100% + 0.5rem );
+    top:           100%;
     left:          0;
     min-width:     200px;
     background:    var( --color-bg, #0a0a0a );
@@ -2167,6 +2167,11 @@ body {
     margin:        0;
     z-index:       999;
     box-shadow:    0 8px 24px rgba( 0,0,0,0.3 );
+}
+
+.main-navigation .nav__list > li {
+    padding-bottom: 0.5rem;
+    margin-bottom:  -0.5rem;
 }
 
 .main-navigation .nav__list > li:hover > .sub-menu {
