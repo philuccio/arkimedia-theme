@@ -7,7 +7,21 @@ import metadata from './block.json'
 registerBlockType( metadata.name, {
 
     edit( { attributes, setAttributes } ) {
-        const { eyebrow, title, marqueeText, marqueeFontSize, cards, bgColor, textColor, accentColor } = attributes
+        const { eyebrow, title, marqueeText, marqueeFontSize, cards,
+            bgColor, textColor, accentColor,
+            card1Title, card1Text, card1MediaUrl, card1MediaAlt, card1MediaId,
+            card2Title, card2Text, card2MediaUrl, card2MediaAlt, card2MediaId,
+            card3Title, card3Text, card3MediaUrl, card3MediaAlt, card3MediaId,
+            card4Title, card4Text, card4MediaUrl, card4MediaAlt, card4MediaId,
+        } = attributes
+
+        // Usa attributi separati con fallback all'array legacy
+        const cardData = [
+            { n:1, title: card1Title || (cards[0]?.title||''), text: card1Text || (cards[0]?.text||''), mediaUrl: card1MediaUrl || (cards[0]?.mediaUrl||''), mediaAlt: card1MediaAlt || (cards[0]?.mediaAlt||''), mediaId: card1MediaId },
+            { n:2, title: card2Title || (cards[1]?.title||''), text: card2Text || (cards[1]?.text||''), mediaUrl: card2MediaUrl || (cards[1]?.mediaUrl||''), mediaAlt: card2MediaAlt || (cards[1]?.mediaAlt||''), mediaId: card2MediaId },
+            { n:3, title: card3Title || (cards[2]?.title||''), text: card3Text || (cards[2]?.text||''), mediaUrl: card3MediaUrl || (cards[2]?.mediaUrl||''), mediaAlt: card3MediaAlt || (cards[2]?.mediaAlt||''), mediaId: card3MediaId },
+            { n:4, title: card4Title || (cards[3]?.title||''), text: card4Text || (cards[3]?.text||''), mediaUrl: card4MediaUrl || (cards[3]?.mediaUrl||''), mediaAlt: card4MediaAlt || (cards[3]?.mediaAlt||''), mediaId: card4MediaId },
+        ]
 
         const blockProps = useBlockProps({
             style: {
@@ -83,17 +97,17 @@ registerBlockType( metadata.name, {
                         />
                     </PanelBody>
 
-                    { cards.map( ( card, i ) => (
+                    { cardData.map( ( card ) => (
                         <PanelBody key={i} title={ `Card ${ i + 1 }: ${ card.title || '—' }` } initialOpen={false}>
                             <TextControl
                                 label={ __( 'Titolo card', 'arkimedia' ) }
                                 value={card.title}
-                                onChange={ val => updateCard( i, 'title', val ) }
+                                onChange={ val => setAttributes({ [`card${card.n}Title`]: val }) }
                             />
                             <TextareaControl
                                 label={ __( 'Testo card', 'arkimedia' ) }
                                 value={card.text}
-                                onChange={ val => updateCard( i, 'text', val ) }
+                                onChange={ val => setAttributes({ [`card${card.n}Text`]: val }) }
                             />
                             <div>
                                 { card.mediaUrl && (
@@ -105,6 +119,7 @@ registerBlockType( metadata.name, {
                                     variant={ card.mediaUrl ? 'secondary' : 'primary' }
                                     style={{ width:'100%', justifyContent:'center' }}
                                     onClick={ () => {
+                                        const n = card.n
                                         const frame = wp.media({
                                             title: 'Seleziona immagine',
                                             button: { text: 'Seleziona' },
@@ -112,8 +127,11 @@ registerBlockType( metadata.name, {
                                         })
                                         frame.on( 'select', () => {
                                             const att = frame.state().get('selection').first().toJSON()
-                                            updateCard( i, 'mediaUrl', att.url )
-                                            updateCard( i, 'mediaAlt', att.alt || '' )
+                                            const update = {}
+                                            update[`card${n}MediaUrl`] = att.url
+                                            update[`card${n}MediaAlt`] = att.alt || ''
+                                            update[`card${n}MediaId`]  = att.id
+                                            setAttributes( update )
                                         })
                                         frame.open()
                                     }}>
@@ -121,7 +139,7 @@ registerBlockType( metadata.name, {
                                 </Button>
                                 { card.mediaUrl && (
                                     <Button
-                                        onClick={ () => { updateCard(i,'mediaUrl',''); updateCard(i,'mediaAlt','') } }
+                                        onClick={ () => setAttributes({ [`card${card.n}MediaUrl`]:'', [`card${card.n}MediaAlt`]:'', [`card${card.n}MediaId`]:0 }) }
                                         variant="tertiary" isDestructive
                                         style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
                                         { __('Rimuovi immagine','arkimedia') }
@@ -152,7 +170,7 @@ registerBlockType( metadata.name, {
 
                     {/* Cards grid */}
                     <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'1.5rem', maxWidth:'1200px', margin:'0 auto', padding:'0 1.5rem' }}>
-                        { cards.map( ( card, i ) => (
+                        { cardData.map( ( card ) => (
                             <div key={i} style={{ background:'rgba(255,255,255,0.04)', borderRadius:'8px', overflow:'hidden' }}>
                                 { card.mediaUrl
                                     ? <img src={card.mediaUrl} style={{ width:'100%', aspectRatio:'16/10', objectFit:'cover', display:'block' }} />
