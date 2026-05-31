@@ -1,0 +1,136 @@
+/* ── Arkimedia Services Block ────────────────────────────── */
+
+.ark-services {
+    width:      100%;
+    padding:    5rem 0;
+    overflow:   hidden;
+}
+
+/* Header */
+.ark-services__header {
+    text-align:    center;
+    margin-bottom: 2.5rem;
+    padding:       0 1.5rem;
+}
+
+.ark-services__eyebrow {
+    font-size:      0.75rem;
+    font-weight:    700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom:  1rem;
+}
+
+.ark-services__title {
+    font-size:      clamp( 3rem, 8vw, 7rem );
+    font-weight:    900;
+    line-height:    1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin:         0;
+}
+
+/* Marquee */
+.ark-services__marquee-wrap {
+    border-top:    1px solid rgba( 255,255,255,0.1 );
+    border-bottom: 1px solid rgba( 255,255,255,0.1 );
+    padding:       0.875rem 0;
+    margin-bottom: 4rem;
+    overflow:      hidden;
+}
+
+.ark-services__marquee {
+    display:    flex;
+    overflow:   hidden;
+    white-space: nowrap;
+}
+
+.ark-services__marquee-inner {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             2rem;
+    font-size:       0.8125rem;
+    font-weight:     700;
+    letter-spacing:  0.15em;
+    text-transform:  uppercase;
+    opacity:         0.8;
+    animation:       ark-marquee 20s linear infinite;
+    padding-right:   2rem;
+}
+
+@keyframes ark-marquee {
+    from { transform: translateX( 0 ); }
+    to   { transform: translateX( -50% ); }
+}
+
+/* Grid */
+.ark-services__grid {
+    display:               grid;
+    grid-template-columns: repeat( 2, 1fr );
+    gap:                   1.5rem;
+}
+
+/* Card */
+.ark-services__card {
+    background:    rgba( 255,255,255,0.04 );
+    border-radius: 8px;
+    overflow:      hidden;
+    transition:    transform 0.3s ease, background 0.3s ease;
+}
+
+.ark-services__card:hover {
+    transform:  translateY( -4px );
+    background: rgba( 255,255,255,0.07 );
+}
+
+.ark-services__card-thumb {
+    margin:       0;
+    aspect-ratio: 16 / 10;
+    overflow:     hidden;
+}
+
+.ark-services__card-thumb img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    display:    block;
+    transition: transform 0.5s ease;
+}
+
+.ark-services__card:hover .ark-services__card-thumb img {
+    transform: scale( 1.04 );
+}
+
+.ark-services__card-thumb--empty {
+    background: rgba( 255,255,255,0.06 );
+    aspect-ratio: 16 / 10;
+}
+
+.ark-services__card-body {
+    padding: 1.5rem;
+}
+
+.ark-services__card-title {
+    font-size:     1.25rem;
+    font-weight:   700;
+    margin-bottom: 0.75rem;
+    line-height:   1.2;
+}
+
+.ark-services__card-text {
+    font-size:   0.9375rem;
+    line-height: 1.6;
+    opacity:     0.75;
+    margin:      0;
+}
+
+/* Responsive */
+@media ( max-width: 640px ) {
+    .ark-services__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ark-services__title {
+        font-size: clamp( 2.5rem, 12vw, 4rem );
+    }
+}

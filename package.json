@@ -17,10 +17,11 @@
         "build:ark-text": "wp-scripts build blocks/ark-text/index.js --output-path=blocks/ark-text/build",
         "build:ark-image": "wp-scripts build blocks/ark-image/index.js --output-path=blocks/ark-image/build",
         "build:row": "wp-scripts build blocks/row/index.js --output-path=blocks/row/build",
-        "build": "npm run build:hero && npm run build:services && npm run build:clients && npm run build:gallery-cta && npm run build:slider && npm run build:container && npm run build:contact && npm run build:testata && npm run build:map && npm run build:gallery && npm run build:portfolio-meta && npm run build:ark-text && npm run build:ark-image && npm run build:row && npm run build:card && npm run build:cta",
+        "build": "npm run build:hero && npm run build:services && npm run build:clients && npm run build:gallery-cta && npm run build:slider && npm run build:container && npm run build:contact && npm run build:testata && npm run build:map && npm run build:gallery && npm run build:portfolio-meta && npm run build:ark-text && npm run build:ark-image && npm run build:row && npm run build:card && npm run build:cta && npm run build:services-home",
         "start:row": "wp-scripts start blocks/row/index.js --output-path=blocks/row/build",
         "build:card": "wp-scripts build blocks/card/index.js --output-path=blocks/card/build",
-        "build:cta": "wp-scripts build blocks/cta/index.js --output-path=blocks/cta/build"
+        "build:cta": "wp-scripts build blocks/cta/index.js --output-path=blocks/cta/build",
+        "build:services-home": "wp-scripts build blocks/services-home/index.js --output-path=blocks/services-home/build"
     },
     "devDependencies": {
         "@wordpress/scripts": "^30.0.0"

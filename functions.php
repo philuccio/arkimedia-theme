@@ -203,6 +203,7 @@ foreach ( $ark_includes as $file ) {
 function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/hero' );
     register_block_type( ARK_DIR . '/blocks/services' );
+    register_block_type( ARK_DIR . '/blocks/services-home' );
     register_block_type( ARK_DIR . '/blocks/clients' );
     register_block_type( ARK_DIR . '/blocks/gallery-cta' );
     register_block_type( ARK_DIR . '/blocks/slider' );
