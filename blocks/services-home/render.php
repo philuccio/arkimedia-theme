@@ -26,7 +26,7 @@ for ( $i = 1; $i <= 4; $i++ ) {
 }
 
 $wrapper_attrs = get_block_wrapper_attributes([
-    'class' => 'ark-services alignfull',
+    'class' => 'ark-services-home alignfull',
     'style' => "background:{$bg_color};color:{$text_color};width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);",
 ]);
 ?>
@@ -34,19 +34,19 @@ $wrapper_attrs = get_block_wrapper_attributes([
 <section <?php echo $wrapper_attrs; ?>>
 
     <!-- Header -->
-    <div class="ark-services__header container">
+    <div class="ark-services-home__header container">
         <?php if ( $eyebrow ) : ?>
-            <p class="ark-services__eyebrow" style="color:<?php echo esc_attr( $accent ); ?>"><?php echo esc_html( $eyebrow ); ?></p>
+            <p class="ark-services-home__eyebrow" style="color:<?php echo esc_attr( $accent ); ?>"><?php echo esc_html( $eyebrow ); ?></p>
         <?php endif; ?>
         <?php if ( $title ) : ?>
-            <h2 class="ark-services__title"><?php echo esc_html( $title ); ?></h2>
+            <h2 class="ark-services-home__title"><?php echo esc_html( $title ); ?></h2>
         <?php endif; ?>
     </div>
 
     <!-- Marquee -->
     <?php if ( $marquee ) : ?>
-    <div class="ark-services__marquee-wrap">
-        <div class="ark-services__marquee" style="font-size:<?php echo absint( $marquee_fs ); ?>px;">
+    <div class="ark-services-home__marquee-wrap">
+        <div class="ark-services-home__marquee" style="font-size:<?php echo absint( $marquee_fs ); ?>px;">
             <span><?php echo esc_html( $marquee ); ?></span>
             <span aria-hidden="true"><?php echo esc_html( $marquee ); ?></span>
         </div>
@@ -54,22 +54,22 @@ $wrapper_attrs = get_block_wrapper_attributes([
     <?php endif; ?>
 
     <!-- Cards -->
-    <div class="ark-services__grid container">
+    <div class="ark-services-home__grid container">
         <?php foreach ( $cards as $card ) : ?>
-        <div class="ark-services__card" data-stagger-item>
+        <div class="ark-services-home__card" data-stagger-item>
             <?php if ( $card['mediaUrl'] ) : ?>
-                <div class="ark-services__card-img">
+                <div class="ark-services-home__card-img">
                     <img src="<?php echo esc_url( $card['mediaUrl'] ); ?>"
                          alt="<?php echo esc_attr( $card['mediaAlt'] ); ?>"
                          loading="lazy">
                 </div>
             <?php endif; ?>
-            <div class="ark-services__card-body">
+            <div class="ark-services-home__card-body">
                 <?php if ( $card['title'] ) : ?>
-                    <h3 class="ark-services__card-title"><?php echo esc_html( $card['title'] ); ?></h3>
+                    <h3 class="ark-services-home__card-title"><?php echo esc_html( $card['title'] ); ?></h3>
                 <?php endif; ?>
                 <?php if ( $card['text'] ) : ?>
-                    <p class="ark-services__card-text"><?php echo esc_html( $card['text'] ); ?></p>
+                    <p class="ark-services-home__card-text"><?php echo esc_html( $card['text'] ); ?></p>
                 <?php endif; ?>
             </div>
         </div>
