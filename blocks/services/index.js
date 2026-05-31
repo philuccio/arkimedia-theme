@@ -1,12 +1,14 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor'
+import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck, useBlockEditContext } from '@wordpress/block-editor'
+import { useDispatch } from '@wordpress/data'
 import { PanelBody, TextControl, TextareaControl, Button, ColorPicker, RangeControl } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
 import metadata from './block.json'
 
 registerBlockType( metadata.name, {
 
-    edit( { attributes, setAttributes } ) {
+    edit( { attributes, setAttributes, clientId } ) {
+        const { updateBlockAttributes } = useDispatch( 'core/block-editor' )
         const { eyebrow, title, marqueeText, marqueeFontSize, cards, bgColor, textColor, accentColor } = attributes
 
         const blockProps = useBlockProps({
