@@ -95,41 +95,39 @@ registerBlockType( metadata.name, {
                                 value={card.text}
                                 onChange={ val => updateCard( i, 'text', val ) }
                             />
-                            <MediaUploadCheck>
-                                <MediaUpload
-                                    onSelect={ media => {
-                                        updateCard( i, 'mediaUrl', media.url )
-                                        updateCard( i, 'mediaAlt', media.alt || '' )
-                                    }}
-                                    allowedTypes={['image']}
-                                    value={card.mediaUrl}
-                                    render={ ({ open }) => (
-                                        <div>
-                                            { card.mediaUrl && (
-                                                <img src={card.mediaUrl}
-                                                    style={{ width:'100%', height:'80px', objectFit:'cover', borderRadius:'4px', marginBottom:'8px' }}
-                                                />
-                                            )}
-                                            <Button onClick={open}
-                                                variant={ card.mediaUrl ? 'secondary' : 'primary' }
-                                                style={{ width:'100%', justifyContent:'center' }}>
-                                                { card.mediaUrl
-                                                    ? __('Cambia immagine','arkimedia')
-                                                    : __('Seleziona immagine','arkimedia')
-                                                }
-                                            </Button>
-                                            { card.mediaUrl && (
-                                                <Button
-                                                    onClick={ () => { updateCard(i,'mediaUrl',''); updateCard(i,'mediaAlt','') }}
-                                                    variant="tertiary" isDestructive
-                                                    style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
-                                                    { __('Rimuovi immagine','arkimedia') }
-                                                </Button>
-                                            )}
-                                        </div>
-                                    )}
-                                />
-                            </MediaUploadCheck>
+                            <div>
+                                { card.mediaUrl && (
+                                    <img src={card.mediaUrl}
+                                        style={{ width:'100%', height:'80px', objectFit:'cover', borderRadius:'4px', marginBottom:'8px' }}
+                                    />
+                                )}
+                                <Button
+                                    variant={ card.mediaUrl ? 'secondary' : 'primary' }
+                                    style={{ width:'100%', justifyContent:'center' }}
+                                    onClick={ () => {
+                                        const frame = wp.media({
+                                            title: 'Seleziona immagine',
+                                            button: { text: 'Seleziona' },
+                                            multiple: false,
+                                        })
+                                        frame.on( 'select', () => {
+                                            const att = frame.state().get('selection').first().toJSON()
+                                            updateCard( i, 'mediaUrl', att.url )
+                                            updateCard( i, 'mediaAlt', att.alt || '' )
+                                        })
+                                        frame.open()
+                                    }}>
+                                    { card.mediaUrl ? __('Cambia immagine','arkimedia') : __('Seleziona immagine','arkimedia') }
+                                </Button>
+                                { card.mediaUrl && (
+                                    <Button
+                                        onClick={ () => { updateCard(i,'mediaUrl',''); updateCard(i,'mediaAlt','') } }
+                                        variant="tertiary" isDestructive
+                                        style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
+                                        { __('Rimuovi immagine','arkimedia') }
+                                    </Button>
+                                )}
+                            </div>
                         </PanelBody>
                     ))}
 
