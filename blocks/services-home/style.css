@@ -1,16 +1,13 @@
-/* ── Arkimedia Services Block ────────────────────────────── */
+/* ── Arkimedia Servizi Home ──────────────────────────────── */
 
 .ark-services {
-    width:      100%;
-    padding:    5rem 0;
+    box-sizing: border-box;
+    padding:    4rem 0;
     overflow:   hidden;
 }
 
-/* Header */
 .ark-services__header {
-    text-align:    center;
-    margin-bottom: 2.5rem;
-    padding:       0 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .ark-services__eyebrow {
@@ -18,44 +15,38 @@
     font-weight:    700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-bottom:  1rem;
+    margin:         0 0 1rem;
 }
 
 .ark-services__title {
-    font-size:      clamp( 3rem, 8vw, 7rem );
-    font-weight:    900;
-    line-height:    1;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    margin:         0;
+    font-size:   clamp( 2.5rem, 6vw, 5rem );
+    font-weight: 900;
+    margin:      0;
+    line-height: 1;
 }
 
-/* Marquee */
+/* ── Marquee ─────────────────────────────────────────────── */
 .ark-services__marquee-wrap {
+    overflow:      hidden;
     border-top:    1px solid rgba( 255,255,255,0.1 );
     border-bottom: 1px solid rgba( 255,255,255,0.1 );
-    padding:       0.875rem 0;
-    margin-bottom: 4rem;
-    overflow:      hidden;
+    padding:       0.75rem 0;
+    margin-bottom: 3rem;
 }
 
 .ark-services__marquee {
-    display:    flex;
-    overflow:   hidden;
-    white-space: nowrap;
+    display:   flex;
+    gap:       2rem;
+    animation: ark-marquee 20s linear infinite;
+    width:     max-content;
 }
 
-.ark-services__marquee-inner {
-    display:         inline-flex;
-    align-items:     center;
-    gap:             2rem;
-    font-size:       0.8125rem;
-    font-weight:     700;
-    letter-spacing:  0.15em;
-    text-transform:  uppercase;
-    opacity:         0.8;
-    animation:       ark-marquee 20s linear infinite;
-    padding-right:   2rem;
+.ark-services__marquee span {
+    white-space:    nowrap;
+    font-weight:    700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity:        0.5;
 }
 
 @keyframes ark-marquee {
@@ -63,74 +54,71 @@
     to   { transform: translateX( -50% ); }
 }
 
-/* Grid */
+/* ── Grid ────────────────────────────────────────────────── */
 .ark-services__grid {
     display:               grid;
-    grid-template-columns: repeat( 2, 1fr );
+    grid-template-columns: repeat( 4, 1fr );
     gap:                   1.5rem;
 }
 
-/* Card */
+/* ── Card ────────────────────────────────────────────────── */
 .ark-services__card {
-    background:    rgba( 255,255,255,0.04 );
     border-radius: 8px;
     overflow:      hidden;
-    transition:    transform 0.3s ease, background 0.3s ease;
+    background:    rgba( 255, 255, 255, 0.03 );
+    transition:    transform 0.3s ease;
 }
 
 .ark-services__card:hover {
-    transform:  translateY( -4px );
-    background: rgba( 255,255,255,0.07 );
+    transform: translateY( -4px );
 }
 
-.ark-services__card-thumb {
-    margin:       0;
-    aspect-ratio: 16 / 10;
+.ark-services__card-img {
+    aspect-ratio: 3 / 4;
     overflow:     hidden;
 }
 
-.ark-services__card-thumb img {
+.ark-services__card-img img {
     width:      100%;
     height:     100%;
     object-fit: cover;
     display:    block;
     transition: transform 0.5s ease;
+    filter:     grayscale( 100% );
 }
 
-.ark-services__card:hover .ark-services__card-thumb img {
-    transform: scale( 1.04 );
-}
-
-.ark-services__card-thumb--empty {
-    background: rgba( 255,255,255,0.06 );
-    aspect-ratio: 16 / 10;
+.ark-services__card:hover .ark-services__card-img img {
+    transform: scale( 1.05 );
 }
 
 .ark-services__card-body {
-    padding: 1.5rem;
+    padding: 1.25rem;
 }
 
 .ark-services__card-title {
-    font-size:     1.25rem;
-    font-weight:   700;
-    margin-bottom: 0.75rem;
-    line-height:   1.2;
+    font-size:   1rem;
+    font-weight: 700;
+    margin:      0 0 0.5rem;
 }
 
 .ark-services__card-text {
-    font-size:   0.9375rem;
+    font-size: 0.875rem;
+    opacity:   0.65;
+    margin:    0;
     line-height: 1.6;
-    opacity:     0.75;
-    margin:      0;
 }
 
-/* Responsive */
-@media ( max-width: 640px ) {
+/* ── Responsive ──────────────────────────────────────────── */
+@media ( max-width: 1024px ) {
+    .ark-services__grid {
+        grid-template-columns: repeat( 2, 1fr );
+        padding-left:  1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media ( max-width: 600px ) {
     .ark-services__grid {
         grid-template-columns: 1fr;
-    }
-
-    .ark-services__title {
-        font-size: clamp( 2.5rem, 12vw, 4rem );
     }
 }
