@@ -145,3 +145,47 @@ document.addEventListener( 'DOMContentLoaded', () => {
         })
     })
 })
+
+// ── Sottomenu menu fullscreen ─────────────────────────────
+( function() {
+    document.addEventListener( 'DOMContentLoaded', function() {
+        document.querySelectorAll( '.ark-menu__list .menu-item-has-children > a' ).forEach( function( link ) {
+            // Aggiungi toggle
+            const toggle = document.createElement( 'button' )
+            toggle.className   = 'ark-submenu-toggle'
+            toggle.innerHTML   = '+'
+            toggle.setAttribute( 'aria-expanded', 'false' )
+            link.parentElement.appendChild( toggle )
+
+            toggle.addEventListener( 'click', function(e) {
+                e.stopPropagation()
+                const item    = this.parentElement
+                const submenu = item.querySelector( '.sub-menu' )
+                const isOpen  = item.classList.contains( 'is-open' )
+
+                // Chiudi tutti gli altri
+                document.querySelectorAll( '.ark-menu__list .menu-item-has-children.is-open' ).forEach( function(el) {
+                    if ( el !== item ) {
+                        el.classList.remove( 'is-open' )
+                        el.querySelector( '.sub-menu' ).style.maxHeight = '0'
+                        el.querySelector( '.ark-submenu-toggle' ).innerHTML = '+'
+                        el.querySelector( '.ark-submenu-toggle' ).setAttribute( 'aria-expanded', 'false' )
+                    }
+                })
+
+                // Toggle questo
+                if ( isOpen ) {
+                    item.classList.remove( 'is-open' )
+                    submenu.style.maxHeight = '0'
+                    this.innerHTML = '+'
+                    this.setAttribute( 'aria-expanded', 'false' )
+                } else {
+                    item.classList.add( 'is-open' )
+                    submenu.style.maxHeight = submenu.scrollHeight + 'px'
+                    this.innerHTML = '−'
+                    this.setAttribute( 'aria-expanded', 'true' )
+                }
+            })
+        })
+    })
+})()
