@@ -2078,3 +2078,42 @@ body {
         object-fit: cover !important;
     }
 }
+
+/* ── Sottomenu desktop ───────────────────────────────────── */
+.ark-menu__nav .menu-item-has-children {
+    position: relative;
+}
+
+.ark-menu__nav .sub-menu {
+    display:       none;
+    position:      absolute;
+    top:           100%;
+    left:          0;
+    background:    var( --color-header-bg, #0a0a0a );
+    min-width:     200px;
+    padding:       0.5rem 0;
+    border-radius: 4px;
+    box-shadow:    0 8px 24px rgba(0,0,0,0.3);
+    z-index:       999;
+}
+
+.ark-menu__nav .menu-item-has-children:hover > .sub-menu {
+    display: block;
+}
+
+.ark-menu__nav .sub-menu li {
+    display: block;
+    width:   100%;
+}
+
+.ark-menu__nav .sub-menu a {
+    display:     block;
+    padding:     0.6rem 1.25rem;
+    font-size:   0.875rem;
+    white-space: nowrap;
+    transition:  color 0.2s ease;
+}
+
+.ark-menu__nav .sub-menu a:hover {
+    color: var( --color-accent, #e94560 );
+}
