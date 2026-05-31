@@ -110,3 +110,38 @@ document.addEventListener( 'DOMContentLoaded', () => {
     })
 
 })
+
+// ── Sottomenu nel menu fullscreen ─────────────────────────
+document.addEventListener( 'DOMContentLoaded', () => {
+    const menuItems = document.querySelectorAll( '.ark-menu__list .menu-item-has-children' )
+
+    menuItems.forEach( item => {
+        const link    = item.querySelector( ':scope > a' )
+        const submenu = item.querySelector( ':scope > .sub-menu' )
+
+        if ( ! link || ! submenu ) return
+
+        // Aggiungi freccia
+        const arrow = document.createElement( 'span' )
+        arrow.className = 'ark-submenu-arrow'
+        arrow.innerHTML = '›'
+        link.appendChild( arrow )
+
+        // Toggle al click sulla freccia
+        arrow.addEventListener( 'click', ( e ) => {
+            e.preventDefault()
+            e.stopPropagation()
+            const isOpen = item.classList.contains( 'ark-submenu-open' )
+            // Chiudi tutti
+            menuItems.forEach( i => {
+                i.classList.remove( 'ark-submenu-open' )
+                i.querySelector( '.sub-menu' )?.removeAttribute( 'style' )
+            })
+            // Apri questo se era chiuso
+            if ( ! isOpen ) {
+                item.classList.add( 'ark-submenu-open' )
+                submenu.style.display = 'block'
+            }
+        })
+    })
+})
