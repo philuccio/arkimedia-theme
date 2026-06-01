@@ -2136,7 +2136,7 @@ body {
 }
 
 .ark-menu__list .menu-item-has-children.is-open > .ark-submenu-toggle {
-    transform: translateY( -50% ) rotate( 45deg );
+    transform: translateY( -50% ) rotate( 90deg );
 }
 
 /* ── Menu desktop — sottomenu ────────────────────────────── */

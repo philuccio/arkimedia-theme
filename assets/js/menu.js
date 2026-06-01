@@ -47,7 +47,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
         // Crea bottone toggle
         var toggle = document.createElement( 'button' )
         toggle.className = 'ark-submenu-toggle'
-        toggle.innerHTML = '+'
+        toggle.innerHTML = '›'
         toggle.type      = 'button'
         item.appendChild( toggle )
 
@@ -64,7 +64,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
                     var s = el.querySelector( '.sub-menu' )
                     var t = el.querySelector( '.ark-submenu-toggle' )
                     if ( s ) s.style.maxHeight = '0'
-                    if ( t ) { t.innerHTML = '+'; t.setAttribute( 'aria-expanded', 'false' ) }
+                    if ( t ) { t.innerHTML = '›'; t.setAttribute( 'aria-expanded', 'false' ) }
                 }
             })
 
@@ -72,12 +72,12 @@ document.addEventListener( 'DOMContentLoaded', function() {
             if ( isOpen ) {
                 item.classList.remove( 'is-open' )
                 submenu.style.maxHeight = '0'
-                toggle.innerHTML = '+'
+                toggle.innerHTML = '›'
                 toggle.setAttribute( 'aria-expanded', 'false' )
             } else {
                 item.classList.add( 'is-open' )
                 submenu.style.maxHeight = submenu.scrollHeight + 'px'
-                toggle.innerHTML = '−'
+                toggle.innerHTML = '‹'
                 toggle.setAttribute( 'aria-expanded', 'true' )
             }
         })
