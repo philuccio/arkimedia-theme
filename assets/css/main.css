@@ -2122,7 +2122,7 @@ body {
     transform:        translateY( -50% );
     background:       none;
     border:           none;
-    color:            inherit;
+    color:            var( --color-accent, #e94560 );
     font-size:        1.5rem;
     cursor:           pointer;
     padding:          0 0.5rem;
