@@ -189,3 +189,55 @@ document.addEventListener( 'DOMContentLoaded', () => {
         })
     })
 })()
+
+// ── Sottomenu menu hamburger — v2 ────────────────────────
+document.addEventListener( 'DOMContentLoaded', function() {
+    document.querySelectorAll( '.ark-menu__list .menu-item-has-children' ).forEach( function( item ) {
+        if ( item.querySelector( '.ark-submenu-toggle' ) ) return
+
+        var submenu = item.querySelector( '.sub-menu' )
+        if ( ! submenu ) return
+
+        // Rimuovi freccia se aggiunta dal vecchio codice
+        var oldArrow = item.querySelector( '.ark-submenu-arrow' )
+        if ( oldArrow ) oldArrow.remove()
+
+        // Crea bottone toggle
+        var toggle = document.createElement( 'button' )
+        toggle.className = 'ark-submenu-toggle'
+        toggle.innerHTML = '+'
+        toggle.type = 'button'
+        item.appendChild( toggle )
+
+        toggle.addEventListener( 'click', function( e ) {
+            e.preventDefault()
+            e.stopPropagation()
+
+            var isOpen = item.classList.contains( 'is-open' )
+
+            // Chiudi tutti gli altri
+            document.querySelectorAll( '.ark-menu__list .menu-item-has-children.is-open' ).forEach( function( el ) {
+                if ( el !== item ) {
+                    el.classList.remove( 'is-open' )
+                    var s = el.querySelector( '.sub-menu' )
+                    var t = el.querySelector( '.ark-submenu-toggle' )
+                    if ( s ) s.style.maxHeight = '0'
+                    if ( t ) { t.innerHTML = '+'; t.setAttribute( 'aria-expanded', 'false' ) }
+                }
+            })
+
+            // Toggle questo
+            if ( isOpen ) {
+                item.classList.remove( 'is-open' )
+                submenu.style.maxHeight = '0'
+                toggle.innerHTML = '+'
+                toggle.setAttribute( 'aria-expanded', 'false' )
+            } else {
+                item.classList.add( 'is-open' )
+                submenu.style.maxHeight = submenu.scrollHeight + 'px'
+                toggle.innerHTML = '−'
+                toggle.setAttribute( 'aria-expanded', 'true' )
+            }
+        })
+    })
+})
