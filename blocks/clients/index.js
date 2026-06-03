@@ -2,7 +2,50 @@ import { registerBlockType } from '@wordpress/blocks'
 import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor'
 import { PanelBody, TextControl, RangeControl, ToggleControl, Button, ColorPicker } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
+
+// ── Hook locale per TextControl ───────────────────────────
+function useLocalText( value, onChange ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return {
+        value:    local,
+        onChange: setLocal,
+        onBlur:   useCallback( () => onChange( local ), [ local, onChange ] ),
+    }
+}
+
+// ── RangeControl con salvataggio onPointerUp ──────────────
+function LocalRange( { label, value, onChange, min = 0, max = 200, step = 1 } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    useEffect( () => { setLocal( value ?? 0 ); committed.current = value ?? 0 }, [ value ] )
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) { committed.current = local; onChange( local ) }
+    }, [ local, onChange ] )
+    return (
+        <div onPointerUp={ commit } onKeyUp={ commit }>
+            <RangeControl label={label} value={local} onChange={ setLocal } min={min} max={max} step={step} />
+        </div>
+    )
+}
+
+// ── TextControl locale per campi dentro array di oggetti ──
+function ClientTextField( { label, value, onCommit, placeholder, type } ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return (
+        <TextControl
+            label={label}
+            value={local}
+            onChange={ setLocal }
+            onBlur={ () => onCommit( local ) }
+            placeholder={placeholder}
+            type={type}
+        />
+    )
+}
 
 registerBlockType( metadata.name, {
 
@@ -21,11 +64,11 @@ registerBlockType( metadata.name, {
             }
         })
 
+        const eyebrowText = useLocalText( eyebrow, v => setAttributes({ eyebrow: v }) )
+
         const updateClient = ( index, data ) => {
-            const updated = clients.map( ( c, i ) =>
-                i === index ? { ...c, ...data } : c
-            )
-            setAttributes({ clients: updated })
+            const updated = clients.map( ( c, i ) => i === index ? { ...c, ...data } : c )
+            setAttributes({ clients: [ ...updated ] })
         }
 
         const addClient = () => {
@@ -51,16 +94,13 @@ registerBlockType( metadata.name, {
                     <PanelBody title={ __( 'Impostazioni', 'arkimedia' ) } initialOpen={true}>
                         <TextControl
                             label={ __( 'Eyebrow', 'arkimedia' ) }
-                            value={eyebrow}
-                            onChange={ val => setAttributes({ eyebrow: val }) }
+                            { ...eyebrowText }
                         />
-                        <RangeControl
+                        <LocalRange
                             label={ __( 'Dimensione quadrato logo (px)', 'arkimedia' ) }
                             value={logoSize}
-                            onChange={ val => setAttributes({ logoSize: val }) }
-                            min={80}
-                            max={240}
-                            step={8}
+                            onChange={ v => setAttributes({ logoSize: v }) }
+                            min={80} max={240} step={8}
                         />
                         <ToggleControl
                             label={ __( 'Scorrimento automatico', 'arkimedia' ) }
@@ -89,16 +129,16 @@ registerBlockType( metadata.name, {
                                 <p style={{ fontSize:'11px', fontWeight:600, textTransform:'uppercase', marginBottom:'8px' }}>
                                     { `Cliente ${ i + 1 }` }
                                 </p>
-                                <TextControl
+                                <ClientTextField
                                     label={ __( 'Nome cliente', 'arkimedia' ) }
                                     value={client.name}
-                                    onChange={ val => updateClient( i, { name: val } ) }
+                                    onCommit={ v => updateClient( i, { name: v } ) }
                                     placeholder="Es. Nordvik"
                                 />
-                                <TextControl
+                                <ClientTextField
                                     label={ __( 'URL sito cliente', 'arkimedia' ) }
                                     value={client.clientUrl}
-                                    onChange={ val => updateClient( i, { clientUrl: val } ) }
+                                    onCommit={ v => updateClient( i, { clientUrl: v } ) }
                                     placeholder="https://esempio.it"
                                     type="url"
                                 />

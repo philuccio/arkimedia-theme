@@ -7,7 +7,34 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
+
+// ── Hook locale per TextControl ───────────────────────────
+function useLocalText( value, onChange ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return {
+        value:    local,
+        onChange: setLocal,
+        onBlur:   useCallback( () => onChange( local ), [ local, onChange ] ),
+    }
+}
+
+// ── RangeControl con salvataggio onPointerUp ──────────────
+function LocalRange( { label, value, onChange, min = 0, max = 300, step = 1 } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    useEffect( () => { setLocal( value ?? 0 ); committed.current = value ?? 0 }, [ value ] )
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) { committed.current = local; onChange( local ) }
+    }, [ local, onChange ] )
+    return (
+        <div onPointerUp={ commit } onKeyUp={ commit }>
+            <RangeControl label={label} value={local} onChange={ setLocal } min={min} max={max} step={step} />
+        </div>
+    )
+}
 
 registerBlockType( metadata.name, {
 
@@ -27,7 +54,17 @@ registerBlockType( metadata.name, {
             animationType, animationDelay,
         } = attributes
 
-        // Sfondo preview
+        // ── Hook locali TextControl ───────────────────────
+        const eyebrowText      = useLocalText( eyebrow,        v => setAttributes({ eyebrow: v }) )
+        const titleSizeText    = useLocalText( titleSize,      v => setAttributes({ titleSize: v }) )
+        const titleLineHText   = useLocalText( titleLineHeight, v => setAttributes({ titleLineHeight: v }) )
+        const descSizeText     = useLocalText( descSize,       v => setAttributes({ descSize: v }) )
+        const descLineHText    = useLocalText( descLineHeight,  v => setAttributes({ descLineHeight: v }) )
+        const cta1LabelText    = useLocalText( cta1Label,      v => setAttributes({ cta1Label: v }) )
+        const cta1UrlText      = useLocalText( cta1Url,        v => setAttributes({ cta1Url: v }) )
+        const cta2LabelText    = useLocalText( cta2Label,      v => setAttributes({ cta2Label: v }) )
+        const cta2UrlText      = useLocalText( cta2Url,        v => setAttributes({ cta2Url: v }) )
+
         let bgStyle = {}
         switch ( bgType ) {
             case 'gradient':
@@ -69,7 +106,7 @@ registerBlockType( metadata.name, {
                 padding: style === 'ghost' ? '0 0 4px' : '1rem 2.5rem',
                 borderRadius: style === 'ghost' ? 0 : '4px',
                 background: style === 'filled' ? ( bg || 'var(--color-accent,#e94560)' ) : 'transparent',
-                border: style === 'outline' ? `2px solid ${ textColor }` : style === 'ghost' ? `0 0 2px 0 solid ${ textColor }` : 'none',
+                border: style === 'outline' ? `2px solid ${ textColor }` : 'none',
                 borderBottom: style === 'ghost' ? `2px solid ${ textColor }` : undefined,
                 color: textColor,
             }
@@ -80,10 +117,6 @@ registerBlockType( metadata.name, {
             position: 'relative', zIndex: 2,
             padding: `${ paddingTop }px ${ paddingRight }px ${ paddingBottom }px ${ paddingLeft }px`,
         }
-
-        const Sp = ( { label, value, onChange, max = 300 } ) => (
-            <RangeControl label={label} value={value} onChange={onChange} min={0} max={max} step={4} />
-        )
 
         return (
             <>
@@ -128,7 +161,7 @@ registerBlockType( metadata.name, {
                             if ( tab.name === 'content' ) return (
                                 <div style={{ padding:'12px' }}>
                                     <PanelBody title={ __('Eyebrow','arkimedia') } initialOpen={false}>
-                                        <TextControl label={ __('Testo','arkimedia') } value={eyebrow} onChange={ v => setAttributes({ eyebrow: v }) } />
+                                        <TextControl label={ __('Testo','arkimedia') } { ...eyebrowText } />
                                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                                         <ColorPicker color={eyebrowColor} onChange={ v => setAttributes({ eyebrowColor: v }) } />
                                     </PanelBody>
@@ -136,7 +169,7 @@ registerBlockType( metadata.name, {
                                         <TextareaControl label={ __('Testo','arkimedia') } value={title} onChange={ v => setAttributes({ title: v }) } rows={3} />
                                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                                         <ColorPicker color={titleColor} onChange={ v => setAttributes({ titleColor: v }) } />
-                                        <TextControl label={ __('Font size','arkimedia') } value={titleSize} onChange={ v => setAttributes({ titleSize: v }) } />
+                                        <TextControl label={ __('Font size','arkimedia') }  { ...titleSizeText } />
                                         <SelectControl label={ __('Font weight','arkimedia') } value={titleWeight}
                                             options={[
                                                 { label:'300', value:'300' }, { label:'400', value:'400' },
@@ -146,18 +179,18 @@ registerBlockType( metadata.name, {
                                             ]}
                                             onChange={ v => setAttributes({ titleWeight: v }) }
                                         />
-                                        <TextControl label={ __('Line height','arkimedia') } value={titleLineHeight} onChange={ v => setAttributes({ titleLineHeight: v }) } />
+                                        <TextControl label={ __('Line height','arkimedia') } { ...titleLineHText } />
                                     </PanelBody>
                                     <PanelBody title={ __('Descrizione','arkimedia') } initialOpen={false}>
                                         <TextareaControl label={ __('Testo','arkimedia') } value={description} onChange={ v => setAttributes({ description: v }) } rows={4} />
                                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                                         <ColorPicker color={descColor} onChange={ v => setAttributes({ descColor: v }) } enableAlpha />
-                                        <TextControl label={ __('Font size','arkimedia') } value={descSize} onChange={ v => setAttributes({ descSize: v }) } />
-                                        <TextControl label={ __('Line height','arkimedia') } value={descLineHeight} onChange={ v => setAttributes({ descLineHeight: v }) } />
+                                        <TextControl label={ __('Font size','arkimedia') }  { ...descSizeText } />
+                                        <TextControl label={ __('Line height','arkimedia') } { ...descLineHText } />
                                     </PanelBody>
                                     <PanelBody title={ __('CTA Primario','arkimedia') } initialOpen={true}>
-                                        <TextControl label={ __('Testo','arkimedia') } value={cta1Label} onChange={ v => setAttributes({ cta1Label: v }) } />
-                                        <TextControl label={ __('URL','arkimedia') } value={cta1Url} onChange={ v => setAttributes({ cta1Url: v }) } type="url" />
+                                        <TextControl label={ __('Testo','arkimedia') } { ...cta1LabelText } />
+                                        <TextControl label={ __('URL','arkimedia') }   { ...cta1UrlText }   type="url" />
                                         <SelectControl label={ __('Stile','arkimedia') } value={cta1Style}
                                             options={[ { label:'Filled', value:'filled' }, { label:'Outline', value:'outline' }, { label:'Ghost', value:'ghost' } ]}
                                             onChange={ v => setAttributes({ cta1Style: v }) }
@@ -168,8 +201,8 @@ registerBlockType( metadata.name, {
                                         <ColorPicker color={cta1TextColor} onChange={ v => setAttributes({ cta1TextColor: v }) } />
                                     </PanelBody>
                                     <PanelBody title={ __('CTA Secondario','arkimedia') } initialOpen={false}>
-                                        <TextControl label={ __('Testo','arkimedia') } value={cta2Label} onChange={ v => setAttributes({ cta2Label: v }) } />
-                                        <TextControl label={ __('URL','arkimedia') } value={cta2Url} onChange={ v => setAttributes({ cta2Url: v }) } type="url" />
+                                        <TextControl label={ __('Testo','arkimedia') } { ...cta2LabelText } />
+                                        <TextControl label={ __('URL','arkimedia') }   { ...cta2UrlText }   type="url" />
                                         <SelectControl label={ __('Stile','arkimedia') } value={cta2Style}
                                             options={[ { label:'Filled', value:'filled' }, { label:'Outline', value:'outline' }, { label:'Ghost', value:'ghost' } ]}
                                             onChange={ v => setAttributes({ cta2Style: v }) }
@@ -190,20 +223,17 @@ registerBlockType( metadata.name, {
                                             <ToggleGroupControlOption value="gradient" label="Gradiente" />
                                             <ToggleGroupControlOption value="image"    label="Immagine" />
                                         </ToggleGroupControl>
-
                                         { bgType === 'color' && <>
                                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                                             <ColorPicker color={bgColor} onChange={ v => setAttributes({ bgColor: v }) } enableAlpha />
                                         </> }
-
                                         { bgType === 'gradient' && <>
-                                            <RangeControl label="Angolo (°)" value={gradientAngle} onChange={ v => setAttributes({ gradientAngle: v }) } min={0} max={360} />
+                                            <LocalRange label="Angolo (°)" value={gradientAngle} onChange={ v => setAttributes({ gradientAngle: v }) } min={0} max={360} step={1} />
                                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore 1</p>
                                             <ColorPicker color={gradientColor1} onChange={ v => setAttributes({ gradientColor1: v }) } />
                                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore 2</p>
                                             <ColorPicker color={gradientColor2} onChange={ v => setAttributes({ gradientColor2: v }) } />
                                         </> }
-
                                         { bgType === 'image' && <>
                                             <MediaUploadCheck>
                                                 <MediaUpload
@@ -236,12 +266,12 @@ registerBlockType( metadata.name, {
                                         </> }
                                     </PanelBody>
                                     <PanelBody title={ __('Bordo','arkimedia') } initialOpen={false}>
-                                        <Sp label={ __('Border radius','arkimedia') } value={borderRadius} onChange={ v => setAttributes({ borderRadius: v }) } max={50} />
+                                        <LocalRange label={ __('Border radius','arkimedia') } value={borderRadius} onChange={ v => setAttributes({ borderRadius: v }) } max={50} />
                                     </PanelBody>
                                     <PanelBody title={ __('Box Shadow','arkimedia') } initialOpen={false}>
                                         <ToggleControl label={ __('Abilita shadow','arkimedia') } checked={boxShadow} onChange={ v => setAttributes({ boxShadow: v }) } />
                                         { boxShadow && <>
-                                            <Sp label="Blur" value={shadowBlur} onChange={ v => setAttributes({ shadowBlur: v }) } max={100} />
+                                            <LocalRange label="Blur" value={shadowBlur} onChange={ v => setAttributes({ shadowBlur: v }) } max={100} />
                                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore shadow</p>
                                             <ColorPicker color={shadowColor} onChange={ v => setAttributes({ shadowColor: v }) } enableAlpha />
                                         </> }
@@ -258,7 +288,7 @@ registerBlockType( metadata.name, {
                                             onChange={ v => setAttributes({ animationType: v }) }
                                         />
                                         { animationType !== 'none' && (
-                                            <RangeControl label={ __('Delay (ms)','arkimedia') } value={animationDelay} onChange={ v => setAttributes({ animationDelay: v }) } min={0} max={2000} step={50} />
+                                            <LocalRange label={ __('Delay (ms)','arkimedia') } value={animationDelay} onChange={ v => setAttributes({ animationDelay: v }) } min={0} max={2000} step={50} />
                                         )}
                                     </PanelBody>
                                 </div>
@@ -267,14 +297,14 @@ registerBlockType( metadata.name, {
                             if ( tab.name === 'spacing' ) return (
                                 <div style={{ padding:'12px' }}>
                                     <PanelBody title={ __('Padding','arkimedia') } initialOpen={true}>
-                                        <Sp label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) } />
-                                        <Sp label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } />
-                                        <Sp label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) } />
-                                        <Sp label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) } />
+                                        <LocalRange label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) } />
+                                        <LocalRange label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } />
+                                        <LocalRange label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) } />
+                                        <LocalRange label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) } />
                                     </PanelBody>
                                     <PanelBody title={ __('Margin','arkimedia') } initialOpen={false}>
-                                        <Sp label="Top"    value={marginTop}    onChange={ v => setAttributes({ marginTop: v }) } />
-                                        <Sp label="Bottom" value={marginBottom} onChange={ v => setAttributes({ marginBottom: v }) } />
+                                        <LocalRange label="Top"    value={marginTop}    onChange={ v => setAttributes({ marginTop: v }) } />
+                                        <LocalRange label="Bottom" value={marginBottom} onChange={ v => setAttributes({ marginBottom: v }) } />
                                     </PanelBody>
                                 </div>
                             )
@@ -284,13 +314,11 @@ registerBlockType( metadata.name, {
                     </TabPanel>
                 </InspectorControls>
 
-                {/* Preview editor */}
                 <div { ...blockProps }>
                     { bgType === 'image' && overlayColor && (
                         <div style={{ position:'absolute', inset:0, background:overlayColor, zIndex:1 }} />
                     )}
                     <div style={{ ...contentStyle, position:'relative', zIndex:2, maxWidth:'var(--container-width,1200px)', margin:'0 auto' }}>
-
                         { layout === 'B' ? (
                             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'3rem', flexWrap:'wrap' }}>
                                 <div style={{ flex:1, minWidth:'300px' }}>

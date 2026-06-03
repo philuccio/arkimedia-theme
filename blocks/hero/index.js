@@ -7,7 +7,34 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
+
+// ── Hook locale per TextControl ───────────────────────────
+function useLocalText( value, onChange ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return {
+        value:    local,
+        onChange: setLocal,
+        onBlur:   useCallback( () => onChange( local ), [ local, onChange ] ),
+    }
+}
+
+// ── RangeControl con salvataggio onPointerUp ──────────────
+function LocalRange( { label, value, onChange, min = 0, max = 200, step = 1 } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    useEffect( () => { setLocal( value ?? 0 ); committed.current = value ?? 0 }, [ value ] )
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) { committed.current = local; onChange( local ) }
+    }, [ local, onChange ] )
+    return (
+        <div onPointerUp={ commit } onKeyUp={ commit }>
+            <RangeControl label={label} value={local} onChange={ setLocal } min={min} max={max} step={step} />
+        </div>
+    )
+}
 
 registerBlockType( metadata.name, {
 
@@ -27,7 +54,18 @@ registerBlockType( metadata.name, {
             paddingTop, paddingBottom, paddingLeft, paddingRight,
         } = attributes
 
-        // Posizione contenuto
+        // ── Hook locali TextControl ───────────────────────
+        const titleText        = useLocalText( title,       v => setAttributes({ title: v }) )
+        const title2Text       = useLocalText( title2,      v => setAttributes({ title2: v }) )
+        const title1SizeText   = useLocalText( title1Size,  v => setAttributes({ title1Size: v }) )
+        const title2SizeText   = useLocalText( title2Size,  v => setAttributes({ title2Size: v }) )
+        const subtitleSizeText = useLocalText( subtitleSize, v => setAttributes({ subtitleSize: v }) )
+        const eyebrowText      = useLocalText( eyebrow,     v => setAttributes({ eyebrow: v }) )
+        const ctaLabelText     = useLocalText( ctaLabel,    v => setAttributes({ ctaLabel: v }) )
+        const ctaUrlText       = useLocalText( ctaUrl,      v => setAttributes({ ctaUrl: v }) )
+        const ctaLabel2Text    = useLocalText( ctaLabel2,   v => setAttributes({ ctaLabel2: v }) )
+        const ctaUrl2Text      = useLocalText( ctaUrl2,     v => setAttributes({ ctaUrl2: v }) )
+
         const posMap = {
             'bottom-left':   { alignItems: 'flex-end',   textAlign: 'left' },
             'bottom-center': { alignItems: 'flex-end',   textAlign: 'center' },
@@ -41,7 +79,6 @@ registerBlockType( metadata.name, {
         }
         const pos = posMap[ contentPosition ] || posMap['bottom-left']
 
-        // Sfondo preview
         let bgStyle = {}
         switch ( bgType ) {
             case 'color':
@@ -80,139 +117,88 @@ registerBlockType( metadata.name, {
             }
         })
 
-        const Sp = ( { label, value, onChange, max = 200 } ) => (
-            <RangeControl label={label} value={value} onChange={onChange} min={0} max={max} step={4} />
-        )
-
         return (
             <>
                 <InspectorControls>
 
-                    {/* ── Titolo 1 ── */}
                     <PanelBody title={ __( 'Titolo riga 1', 'arkimedia' ) } initialOpen={true}>
-                        <TextControl
-                            label={ __('Testo','arkimedia') }
-                            value={title}
-                            onChange={ v => setAttributes({ title: v }) }
-                            placeholder={ __('Prima riga del titolo','arkimedia') }
-                        />
+                        <TextControl label={ __('Testo','arkimedia') } { ...titleText } placeholder={ __('Prima riga del titolo','arkimedia') } />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                         <ColorPicker color={title1Color} onChange={ v => setAttributes({ title1Color: v }) } />
-                        <TextControl
-                            label={ __('Font size (CSS)','arkimedia') }
-                            value={title1Size}
-                            onChange={ v => setAttributes({ title1Size: v }) }
-                            help="Es. clamp(3rem,9vw,8rem) oppure 5rem"
-                        />
-                        <SelectControl
-                            label={ __('Font weight','arkimedia') }
-                            value={title1Weight}
+                        <TextControl label={ __('Font size (CSS)','arkimedia') } { ...title1SizeText } help="Es. clamp(3rem,9vw,8rem) oppure 5rem" />
+                        <SelectControl label={ __('Font weight','arkimedia') } value={title1Weight}
                             options={[
-                                { label:'Light 300',    value:'300' },
-                                { label:'Regular 400',  value:'400' },
-                                { label:'Medium 500',   value:'500' },
-                                { label:'SemiBold 600', value:'600' },
-                                { label:'Bold 700',     value:'700' },
-                                { label:'ExtraBold 800',value:'800' },
-                                { label:'Black 900',    value:'900' },
+                                { label:'Light 300', value:'300' }, { label:'Regular 400', value:'400' },
+                                { label:'Medium 500', value:'500' }, { label:'SemiBold 600', value:'600' },
+                                { label:'Bold 700', value:'700' }, { label:'ExtraBold 800', value:'800' },
+                                { label:'Black 900', value:'900' },
                             ]}
                             onChange={ v => setAttributes({ title1Weight: v }) }
                         />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Padding (px)</p>
-                        <RangeControl label="Top"    value={attributes.title1PaddingTop}    onChange={ v => setAttributes({ title1PaddingTop: v }) }    min={0} max={200} />
-                        <RangeControl label="Bottom" value={attributes.title1PaddingBottom} onChange={ v => setAttributes({ title1PaddingBottom: v }) } min={0} max={200} />
-                        <RangeControl label="Left"   value={attributes.title1PaddingLeft}   onChange={ v => setAttributes({ title1PaddingLeft: v }) }   min={0} max={200} />
-                        <RangeControl label="Right"  value={attributes.title1PaddingRight}  onChange={ v => setAttributes({ title1PaddingRight: v }) }  min={0} max={200} />
+                        <LocalRange label="Top"    value={attributes.title1PaddingTop}    onChange={ v => setAttributes({ title1PaddingTop: v }) }    min={0}    max={200} />
+                        <LocalRange label="Bottom" value={attributes.title1PaddingBottom} onChange={ v => setAttributes({ title1PaddingBottom: v }) } min={0}    max={200} />
+                        <LocalRange label="Left"   value={attributes.title1PaddingLeft}   onChange={ v => setAttributes({ title1PaddingLeft: v }) }   min={0}    max={200} />
+                        <LocalRange label="Right"  value={attributes.title1PaddingRight}  onChange={ v => setAttributes({ title1PaddingRight: v }) }  min={0}    max={200} />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Margin (px)</p>
-                        <RangeControl label="Top"    value={attributes.title1MarginTop}    onChange={ v => setAttributes({ title1MarginTop: v }) }    min={-100} max={200} />
-                        <RangeControl label="Bottom" value={attributes.title1MarginBottom} onChange={ v => setAttributes({ title1MarginBottom: v }) } min={-100} max={200} />
-                        <RangeControl label="Left"   value={attributes.title1MarginLeft}   onChange={ v => setAttributes({ title1MarginLeft: v }) }   min={-100} max={200} />
-                        <RangeControl label="Right"  value={attributes.title1MarginRight}  onChange={ v => setAttributes({ title1MarginRight: v }) }  min={-100} max={200} />
+                        <LocalRange label="Top"    value={attributes.title1MarginTop}    onChange={ v => setAttributes({ title1MarginTop: v }) }    min={-100} max={200} />
+                        <LocalRange label="Bottom" value={attributes.title1MarginBottom} onChange={ v => setAttributes({ title1MarginBottom: v }) } min={-100} max={200} />
+                        <LocalRange label="Left"   value={attributes.title1MarginLeft}   onChange={ v => setAttributes({ title1MarginLeft: v }) }   min={-100} max={200} />
+                        <LocalRange label="Right"  value={attributes.title1MarginRight}  onChange={ v => setAttributes({ title1MarginRight: v }) }  min={-100} max={200} />
                     </PanelBody>
 
-                    {/* ── Titolo 2 ── */}
                     <PanelBody title={ __( 'Titolo riga 2', 'arkimedia' ) } initialOpen={false}>
-                        <TextControl
-                            label={ __('Testo','arkimedia') }
-                            value={title2}
-                            onChange={ v => setAttributes({ title2: v }) }
-                            placeholder={ __('Seconda riga (opzionale)','arkimedia') }
-                        />
+                        <TextControl label={ __('Testo','arkimedia') } { ...title2Text } placeholder={ __('Seconda riga (opzionale)','arkimedia') } />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                         <ColorPicker color={title2Color} onChange={ v => setAttributes({ title2Color: v }) } />
-                        <TextControl
-                            label={ __('Font size (CSS)','arkimedia') }
-                            value={title2Size}
-                            onChange={ v => setAttributes({ title2Size: v }) }
-                        />
-                        <SelectControl
-                            label={ __('Font weight','arkimedia') }
-                            value={title2Weight}
+                        <TextControl label={ __('Font size (CSS)','arkimedia') } { ...title2SizeText } />
+                        <SelectControl label={ __('Font weight','arkimedia') } value={title2Weight}
                             options={[
-                                { label:'Light 300',    value:'300' },
-                                { label:'Regular 400',  value:'400' },
-                                { label:'Medium 500',   value:'500' },
-                                { label:'SemiBold 600', value:'600' },
-                                { label:'Bold 700',     value:'700' },
-                                { label:'ExtraBold 800',value:'800' },
-                                { label:'Black 900',    value:'900' },
+                                { label:'Light 300', value:'300' }, { label:'Regular 400', value:'400' },
+                                { label:'Medium 500', value:'500' }, { label:'SemiBold 600', value:'600' },
+                                { label:'Bold 700', value:'700' }, { label:'ExtraBold 800', value:'800' },
+                                { label:'Black 900', value:'900' },
                             ]}
                             onChange={ v => setAttributes({ title2Weight: v }) }
                         />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Padding (px)</p>
-                        <RangeControl label="Top"    value={attributes.title2PaddingTop}    onChange={ v => setAttributes({ title2PaddingTop: v }) }    min={0} max={200} />
-                        <RangeControl label="Bottom" value={attributes.title2PaddingBottom} onChange={ v => setAttributes({ title2PaddingBottom: v }) } min={0} max={200} />
-                        <RangeControl label="Left"   value={attributes.title2PaddingLeft}   onChange={ v => setAttributes({ title2PaddingLeft: v }) }   min={0} max={200} />
-                        <RangeControl label="Right"  value={attributes.title2PaddingRight}  onChange={ v => setAttributes({ title2PaddingRight: v }) }  min={0} max={200} />
+                        <LocalRange label="Top"    value={attributes.title2PaddingTop}    onChange={ v => setAttributes({ title2PaddingTop: v }) }    min={0}    max={200} />
+                        <LocalRange label="Bottom" value={attributes.title2PaddingBottom} onChange={ v => setAttributes({ title2PaddingBottom: v }) } min={0}    max={200} />
+                        <LocalRange label="Left"   value={attributes.title2PaddingLeft}   onChange={ v => setAttributes({ title2PaddingLeft: v }) }   min={0}    max={200} />
+                        <LocalRange label="Right"  value={attributes.title2PaddingRight}  onChange={ v => setAttributes({ title2PaddingRight: v }) }  min={0}    max={200} />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 4px'}}>Margin (px)</p>
-                        <RangeControl label="Top"    value={attributes.title2MarginTop}    onChange={ v => setAttributes({ title2MarginTop: v }) }    min={-100} max={200} />
-                        <RangeControl label="Bottom" value={attributes.title2MarginBottom} onChange={ v => setAttributes({ title2MarginBottom: v }) } min={-100} max={200} />
-                        <RangeControl label="Left"   value={attributes.title2MarginLeft}   onChange={ v => setAttributes({ title2MarginLeft: v }) }   min={-100} max={200} />
-                        <RangeControl label="Right"  value={attributes.title2MarginRight}  onChange={ v => setAttributes({ title2MarginRight: v }) }  min={-100} max={200} />
+                        <LocalRange label="Top"    value={attributes.title2MarginTop}    onChange={ v => setAttributes({ title2MarginTop: v }) }    min={-100} max={200} />
+                        <LocalRange label="Bottom" value={attributes.title2MarginBottom} onChange={ v => setAttributes({ title2MarginBottom: v }) } min={-100} max={200} />
+                        <LocalRange label="Left"   value={attributes.title2MarginLeft}   onChange={ v => setAttributes({ title2MarginLeft: v }) }   min={-100} max={200} />
+                        <LocalRange label="Right"  value={attributes.title2MarginRight}  onChange={ v => setAttributes({ title2MarginRight: v }) }  min={-100} max={200} />
                     </PanelBody>
 
-                    {/* ── Sottotitolo ── */}
                     <PanelBody title={ __( 'Sottotitolo', 'arkimedia' ) } initialOpen={false}>
-                        <TextareaControl
-                            label={ __('Testo','arkimedia') }
-                            value={subtitle}
-                            onChange={ v => setAttributes({ subtitle: v }) }
-                        />
+                        <TextareaControl label={ __('Testo','arkimedia') } value={subtitle} onChange={ v => setAttributes({ subtitle: v }) } />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                         <ColorPicker color={subtitleColor} onChange={ v => setAttributes({ subtitleColor: v }) } enableAlpha />
-                        <TextControl
-                            label={ __('Font size','arkimedia') }
-                            value={subtitleSize}
-                            onChange={ v => setAttributes({ subtitleSize: v }) }
-                        />
+                        <TextControl label={ __('Font size','arkimedia') } { ...subtitleSizeText } />
                     </PanelBody>
 
-                    {/* ── Eyebrow ── */}
                     <PanelBody title={ __( 'Eyebrow', 'arkimedia' ) } initialOpen={false}>
-                        <TextControl
-                            label={ __('Testo','arkimedia') }
-                            value={eyebrow}
-                            onChange={ v => setAttributes({ eyebrow: v }) }
-                        />
+                        <TextControl label={ __('Testo','arkimedia') } { ...eyebrowText } />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                         <ColorPicker color={eyebrowColor} onChange={ v => setAttributes({ eyebrowColor: v }) } />
                     </PanelBody>
 
-                    {/* ── CTA ── */}
                     <PanelBody title={ __( 'Pulsanti CTA', 'arkimedia' ) } initialOpen={false}>
                         <p style={{fontSize:'11px',fontWeight:600,marginBottom:'8px'}}>CTA Primario</p>
-                        <TextControl label={ __('Testo','arkimedia') }  value={ctaLabel} onChange={ v => setAttributes({ ctaLabel: v }) } />
-                        <TextControl label={ __('URL','arkimedia') }    value={ctaUrl}   onChange={ v => setAttributes({ ctaUrl: v }) }   type="url" />
+                        <TextControl label={ __('Testo','arkimedia') } { ...ctaLabelText } />
+                        <TextControl label={ __('URL','arkimedia') }   { ...ctaUrlText }   type="url" />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore sfondo CTA</p>
                         <ColorPicker color={ctaBgColor} onChange={ v => setAttributes({ ctaBgColor: v }) } />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore testo CTA</p>
                         <ColorPicker color={ctaTextColor} onChange={ v => setAttributes({ ctaTextColor: v }) } />
                         <p style={{fontSize:'11px',fontWeight:600,margin:'16px 0 8px',borderTop:'1px solid #e0e0e0',paddingTop:'12px'}}>CTA Secondario</p>
-                        <TextControl label={ __('Testo','arkimedia') }  value={ctaLabel2} onChange={ v => setAttributes({ ctaLabel2: v }) } />
-                        <TextControl label={ __('URL','arkimedia') }    value={ctaUrl2}   onChange={ v => setAttributes({ ctaUrl2: v }) }   type="url" />
+                        <TextControl label={ __('Testo','arkimedia') } { ...ctaLabel2Text } />
+                        <TextControl label={ __('URL','arkimedia') }   { ...ctaUrl2Text }   type="url" />
                     </PanelBody>
 
-                    {/* ── Sfondo ── */}
                     <PanelBody title={ __( 'Sfondo', 'arkimedia' ) } initialOpen={false}>
                         <ToggleGroupControl label={ __('Tipo sfondo','arkimedia') } value={bgType} onChange={ v => setAttributes({ bgType: v }) } isBlock>
                             <ToggleGroupControlOption value="image"    label="Immagine" />
@@ -243,11 +229,9 @@ registerBlockType( metadata.name, {
                             />
                             <SelectControl label="Position" value={bgPosition}
                                 options={[
-                                    { label:'Center', value:'center center' },
-                                    { label:'Top',    value:'center top' },
-                                    { label:'Bottom', value:'center bottom' },
-                                    { label:'Left',   value:'left center' },
-                                    { label:'Right',  value:'right center' },
+                                    { label:'Center', value:'center center' }, { label:'Top', value:'center top' },
+                                    { label:'Bottom', value:'center bottom' }, { label:'Left', value:'left center' },
+                                    { label:'Right', value:'right center' },
                                 ]}
                                 onChange={ v => setAttributes({ bgPosition: v }) }
                             />
@@ -267,7 +251,7 @@ registerBlockType( metadata.name, {
                                 options={[ { label:'Lineare', value:'linear' }, { label:'Radiale', value:'radial' } ]}
                                 onChange={ v => setAttributes({ gradientType: v }) }
                             />
-                            { gradientType === 'linear' && <RangeControl label="Angolo (°)" value={gradientAngle} onChange={ v => setAttributes({ gradientAngle: v }) } min={0} max={360} /> }
+                            { gradientType === 'linear' && <LocalRange label="Angolo (°)" value={gradientAngle} onChange={ v => setAttributes({ gradientAngle: v }) } min={0} max={360} step={1} /> }
                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore 1</p>
                             <ColorPicker color={gradientColor1} onChange={ v => setAttributes({ gradientColor1: v }) } />
                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore 2</p>
@@ -278,50 +262,36 @@ registerBlockType( metadata.name, {
                         <ColorPicker color={overlayColor} onChange={ v => setAttributes({ overlayColor: v }) } enableAlpha />
                     </PanelBody>
 
-                    {/* ── Layout ── */}
                     <PanelBody title={ __( 'Layout', 'arkimedia' ) } initialOpen={false}>
-                        <SelectControl
-                            label={ __('Altezza','arkimedia') }
-                            value={minHeight}
+                        <SelectControl label={ __('Altezza','arkimedia') } value={minHeight}
                             options={[
-                                { label:'100vh', value:'100vh' },
-                                { label:'90vh',  value:'90vh' },
-                                { label:'80vh',  value:'80vh' },
-                                { label:'70vh',  value:'70vh' },
-                                { label:'600px', value:'600px' },
-                                { label:'500px', value:'500px' },
+                                { label:'100vh', value:'100vh' }, { label:'90vh', value:'90vh' },
+                                { label:'80vh', value:'80vh' }, { label:'70vh', value:'70vh' },
+                                { label:'600px', value:'600px' }, { label:'500px', value:'500px' },
                             ]}
                             onChange={ v => setAttributes({ minHeight: v }) }
                         />
-                        <SelectControl
-                            label={ __('Posizione contenuto','arkimedia') }
-                            value={contentPosition}
+                        <SelectControl label={ __('Posizione contenuto','arkimedia') } value={contentPosition}
                             options={[
-                                { label:'↙ In basso a sinistra',  value:'bottom-left' },
-                                { label:'↓ In basso al centro',   value:'bottom-center' },
-                                { label:'↘ In basso a destra',    value:'bottom-right' },
-                                { label:'← Al centro a sinistra', value:'center-left' },
-                                { label:'· Al centro',             value:'center-center' },
-                                { label:'→ Al centro a destra',   value:'center-right' },
-                                { label:'↖ In alto a sinistra',   value:'top-left' },
-                                { label:'↑ In alto al centro',    value:'top-center' },
-                                { label:'↗ In alto a destra',     value:'top-right' },
+                                { label:'↙ In basso a sinistra', value:'bottom-left' }, { label:'↓ In basso al centro', value:'bottom-center' },
+                                { label:'↘ In basso a destra', value:'bottom-right' }, { label:'← Al centro a sinistra', value:'center-left' },
+                                { label:'· Al centro', value:'center-center' }, { label:'→ Al centro a destra', value:'center-right' },
+                                { label:'↖ In alto a sinistra', value:'top-left' }, { label:'↑ In alto al centro', value:'top-center' },
+                                { label:'↗ In alto a destra', value:'top-right' },
                             ]}
                             onChange={ v => setAttributes({ contentPosition: v }) }
                         />
                     </PanelBody>
 
-                    {/* ── Padding ── */}
                     <PanelBody title={ __( 'Padding contenuto', 'arkimedia' ) } initialOpen={false}>
-                        <Sp label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) }    max={300} />
-                        <Sp label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } max={300} />
-                        <Sp label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) } />
-                        <Sp label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) } />
+                        <LocalRange label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) }    max={300} />
+                        <LocalRange label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } max={300} />
+                        <LocalRange label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) } />
+                        <LocalRange label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) } />
                     </PanelBody>
 
                 </InspectorControls>
 
-                {/* ── Preview editor ── */}
                 <div { ...blockProps }>
                     { overlayColor && (
                         <div style={{ position:'absolute', inset:0, background:overlayColor, zIndex:1, pointerEvents:'none' }} />
