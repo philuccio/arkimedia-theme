@@ -484,5 +484,5 @@ document.addEventListener( 'DOMContentLoaded', () => {
     initScrollAnimations()
     initParallax()
     initBlockAnimations()
-    // initLenisParallax() — disabilitato
+    initLenisParallax()
 })
