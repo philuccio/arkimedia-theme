@@ -454,6 +454,22 @@ function initLenisParallax() {
     if ( prefersReduced || ! parallaxEnabled ) return
 
     // Velocità differenziate per sezioni
+    // Fix background-attachment: fixed non funziona con Lenis
+    // Sostituiamo con parallax GSAP sulle immagini di sfondo degli hero
+    document.querySelectorAll( '.ark-hero[style*="background-image"]' ).forEach( el => {
+        gsap.to( el, {
+            backgroundPositionY: '30%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: el,
+                start:   'top top',
+                end:     'bottom top',
+                scrub:   true,
+                invalidateOnRefresh: true,
+            }
+        })
+    })
+
     const sections = [
         { selector: '.ark-services',    speed: 0.05 },
         { selector: '.ark-clients',     speed: 0.08 },
