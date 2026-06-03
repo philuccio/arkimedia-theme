@@ -1102,7 +1102,7 @@ body:has( #splash ) #page {
 }
 
 body {
-    overflow-x: hidden;
+    overflow-x: clip;
     width:      100%;
     margin:     0;
     padding:    0;
@@ -1600,7 +1600,7 @@ html {
     overflow-y: auto !important;
 }
 body {
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
     overflow-y: visible !important;
     min-height: 0 !important;
 }
@@ -2016,7 +2016,7 @@ html {
     overflow-y: auto;
 }
 body {
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-y: visible;
     min-height: 0;
 }
