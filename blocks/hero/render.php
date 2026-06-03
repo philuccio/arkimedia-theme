@@ -107,7 +107,7 @@ switch ( $bg_type ) {
         break;
     default:
         if ( $media_url ) {
-            $bg_style = "background-image:url(" . esc_url( $media_url ) . ");background-size:{$bg_size};background-position:{$bg_position};background-attachment:{$bg_attachment};background-repeat:no-repeat;";
+            $bg_style = "background-image:url(" . esc_url( $media_url ) . ");background-size:{$bg_size};background-position:{$bg_position};background-repeat:no-repeat;";
         } else {
             $bg_style = "background:{$bg_color};";
         }

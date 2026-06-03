@@ -48,6 +48,26 @@ function initLenis() {
 // ── Animazioni on-scroll ──────────────────────────────────────────────────────
 function initScrollAnimations() {
     if ( typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' ) return
+
+    // ── Hero parallax — compatibile con Lenis ─────────────────────────────────
+    document.querySelectorAll( '.ark-hero' ).forEach( el => {
+        const style = el.getAttribute( 'style' ) || ''
+        if ( ! style.includes( 'background-image' ) ) return
+        gsap.fromTo( el,
+            { backgroundPositionY: '0%' },
+            {
+                backgroundPositionY: '40%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: el,
+                    start:   'top top',
+                    end:     'bottom top',
+                    scrub:   true,
+                    invalidateOnRefresh: true,
+                }
+            }
+        )
+    })
     if ( prefersReduced || ! animEnabled ) return
 
     gsap.registerPlugin( ScrollTrigger )
