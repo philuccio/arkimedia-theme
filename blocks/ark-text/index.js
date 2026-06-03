@@ -6,7 +6,53 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
+
+// ── Hook locale per TextControl ───────────────────────────
+function useLocalText( value, onChange ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return {
+        value:    local,
+        onChange: setLocal,
+        onBlur:   useCallback( () => onChange( local ), [ local, onChange ] ),
+    }
+}
+
+// ── RangeControl con salvataggio onPointerUp ──────────────
+function LocalRange( { label, value, onChange, min = 0, max = 200, step = 1 } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    
+    useEffect( () => {
+        setLocal( value ?? 0 )
+        committed.current = value ?? 0
+    }, [ value ] )
+
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) {
+            committed.current = local
+            onChange( local )
+        }
+    }, [ local, onChange ] )
+
+    return (
+        <div
+            onPointerUp={ commit }
+            onKeyUp={ commit }
+        >
+            <RangeControl
+                label={label}
+                value={local}
+                onChange={ setLocal }
+                min={min}
+                max={max}
+                step={step}
+            />
+        </div>
+    )
+}
 
 registerBlockType( metadata.name, {
 
@@ -17,6 +63,11 @@ registerBlockType( metadata.name, {
             paddingTop, paddingRight, paddingBottom, paddingLeft,
             marginTop, marginBottom, htmlTag,
         } = attributes
+
+        const fontSizeText   = useLocalText( fontSize,      v => setAttributes({ fontSize: v }) )
+        const lineHeightText = useLocalText( lineHeight,    v => setAttributes({ lineHeight: v }) )
+        const letterSpacText = useLocalText( letterSpacing, v => setAttributes({ letterSpacing: v }) )
+        const maxWidthText   = useLocalText( maxWidth,      v => setAttributes({ maxWidth: v }) )
 
         const style = {
             fontSize, fontWeight, lineHeight,
@@ -30,10 +81,6 @@ registerBlockType( metadata.name, {
 
         const blockProps = useBlockProps({ style })
 
-        const Sp = ( { label, value, onChange, max = 100 } ) => (
-            <RangeControl label={label} value={value} onChange={onChange} min={0} max={max} step={1} />
-        )
-
         return (
             <>
                 <InspectorControls>
@@ -41,49 +88,38 @@ registerBlockType( metadata.name, {
                     <PanelBody title={ __( 'Tipografia', 'arkimedia' ) } initialOpen={true}>
                         <SelectControl label={ __('Tag HTML','arkimedia') } value={htmlTag}
                             options={[
-                                { label:'p',    value:'p' },
-                                { label:'h1',   value:'h1' },
-                                { label:'h2',   value:'h2' },
-                                { label:'h3',   value:'h3' },
-                                { label:'h4',   value:'h4' },
-                                { label:'h5',   value:'h5' },
-                                { label:'h6',   value:'h6' },
-                                { label:'span', value:'span' },
-                                { label:'div',  value:'div' },
+                                { label:'p', value:'p' }, { label:'h1', value:'h1' }, { label:'h2', value:'h2' },
+                                { label:'h3', value:'h3' }, { label:'h4', value:'h4' }, { label:'h5', value:'h5' },
+                                { label:'h6', value:'h6' }, { label:'span', value:'span' }, { label:'div', value:'div' },
                             ]}
                             onChange={ v => setAttributes({ htmlTag: v }) }
                         />
-                        <TextControl label={ __('Font size (es. 1rem, 18px, clamp(...))','arkimedia') } value={fontSize} onChange={ v => setAttributes({ fontSize: v }) } />
+                        <TextControl label={ __('Font size (es. 1rem, 18px, clamp(...))','arkimedia') } { ...fontSizeText } />
                         <SelectControl label={ __('Font weight','arkimedia') } value={fontWeight}
                             options={[
-                                { label:'Light 300',    value:'300' },
-                                { label:'Regular 400',  value:'400' },
-                                { label:'Medium 500',   value:'500' },
-                                { label:'SemiBold 600', value:'600' },
-                                { label:'Bold 700',     value:'700' },
-                                { label:'ExtraBold 800',value:'800' },
-                                { label:'Black 900',    value:'900' },
+                                { label:'Light 300', value:'300' }, { label:'Regular 400', value:'400' },
+                                { label:'Medium 500', value:'500' }, { label:'SemiBold 600', value:'600' },
+                                { label:'Bold 700', value:'700' }, { label:'ExtraBold 800', value:'800' },
+                                { label:'Black 900', value:'900' },
                             ]}
                             onChange={ v => setAttributes({ fontWeight: v }) }
                         />
-                        <TextControl label={ __('Line height','arkimedia') }     value={lineHeight}    onChange={ v => setAttributes({ lineHeight: v }) } />
-                        <TextControl label={ __('Letter spacing','arkimedia') }  value={letterSpacing} onChange={ v => setAttributes({ letterSpacing: v }) } placeholder="0 / 0.1em" />
+                        <TextControl label={ __('Line height','arkimedia') }    { ...lineHeightText } />
+                        <TextControl label={ __('Letter spacing','arkimedia') } { ...letterSpacText } placeholder="0 / 0.1em" />
                         <SelectControl label={ __('Text transform','arkimedia') } value={textTransform}
                             options={[
-                                { label:'None',       value:'none' },
-                                { label:'Uppercase',  value:'uppercase' },
-                                { label:'Lowercase',  value:'lowercase' },
-                                { label:'Capitalize', value:'capitalize' },
+                                { label:'None', value:'none' }, { label:'Uppercase', value:'uppercase' },
+                                { label:'Lowercase', value:'lowercase' }, { label:'Capitalize', value:'capitalize' },
                             ]}
                             onChange={ v => setAttributes({ textTransform: v }) }
                         />
                         <ToggleGroupControl label={ __('Allineamento','arkimedia') } value={textAlign} onChange={ v => setAttributes({ textAlign: v }) } isBlock>
-                            <ToggleGroupControlOption value="left"    label="←" />
-                            <ToggleGroupControlOption value="center"  label="↔" />
-                            <ToggleGroupControlOption value="right"   label="→" />
+                            <ToggleGroupControlOption value="left" label="←" />
+                            <ToggleGroupControlOption value="center" label="↔" />
+                            <ToggleGroupControlOption value="right" label="→" />
                             <ToggleGroupControlOption value="justify" label="⇔" />
                         </ToggleGroupControl>
-                        <TextControl label={ __('Max width (es. 600px, 80%)','arkimedia') } value={maxWidth} onChange={ v => setAttributes({ maxWidth: v }) } />
+                        <TextControl label={ __('Max width (es. 600px, 80%)','arkimedia') } { ...maxWidthText } />
                     </PanelBody>
 
                     <PanelBody title={ __( 'Colore', 'arkimedia' ) } initialOpen={false}>
@@ -91,15 +127,15 @@ registerBlockType( metadata.name, {
                     </PanelBody>
 
                     <PanelBody title={ __( 'Padding', 'arkimedia' ) } initialOpen={false}>
-                        <Sp label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) } />
-                        <Sp label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) } />
-                        <Sp label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } />
-                        <Sp label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) } />
+                        <LocalRange label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) }    max={100} />
+                        <LocalRange label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) }  max={100} />
+                        <LocalRange label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } max={100} />
+                        <LocalRange label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) }   max={100} />
                     </PanelBody>
 
                     <PanelBody title={ __( 'Margin', 'arkimedia' ) } initialOpen={false}>
-                        <Sp label="Top"    value={marginTop}    onChange={ v => setAttributes({ marginTop: v }) }    max={200} />
-                        <Sp label="Bottom" value={marginBottom} onChange={ v => setAttributes({ marginBottom: v }) } max={200} />
+                        <LocalRange label="Top"    value={marginTop}    onChange={ v => setAttributes({ marginTop: v }) }    max={200} />
+                        <LocalRange label="Bottom" value={marginBottom} onChange={ v => setAttributes({ marginBottom: v }) } max={200} />
                     </PanelBody>
 
                 </InspectorControls>
