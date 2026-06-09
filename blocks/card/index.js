@@ -1,5 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor'
+import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor'
 import {
     PanelBody, TextControl, TextareaControl, SelectControl,
     RangeControl, Button, ColorPicker, TabPanel, ToggleControl,
@@ -237,7 +237,13 @@ registerBlockType( metadata.name, {
                                         <TextControl label={ __('Line height','arkimedia') } { ...titleLineHText } />
                                     </PanelBody>
                                     <PanelBody title={ __('Descrizione','arkimedia') } initialOpen={false}>
-                                        <TextareaControl label={ __('Testo','arkimedia') } value={description} onChange={ v => setAttributes({ description: v }) } rows={4} />
+                                        <RichText
+                                            tagName="p"
+                                            value={description}
+                                            onChange={ v => setAttributes({ description: v }) }
+                                            placeholder={ __('Testo descrizione...','arkimedia') }
+                                            allowedFormats={[ 'core/bold', 'core/italic', 'core/link', 'core/underline' ]}
+                                        />
                                         <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>Colore</p>
                                         <ColorPicker color={descColor} onChange={ v => setAttributes({ descColor: v }) } enableAlpha />
                                         <TextControl label={ __('Font size','arkimedia') } { ...descSizeText } />
