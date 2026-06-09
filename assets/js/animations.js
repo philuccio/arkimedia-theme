@@ -49,25 +49,16 @@ function initLenis() {
 function initScrollAnimations() {
     if ( typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' ) return
 
-    // ── Hero parallax — compatibile con Lenis ─────────────────────────────────
-    document.querySelectorAll( '.ark-hero' ).forEach( el => {
-        const style = el.getAttribute( 'style' ) || ''
-        if ( ! style.includes( 'background-image' ) ) return
+    // ── Hero parallax — GSAP (background-attachment:fixed non funziona con Lenis)
+    document.querySelectorAll( '.ark-hero' ).forEach( function( el ) {
+        if ( ( el.getAttribute( 'style' ) || '' ).indexOf( 'background-image' ) === -1 ) return
         gsap.fromTo( el,
             { backgroundPositionY: '0%' },
-            {
-                backgroundPositionY: '40%',
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: el,
-                    start:   'top top',
-                    end:     'bottom top',
-                    scrub:   true,
-                    invalidateOnRefresh: true,
-                }
-            }
+            { backgroundPositionY: '40%', ease: 'none',
+              scrollTrigger: { trigger: el, start: 'top top', end: 'bottom top', scrub: true } }
         )
-    })
+    } )
+
     if ( prefersReduced || ! animEnabled ) return
 
     gsap.registerPlugin( ScrollTrigger )
@@ -278,6 +269,8 @@ function initParallax() {
 
 
 // ── Animazioni blocchi specifici ──────────────────────────────────────────────
+}
+
 function initBlockAnimations() {
     if ( typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' ) return
     if ( prefersReduced || ! animEnabled ) return
@@ -474,22 +467,6 @@ function initLenisParallax() {
     if ( prefersReduced || ! parallaxEnabled ) return
 
     // Velocità differenziate per sezioni
-    // Fix background-attachment: fixed non funziona con Lenis
-    // Sostituiamo con parallax GSAP sulle immagini di sfondo degli hero
-    document.querySelectorAll( '.ark-hero[style*="background-image"]' ).forEach( el => {
-        gsap.to( el, {
-            backgroundPositionY: '30%',
-            ease: 'none',
-            scrollTrigger: {
-                trigger: el,
-                start:   'top top',
-                end:     'bottom top',
-                scrub:   true,
-                invalidateOnRefresh: true,
-            }
-        })
-    })
-
     const sections = [
         { selector: '.ark-services',    speed: 0.05 },
         { selector: '.ark-clients',     speed: 0.08 },
