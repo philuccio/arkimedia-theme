@@ -49,19 +49,23 @@ function initLenis() {
 function initScrollAnimations() {
     if ( typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' ) return
 
-    // ── Hero parallax — GSAP (background-attachment:fixed non funziona con Lenis)
-    document.querySelectorAll( '.ark-hero' ).forEach( function( el ) {
-        if ( ( el.getAttribute( 'style' ) || '' ).indexOf( 'background-image' ) === -1 ) return
-        gsap.fromTo( el,
-            { backgroundPositionY: '0%' },
-            { backgroundPositionY: '40%', ease: 'none',
-              scrollTrigger: { trigger: el, start: 'top top', end: 'bottom top', scrub: true } }
-        )
-    } )
-
     if ( prefersReduced || ! animEnabled ) return
 
     gsap.registerPlugin( ScrollTrigger )
+
+    // ── Hero parallax — GSAP (background-attachment:fixed non funziona con Lenis)
+    // Il movimento parte dalla posizione scelta nel blocco
+    if ( parallaxEnabled ) {
+        document.querySelectorAll( '.ark-hero--parallax' ).forEach( function( el ) {
+            const startY = parseFloat( getComputedStyle( el ).backgroundPositionY ) || 0
+            const endY   = startY > 60 ? startY - 40 : startY + 40
+            gsap.fromTo( el,
+                { backgroundPositionY: `${ startY }%` },
+                { backgroundPositionY: `${ endY }%`, ease: 'none',
+                  scrollTrigger: { trigger: el, start: 'top top', end: 'bottom top', scrub: true } }
+            )
+        } )
+    }
 
     // ── Fade Up generico ──────────────────────────────────────────────────────
     document.querySelectorAll( '[data-animation="fadeUp"]' ).forEach( el => {

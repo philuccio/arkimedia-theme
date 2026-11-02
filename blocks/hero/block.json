@@ -149,7 +149,7 @@
         },
         "bgAttachment": {
             "type": "string",
-            "default": "scroll"
+            "default": "fixed"
         },
         "bgPosition": {
             "type": "string",

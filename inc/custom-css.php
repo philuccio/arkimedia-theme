@@ -82,6 +82,7 @@ function ark_enqueue_google_fonts(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_google_fonts' );
+add_action( 'enqueue_block_assets', 'ark_enqueue_google_fonts' );
 
 // ── Footer background dinamico ────────────────────────────────────────────────
 function ark_footer_dynamic_css(): void {

@@ -38,7 +38,7 @@
     width:      100%;
     max-width:  var(--container-width, 1200px);
     margin:     0 auto;
-    padding:    4rem var(--container-pad, 1.5rem);
+    box-sizing: border-box;
     color:      #ffffff;
 }
 
@@ -46,29 +46,46 @@
 .ark-hero--align-center .ark-hero__subtitle,
 .ark-hero--align-center .ark-hero__eyebrow { margin-left: auto; margin-right: auto; }
 .ark-hero--align-right .ark-hero__content  { text-align: right; }
+.ark-hero--align-right .ark-hero__subtitle { margin-left: auto; }
 
 .ark-hero__eyebrow {
-    font-size:      0.875rem;
-    font-weight:    600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    margin-top:     0;
+    font-size:      0.8125rem !important;
+    font-weight:    600 !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    color:          var(--color-accent, #e94560);
     opacity:        0.85;
-    margin-bottom:  1rem;
+    margin-bottom:  1rem !important;
+}
+
+.ark-hero__heading {
+    margin:      0;
+    font-size:   inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color:       inherit;
 }
 
 .ark-hero__title {
-    font-size:      clamp(2.5rem, 6vw, 5rem);
-    font-weight:    700;
-    line-height:    1.05;
-    margin-bottom:  1.25rem;
-    letter-spacing: -0.02em;
+    font-family:    'Poppins', sans-serif !important;
+    color:          inherit;
+    letter-spacing: -0.02em !important;
+}
+
+.ark-hero__title span.accent,
+.ark-hero__title em {
+    color:      var(--color-accent, #e94560) !important;
+    font-style: normal !important;
 }
 
 .ark-hero__subtitle {
-    font-size:     clamp(1rem, 2vw, 1.25rem);
+    font-family:   'Poppins', sans-serif !important;
+    font-weight:   500 !important;
     line-height:   1.6;
-    max-width:     560px;
+    max-width:     700px !important;
     opacity:       0.9;
+    margin-top:    0.75rem !important;
     margin-bottom: 2rem;
 }
 
@@ -82,6 +99,7 @@
     border-radius:   4px;
     text-decoration: none;
     transition:      background 0.3s ease, transform 0.3s ease;
+    margin-top:      2rem !important;
 }
 
 .ark-hero__cta:hover {
@@ -91,7 +109,35 @@
     color:      #ffffff;
 }
 
+.ark-hero__ctas {
+    display:   flex;
+    flex-wrap: wrap;
+    gap:       1rem;
+}
+
+.ark-hero--align-center .ark-hero__ctas { justify-content: center; }
+.ark-hero--align-right .ark-hero__ctas  { justify-content: flex-end; }
+
+.ark-hero__cta.ark-hero__cta--secondary {
+    background: transparent;
+    border:     2px solid rgba(255, 255, 255, 0.5);
+}
+
+.ark-hero__cta.ark-hero__cta--secondary:hover {
+    background:   rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+}
+
 @media (max-width: 768px) {
     .ark-hero { min-height: 90vh; align-items: flex-end; }
-    .ark-hero__content { padding: 2rem var(--container-pad, 1.5rem) 3rem; }
+
+    .ark-hero__title--1,
+    .ark-hero__title--2 {
+        font-size:   clamp(2.5rem, 10vw, 4rem) !important;
+        line-height: 1 !important;
+    }
+
+    .ark-hero__subtitle {
+        font-size: 1rem !important;
+    }
 }

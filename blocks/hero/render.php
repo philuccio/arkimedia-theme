@@ -46,14 +46,14 @@ $media_url       = $attributes['mediaUrl']        ?? '';
 $media_alt       = $attributes['mediaAlt']        ?? '';
 $overlay         = $attributes['overlayColor']    ?? 'rgba(0,0,0,0.45)';
 $text_align      = $attributes['textAlign']       ?? 'left';
-$min_height      = $attributes['minHeight']       ?? '100vh';
+$min_height      = trim( $attributes['minHeight'] ?? '100vh' );
 $bg_type         = $attributes['bgType']          ?? 'image';
 $bg_color        = $attributes['bgColor']         ?? '#0a0a0a';
 $grad_type       = $attributes['gradientType']    ?? 'linear';
 $grad_angle      = $attributes['gradientAngle']   ?? 135;
 $grad_color1     = $attributes['gradientColor1']  ?? '#1a1a2e';
 $grad_color2     = $attributes['gradientColor2']  ?? '#e94560';
-$bg_attachment   = $attributes['bgAttachment']    ?? 'scroll';
+$bg_attachment   = $attributes['bgAttachment']    ?? 'fixed';
 $bg_position     = $attributes['bgPosition']      ?? 'center center';
 $bg_size         = $attributes['bgSize']          ?? 'cover';
 $content_pos     = $attributes['contentPosition'] ?? 'bottom-left';
@@ -62,36 +62,23 @@ $pb              = $attributes['paddingBottom']    ?? 80;
 $pl              = $attributes['paddingLeft']      ?? 0;
 $pr              = $attributes['paddingRight']     ?? 0;
 
-// Posizione contenuto
-$v_map = [
-    'bottom' => 'bottom',
-    'center' => 'center',
-    'top'    => 'top',
-];
-$h_map = [
-    'left'   => 'left',
-    'center' => 'center',
-    'right'  => 'right',
-];
-
-$parts   = explode( '-', $content_pos );
-$v_pos   = $parts[0] ?? 'bottom';
-$h_pos   = $parts[1] ?? 'left';
-
-$text_align_val = $h_pos === 'center' ? 'center' : ( $h_pos === 'right' ? 'right' : 'left' );
-
-// Stile posizione assoluta
-$content_style = 'position:absolute;left:0;right:0;width:100%;max-width:var(--container-width,1200px);margin:0 auto;';
-$content_style .= "padding:{$pt}px {$pr}px {$pb}px {$pl}px;";
-$content_style .= "text-align:{$text_align_val};";
-
-if ( $v_pos === 'bottom' ) {
-    $content_style .= 'bottom:0;';
-} elseif ( $v_pos === 'top' ) {
-    $content_style .= 'top:0;';
-} else {
-    $content_style .= 'top:50%;transform:translateY(-50%);';
+// Altezza — unità e funzioni CSS, senza percentuali (calcolerebbero zero)
+if ( ! preg_match( '/^[a-z0-9.,+\-*\/()\s]+$/i', $min_height ) ) {
+    $min_height = '100vh';
 }
+
+// Posizione contenuto
+$parts = explode( '-', $content_pos );
+$v_pos = $parts[0] ?? 'bottom';
+$h_pos = $parts[1] ?? 'left';
+
+$align_items = [ 'top' => 'flex-start', 'center' => 'center' ][ $v_pos ] ?? 'flex-end';
+
+// Il padding del pannello si somma allo spazio per l'header fisso e al margine del container
+$content_style  = "padding-top:calc(var(--header-height,80px) + 2rem + {$pt}px);";
+$content_style .= "padding-right:calc(var(--container-pad,1.5rem) + {$pr}px);";
+$content_style .= "padding-bottom:{$pb}px;";
+$content_style .= "padding-left:calc(var(--container-pad,1.5rem) + {$pl}px);";
 
 // Sfondo
 $bg_style = '';
@@ -114,11 +101,15 @@ switch ( $bg_type ) {
         break;
 }
 
-$wrapper_style = "min-height:{$min_height};position:relative;overflow:hidden;width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);{$bg_style}";
+$wrapper_style = "min-height:{$min_height};align-items:{$align_items};position:relative;overflow:hidden;width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);{$bg_style}";
 
 $block_id = 'ark-hero-' . substr( md5( serialize( $attributes ) ), 0, 8 );
+$hero_class = 'ark-hero';
+if ( in_array( $h_pos, [ 'center', 'right' ], true ) ) $hero_class .= " ark-hero--align-{$h_pos}";
+if ( $bg_type === 'image' && $media_url && $bg_attachment === 'fixed' ) $hero_class .= ' ark-hero--parallax';
+
 $wrapper_attrs = get_block_wrapper_attributes([
-    'class' => 'ark-hero',
+    'class' => $hero_class,
     'style' => $wrapper_style,
 ]);
 
@@ -126,14 +117,6 @@ $wrapper_attrs = get_block_wrapper_attributes([
 $t1_style = "font-size:{$title1_size};font-weight:{$title1_weight};color:{$title1_color};line-height:1;letter-spacing:-0.02em;display:block;padding:{$title1_pt}px {$title1_pr}px {$title1_pb}px {$title1_pl}px;margin:{$title1_mt}px {$title1_mr}px {$title1_mb}px {$title1_ml}px;";
 $t2_style = "font-size:{$title2_size};font-weight:{$title2_weight};color:{$title2_color};line-height:1;letter-spacing:-0.02em;display:block;padding:{$title2_pt}px {$title2_pr}px {$title2_pb}px {$title2_pl}px;margin:{$title2_mt}px {$title2_mr}px {$title2_mb}px {$title2_ml}px;";
 ?>
-
-<?php if ( $title || $title2 ) : ?>
-<style>
-#<?php echo esc_attr( $block_id ); ?> .ark-hero__title--1 { color: <?php echo esc_attr( $title1_color ); ?> !important; }
-#<?php echo esc_attr( $block_id ); ?> .ark-hero__title--2 { color: <?php echo esc_attr( $title2_color ); ?> !important; }
-#<?php echo esc_attr( $block_id ); ?> .ark-hero__subtitle  { color: <?php echo esc_attr( $subtitle_color ); ?> !important; }
-</style>
-<?php endif; ?>
 
 <section id="<?php echo esc_attr( $block_id ); ?>" <?php echo $wrapper_attrs; ?>>
 
@@ -144,21 +127,25 @@ $t2_style = "font-size:{$title2_size};font-weight:{$title2_weight};color:{$title
     <div class="ark-hero__content" style="<?php echo esc_attr( $content_style ); ?>z-index:2;">
 
         <?php if ( $eyebrow ) : ?>
-            <p class="ark-hero__eyebrow" style="<?php echo $eyebrow_color ? "color:{$eyebrow_color};" : ''; ?>">
+            <p class="ark-hero__eyebrow" style="<?php echo esc_attr( $eyebrow_color ? "color:{$eyebrow_color};" : '' ); ?>">
                 <?php echo esc_html( $eyebrow ); ?>
             </p>
         <?php endif; ?>
 
-        <?php if ( $title ) : ?>
-            <span class="ark-hero__title ark-hero__title--1" style="<?php echo esc_attr( $t1_style ); ?>">
-                <?php echo wp_kses_post( $title ); ?>
-            </span>
-        <?php endif; ?>
+        <?php if ( $title || $title2 ) : ?>
+            <h1 class="ark-hero__heading">
+                <?php if ( $title ) : ?>
+                    <span class="ark-hero__title ark-hero__title--1" style="<?php echo esc_attr( $t1_style ); ?>">
+                        <?php echo wp_kses_post( $title ); ?>
+                    </span>
+                <?php endif; ?>
 
-        <?php if ( $title2 ) : ?>
-            <span class="ark-hero__title ark-hero__title--2" style="<?php echo esc_attr( $t2_style ); ?>">
-                <?php echo wp_kses_post( $title2 ); ?>
-            </span>
+                <?php if ( $title2 ) : ?>
+                    <span class="ark-hero__title ark-hero__title--2" style="<?php echo esc_attr( $t2_style ); ?>">
+                        <?php echo wp_kses_post( $title2 ); ?>
+                    </span>
+                <?php endif; ?>
+            </h1>
         <?php endif; ?>
 
         <?php if ( $subtitle ) : ?>
@@ -172,7 +159,7 @@ $t2_style = "font-size:{$title2_size};font-weight:{$title2_weight};color:{$title
                 <?php if ( $cta_label ) : ?>
                     <a class="ark-hero__cta btn"
                        href="<?php echo esc_url( $cta_url ); ?>"
-                       style="<?php echo $cta_bg ? "background:{$cta_bg};" : ''; ?>color:<?php echo esc_attr( $cta_text ); ?>;">
+                       style="<?php echo esc_attr( ( $cta_bg ? "background:{$cta_bg};" : '' ) . "color:{$cta_text};" ); ?>">
                         <?php echo esc_html( $cta_label ); ?>
                     </a>
                 <?php endif; ?>
