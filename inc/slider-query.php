@@ -23,6 +23,8 @@ function ark_get_slider( string $group, array $args = [] ): string {
 
     if ( ! $query->have_posts() ) return '';
 
+    ark_enqueue_slider_assets();
+
     $defaults = [
         'autoplay'   => true,
         'speed'      => 800,

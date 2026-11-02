@@ -77,8 +77,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
     document.querySelectorAll( '.ark-slider-block' ).forEach( el => {
 
         const config = JSON.parse( el.dataset.swiperConfig || '{}' )
-        const gsapAnim = config.gsapAnimation ?? true
+        const reduced  = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches
+        const gsapAnim = ( config.gsapAnimation ?? true ) && ! reduced
         delete config.gsapAnimation
+
+        // Gli eventi vanno agganciati prima dell'avvio, altrimenti 'init' non scatta
+        config.init = false
+        if ( reduced ) config.autoplay = false
 
         // Navigazione
         if ( config.navigation ) {
@@ -115,13 +120,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
                     duration: 0.7,
                     stagger:  0.1,
                     ease:     'power3.out',
-                    clearProps: 'all',
+                    clearProps: 'transform,opacity',
                 })
             }
 
             swiper.on( 'init', s => animateSlide( s.slides[ s.activeIndex ] ) )
             swiper.on( 'slideChangeTransitionStart', s => animateSlide( s.slides[ s.activeIndex ] ) )
-            swiper.init()
         }
+
+        swiper.init()
     })
 })

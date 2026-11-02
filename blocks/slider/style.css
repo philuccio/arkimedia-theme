@@ -15,15 +15,30 @@
 }
 
 .ark-slider-block__swiper {
-    width:  100%;
-    height: 100%;
+    width:      100%;
+    min-height: inherit;
+}
+
+.ark-slider-block__swiper .swiper-wrapper {
+    min-height: inherit;
+}
+
+/* Cards: le schede devono essere più strette del contenitore */
+.ark-slider-block--cards .ark-slider-block__swiper {
+    width:      min( 70%, 520px );
+    overflow:   visible;
+    margin:     0 auto;
+}
+
+.ark-slider-block--cards .ark-slider-block__slide {
+    border-radius: 16px;
 }
 
 /* Slide */
-.ark-slider-block__slide {
+.ark-slider-block .ark-slider-block__slide {
     position:    relative;
-    width:       100%;
-    height:      100%;
+    height:      auto;
+    min-height:  inherit;
     display:     flex;
     align-items: center;
     overflow:    hidden;
@@ -61,8 +76,15 @@
     width:      100%;
     max-width:  var( --container-width, 1200px );
     margin:     0 auto;
-    padding:    4rem var( --container-pad, 1.5rem );
+    padding:    calc( var( --header-height, 80px ) + 2rem ) var( --container-pad, 1.5rem ) 100px;
+    box-sizing: border-box;
     color:      #ffffff;
+}
+
+/* Spazio per le frecce e per le slide più strette del container */
+.ark-slider-block--multi .ark-slider-block__content {
+    padding-left:  1.5rem;
+    padding-right: 1.5rem;
 }
 
 .ark-slider-block__slide--align-center .ark-slider-block__content {
@@ -75,6 +97,7 @@
 
 /* Eyebrow */
 .ark-slider-block__eyebrow {
+    margin-top:     0;
     font-size:      0.8125rem;
     font-weight:    600;
     letter-spacing: 0.12em;
@@ -85,6 +108,8 @@
 
 /* Title */
 .ark-slider-block__title {
+    margin-top:    0;
+    font-family:   var( --font-heading, 'Poppins', sans-serif );
     font-size:     clamp( 2rem, 5vw, 4.5rem );
     font-weight:   700;
     line-height:   1.05;
@@ -94,6 +119,7 @@
 
 /* Subtitle */
 .ark-slider-block__subtitle {
+    margin-top:    0;
     font-size:     clamp( 1rem, 1.5vw, 1.25rem );
     line-height:   1.6;
     opacity:       0.85;
@@ -104,6 +130,10 @@
 .ark-slider-block__slide--align-center .ark-slider-block__subtitle {
     margin-left:  auto;
     margin-right: auto;
+}
+
+.ark-slider-block__slide--align-right .ark-slider-block__subtitle {
+    margin-left: auto;
 }
 
 /* CTA */
@@ -147,8 +177,30 @@
 }
 
 /* Responsive */
+@media ( min-width: 769px ) and ( max-width: 1320px ) {
+    .ark-slider-block--arrows .ark-slider-block__content {
+        padding-left:  64px;
+        padding-right: 64px;
+    }
+}
+
+@media ( min-width: 769px ) {
+    .ark-slider-block--multi.ark-slider-block--arrows .ark-slider-block__content {
+        padding-left:  64px;
+        padding-right: 64px;
+    }
+}
+
 @media ( max-width: 768px ) {
     .ark-slider-block__content {
-        padding: 2rem var( --container-pad, 1rem ) 3rem;
+        padding-bottom: 60px;
+    }
+
+    .ark-slider-block__title {
+        font-size: clamp( 2rem, 8vw, 3rem ) !important;
+    }
+
+    .ark-slider-block__subtitle {
+        font-size: 1rem !important;
     }
 }

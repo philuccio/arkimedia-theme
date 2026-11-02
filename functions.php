@@ -95,28 +95,31 @@ function ark_enqueue_assets(): void {
         true
     );
 
-    // Swiper (solo se la pagina ha uno slider)
-    if ( ark_page_has_slider() ) {
-        wp_enqueue_style(
-            'swiper-css',
-            'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
-            [],
-            '11'
-        );
-        wp_enqueue_script(
-            'swiper-js',
-            'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
-            [],
-            '11',
-            true
-        );
-        wp_enqueue_script(
-            'arkimedia-slider',
-            ARK_URI . '/assets/js/slider.js',
-            [ 'swiper-js' ],
-            ARK_VERSION,
-            true
-        );
+    // Swiper — caricato da ark_enqueue_slider_assets() quando uno slider viene mostrato
+    wp_register_style(
+        'swiper-css',
+        'https://cdn.jsdelivr.net/npm/swiper@11.1.15/swiper-bundle.min.css',
+        [],
+        '11.1.15'
+    );
+    wp_register_script(
+        'swiper-js',
+        'https://cdn.jsdelivr.net/npm/swiper@11.1.15/swiper-bundle.min.js',
+        [],
+        '11.1.15',
+        true
+    );
+    wp_register_script(
+        'arkimedia-slider',
+        ARK_URI . '/assets/js/slider.js',
+        [ 'swiper-js' ],
+        ARK_VERSION,
+        true
+    );
+
+    // Nel contenuto diretto il CSS arriva già nell'head
+    if ( has_block( 'arkimedia/slider' ) ) {
+        ark_enqueue_slider_assets();
     }
 
     // Animazioni GSAP
@@ -146,11 +149,10 @@ function ark_enqueue_assets(): void {
 }
 add_action( 'wp_enqueue_scripts', 'ark_enqueue_assets' );
 
-// ── Helper: la pagina ha uno slider? ─────────────────────────────────────────
-function ark_page_has_slider(): bool {
-    // Controlla se esiste almeno una slide per questa pagina
-    // (espandibile con meta box o tassonomia)
-    return is_front_page() || is_page( 'portfolio' ) || has_block( 'arkimedia/slider' );
+// ── Helper: carica Swiper quando uno slider viene mostrato ───────────────────
+function ark_enqueue_slider_assets(): void {
+    wp_enqueue_style( 'swiper-css' );
+    wp_enqueue_script( 'arkimedia-slider' );
 }
 
 // ── Widget Areas ──────────────────────────────────────────────────────────────

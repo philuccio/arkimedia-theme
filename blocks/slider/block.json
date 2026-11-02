@@ -82,12 +82,16 @@
                     "eyebrow": "",
                     "ctaLabel": "",
                     "ctaUrl": "#",
+                    "mediaId": 0,
                     "mediaUrl": "",
                     "mediaAlt": "",
                     "useBgColor": false,
                     "bgColor": "#0a0a0a",
                     "overlayColor": "rgba(0,0,0,0.45)",
-                    "textAlign": "left"
+                    "textAlign": "left",
+                    "contentPosition": "bottom",
+                    "titleSize": "clamp(2rem,5vw,4.5rem)",
+                    "subtitleSize": "clamp(1rem,1.5vw,1.25rem)"
                 }
             ]
         }

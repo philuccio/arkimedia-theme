@@ -1643,25 +1643,6 @@ body {
     object-fit: contain;
 }
 
-/* ── Slider block content position ──────────────────────── */
-.ark-slider-block__content {
-    position:       absolute !important;
-    bottom:         100px !important;
-    left:           0 !important;
-    right:          0 !important;
-    width:          100% !important;
-    max-width:      var( --container-width, 1200px ) !important;
-    margin:         0 auto !important;
-    padding-top:    0 !important;
-    padding-bottom: 0 !important;
-}
-
-.ark-slider-block__slide--align-center .ark-slider-block__content {
-    left:  50% !important;
-    right: auto !important;
-    transform: translateX( -50% ) !important;
-}
-
 /* ── Slider frecce senza fondo ───────────────────────────── */
 .ark-slider-block .swiper-button-prev,
 .ark-slider-block .swiper-button-next {
@@ -1821,12 +1802,6 @@ body {
 .site-header.is-sticky .nav__list li a:hover,
 .site-header.is-sticky .nav__list li.current-menu-item a {
     color: var( --color-accent, #e94560 );
-}
-
-/* ── Parallax Testata ────────────────────────────────────── */
-.ark-testata {
-    will-change: transform;
-    transform:   translateZ(0);
 }
 
 /* ── Parallax Hero bg ────────────────────────────────────── */
