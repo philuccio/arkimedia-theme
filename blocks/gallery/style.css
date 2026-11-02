@@ -146,3 +146,67 @@
     border-radius: 8px;
     overflow:      hidden;
 }
+
+/* ── Filtro città ────────────────────────────────────────── */
+.ark-gallery {
+    --ark-gallery-text:   rgba( 255, 255, 255, 0.85 );
+    --ark-gallery-border: rgba( 255, 255, 255, 0.3 );
+    --ark-gallery-accent: #e00000;
+}
+
+.ark-gallery__filter {
+    display:         flex;
+    flex-wrap:       wrap;
+    gap:             0.75rem;
+    justify-content: center;
+    max-width:       var( --container-width, 1200px );
+    margin:          0 auto;
+    padding:         0 var( --container-pad, 1.5rem ) var( --spacing-md );
+    box-sizing:      border-box;
+}
+
+.ark-gallery__filter-btn {
+    padding:       0.5rem 1.25rem;
+    border:        1px solid var( --ark-gallery-border );
+    border-radius: 100px;
+    background:    transparent;
+    color:         var( --ark-gallery-text );
+    font-family:   inherit;
+    font-size:     0.875rem;
+    font-weight:   500;
+    text-transform: uppercase;
+    cursor:        pointer;
+    transition:    all 0.3s ease;
+}
+
+.ark-gallery__filter-btn:hover,
+.ark-gallery__filter-btn.is-active {
+    background:   var( --ark-gallery-accent );
+    border-color: var( --ark-gallery-accent );
+    color:        #ffffff;
+}
+
+/* ── Didascalia città e indirizzo ────────────────────────── */
+.ark-gallery--captions .ark-gallery__item {
+    display:        flex;
+    flex-direction: column;
+    border-radius:  0;
+}
+
+.ark-gallery--captions .ark-gallery__item a {
+    height: auto;
+}
+
+.ark-gallery--captions.ark-gallery--bento .ark-gallery__item a,
+.ark-gallery--captions.ark-gallery--bento .ark-gallery__item > img {
+    flex:       1 1 0;
+    min-height: 0;
+}
+
+.ark-gallery__caption {
+    margin:      0;
+    padding-top: 0.5rem;
+    font-size:   0.875rem;
+    line-height: 1.4;
+    color:       var( --ark-gallery-text );
+}

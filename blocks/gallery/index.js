@@ -16,7 +16,7 @@ registerBlockType( metadata.name, {
         const {
             useFolder, folderId, folderName, images,
             layout, columns, gap, aspectRatio,
-            lightbox, bgColor, paddingTop, paddingBottom,
+            lightbox, showCaption, showCityFilter, bgColor, paddingTop, paddingBottom,
         } = attributes
 
         const [ folders, setFolders ] = useState( [] )
@@ -159,6 +159,23 @@ registerBlockType( metadata.name, {
                             </div>
                         )}
                     </PanelBody>
+
+                    {/* ── Didascalie e filtro città (solo modalità cartella) ── */}
+                    { useFolder && pluginActive && (
+                        <PanelBody title={ __( 'Città e indirizzo', 'arkimedia' ) } initialOpen={true}>
+                            <ToggleControl
+                                label={ __( 'Mostra didascalia', 'arkimedia' ) }
+                                checked={showCaption}
+                                onChange={ v => setAttributes({ showCaption: v }) }
+                                help={ __( 'Città e indirizzo si compilano nella scheda di ogni immagine in Media → Libreria', 'arkimedia' ) }
+                            />
+                            <ToggleControl
+                                label={ __( 'Mostra filtro città', 'arkimedia' ) }
+                                checked={showCityFilter}
+                                onChange={ v => setAttributes({ showCityFilter: v }) }
+                            />
+                        </PanelBody>
+                    )}
 
                     {/* ── Link case study per ogni immagine ── */}
                     { ! useFolder && images.length > 0 && (

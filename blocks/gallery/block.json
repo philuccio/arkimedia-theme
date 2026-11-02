@@ -20,6 +20,8 @@
         "gap":         { "type": "number",  "default": 8 },
         "aspectRatio": { "type": "string",  "default": "4/3" },
         "lightbox":    { "type": "boolean", "default": true },
+        "showCaption": { "type": "boolean", "default": true },
+        "showCityFilter": { "type": "boolean", "default": true },
         "bgColor":     { "type": "string",  "default": "" },
         "paddingTop":  { "type": "number",  "default": 0 },
         "paddingBottom":{ "type": "number", "default": 0 }

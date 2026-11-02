@@ -189,6 +189,7 @@ $ark_includes = [
     '/inc/custom-css.php',
     '/inc/contact-form.php',
     '/inc/gallery-api.php',
+    '/inc/attachment-location.php',
     '/inc/demo-importer.php',
 ];
 
