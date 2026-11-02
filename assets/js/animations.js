@@ -290,6 +290,7 @@ function initBlockAnimations() {
             duration: 0.7,
             stagger:  0.12,
             ease:     'power3.out',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
                 trigger:      grid,
                 start:        'top 80%',

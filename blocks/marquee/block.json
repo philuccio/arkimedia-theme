@@ -1,0 +1,88 @@
+{
+    "apiVersion": 3,
+    "name": "arkimedia/marquee",
+    "title": "Marquee",
+    "description": "Testo scorrevole a ciclo continuo, inseribile ovunque.",
+    "category": "arkimedia",
+    "icon": "leftright",
+    "keywords": [
+        "marquee",
+        "ticker",
+        "testo scorrevole"
+    ],
+    "supports": {
+        "html": false,
+        "align": [
+            "full",
+            "wide"
+        ]
+    },
+    "attributes": {
+        "align": {
+            "type": "string",
+            "default": "full"
+        },
+        "text": {
+            "type": "string",
+            "default": "DYNAMIC ADV\nPOSTER 6X3\nMAXI FORMATO\nMEDIA"
+        },
+        "separator": {
+            "type": "string",
+            "default": "•"
+        },
+        "separatorSize": {
+            "type": "string",
+            "default": "1em"
+        },
+        "fontFamily": {
+            "type": "string",
+            "default": ""
+        },
+        "fontSize": {
+            "type": "string",
+            "default": "clamp(1rem,1.5vw,1.25rem)"
+        },
+        "speed": {
+            "type": "number",
+            "default": 60
+        },
+        "direction": {
+            "type": "string",
+            "default": "left"
+        },
+        "pauseOnHover": {
+            "type": "boolean",
+            "default": true
+        },
+        "textColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "bgColor": {
+            "type": "string",
+            "default": ""
+        },
+        "showLines": {
+            "type": "boolean",
+            "default": false
+        },
+        "lineColor": {
+            "type": "string",
+            "default": "#ffffff33"
+        },
+        "paddingY": {
+            "type": "number",
+            "default": 14
+        }
+    },
+    "render": "file:./render.php",
+    "editorScript": [
+        "file:./build/index.js",
+        "ark-marquee"
+    ],
+    "viewScript": "ark-marquee",
+    "style": [
+        "ark-marquee",
+        "file:./style.css"
+    ]
+}

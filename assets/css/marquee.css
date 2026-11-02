@@ -1,0 +1,51 @@
+/* ── Marquee — condiviso da blocco Marquee e Services ────── */
+
+.ark-marquee {
+    overflow: hidden;
+    width:    100%;
+}
+
+.ark-marquee__track {
+    display:     flex;
+    width:       max-content;
+    will-change: transform;
+}
+
+.ark-marquee.is-ready .ark-marquee__track {
+    animation: ark-marquee var( --ark-marquee-duration, 30s ) linear infinite;
+}
+
+.ark-marquee--right.is-ready .ark-marquee__track {
+    animation-direction: reverse;
+}
+
+.ark-marquee--pause:hover .ark-marquee__track {
+    animation-play-state: paused;
+}
+
+.ark-marquee__group {
+    display:        inline-flex;
+    align-items:    center;
+    flex:           none;
+    font-synthesis: none;
+    font-weight:    700;
+    letter-spacing: 0.15em;
+    line-height:    1.2;
+    text-transform: uppercase;
+    white-space:    pre;
+}
+
+.ark-marquee__sep {
+    line-height: 1;
+}
+
+@keyframes ark-marquee {
+    from { transform: translateX( 0 ); }
+    to   { transform: translateX( var( --ark-marquee-shift, -50% ) ); }
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+    .ark-marquee.is-ready .ark-marquee__track {
+        animation: none;
+    }
+}

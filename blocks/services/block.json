@@ -28,9 +28,37 @@
             "type": "string",
             "default": "DYNAMIC ADV \u2022 POSTER 6X3 \u2022 MAXI FORMATO \u2022 MEDIA \u2022 DYNAMIC ADV \u2022 POSTER 6X3 \u2022 MAXI FORMATO \u2022 MEDIA \u2022"
         },
+        "titleSize": {
+            "type": "string",
+            "default": "clamp(3rem,8vw,7rem)"
+        },
         "marqueeFontSize": {
             "type": "number",
             "default": 13
+        },
+        "marqueeFontFamily": {
+            "type": "string",
+            "default": ""
+        },
+        "marqueeSeparator": {
+            "type": "string",
+            "default": "•"
+        },
+        "marqueeSeparatorSize": {
+            "type": "string",
+            "default": "1em"
+        },
+        "marqueeSpeed": {
+            "type": "number",
+            "default": 100
+        },
+        "cardTitleSize": {
+            "type": "string",
+            "default": "1.25rem"
+        },
+        "cardTextSize": {
+            "type": "string",
+            "default": "0.9375rem"
         },
         "cards": {
             "type": "array",
@@ -42,6 +70,9 @@
                     },
                     "text": {
                         "type": "string"
+                    },
+                    "mediaId": {
+                        "type": "integer"
                     },
                     "mediaUrl": {
                         "type": "string"
@@ -88,10 +119,17 @@
         },
         "accentColor": {
             "type": "string",
-            "default": "#e94560"
+            "default": ""
         }
     },
     "render": "file:./render.php",
-    "editorScript": "file:./build/index.js",
-    "style": "file:./style.css"
+    "editorScript": [
+        "file:./build/index.js",
+        "ark-marquee"
+    ],
+    "viewScript": "ark-marquee",
+    "style": [
+        "ark-marquee",
+        "file:./style.css"
+    ]
 }

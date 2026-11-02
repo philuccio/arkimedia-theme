@@ -56,28 +56,7 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
         'priority' => 20,
     ] );
 
-    $google_fonts = [
-        'Inter'             => 'Inter',
-        'Roboto'            => 'Roboto',
-        'Open Sans'         => 'Open Sans',
-        'Lato'              => 'Lato',
-        'Montserrat'        => 'Montserrat',
-        'Raleway'           => 'Raleway',
-        'Poppins'           => 'Poppins',
-        'Nunito'            => 'Nunito',
-        'Playfair Display'  => 'Playfair Display',
-        'Merriweather'      => 'Merriweather',
-        'Lora'              => 'Lora',
-        'PT Serif'          => 'PT Serif',
-        'Source Serif 4'    => 'Source Serif 4',
-        'DM Sans'           => 'DM Sans',
-        'DM Serif Display'  => 'DM Serif Display',
-        'Fraunces'          => 'Fraunces',
-        'Syne'              => 'Syne',
-        'Space Grotesk'     => 'Space Grotesk',
-        'Outfit'            => 'Outfit',
-        'Plus Jakarta Sans' => 'Plus Jakarta Sans',
-    ];
+    $google_fonts = array_combine( ark_google_fonts(), ark_google_fonts() );
 
     $wp_customize->add_setting( 'ark_font_heading', [
         'default'           => 'Inter',

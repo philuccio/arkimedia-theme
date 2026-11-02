@@ -192,6 +192,7 @@ $ark_includes = [
     '/inc/contact-form.php',
     '/inc/gallery-api.php',
     '/inc/attachment-location.php',
+    '/inc/marquee.php',
     '/inc/demo-importer.php',
 ];
 
@@ -204,6 +205,9 @@ foreach ( $ark_includes as $file ) {
 
 // ── Blocchi Gutenberg custom ──────────────────────────────────────────────────
 function ark_register_blocks(): void {
+    wp_register_style( 'ark-marquee', ARK_URI . '/assets/css/marquee.css', [], ARK_VERSION );
+    wp_register_script( 'ark-marquee', ARK_URI . '/assets/js/marquee.js', [], ARK_VERSION, true );
+
     register_block_type( ARK_DIR . '/blocks/hero' );
     register_block_type( ARK_DIR . '/blocks/services' );
     register_block_type( ARK_DIR . '/blocks/services-home' );
@@ -221,6 +225,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/row' );
     register_block_type( ARK_DIR . '/blocks/card' );
     register_block_type( ARK_DIR . '/blocks/cta' );
+    register_block_type( ARK_DIR . '/blocks/marquee' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

@@ -63,6 +63,38 @@ function ark_output_custom_css(): void {
 add_action( 'wp_head', 'ark_output_custom_css' );
 
 
+// ── Elenco Google Fonts — condiviso da Customizer e blocchi ───────────────────
+function ark_google_fonts(): array {
+    return [
+        'Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Raleway', 'Poppins', 'Nunito',
+        'Playfair Display', 'Merriweather', 'Lora', 'PT Serif', 'Source Serif 4',
+        'DM Sans', 'DM Serif Display', 'Fraunces', 'Syne', 'Space Grotesk', 'Outfit', 'Plus Jakarta Sans',
+        'Bebas Neue', 'Anton', 'Oswald', 'Archivo Black', 'Barlow Condensed',
+    ];
+}
+
+function ark_google_font_url( string $font ): string {
+    return 'https://fonts.googleapis.com/css2?family=' . str_replace( ' ', '+', $font ) . ':wght@400;700&display=swap';
+}
+
+/**
+ * Carica un font dell'elenco e restituisce la sua font-family CSS, vuota se non è in elenco.
+ */
+function ark_enqueue_google_font( string $font ): string {
+    if ( ! in_array( $font, ark_google_fonts(), true ) ) return '';
+
+    wp_enqueue_style( 'ark-font-' . sanitize_title( $font ), ark_google_font_url( $font ), [], null );
+
+    return "'{$font}', sans-serif";
+}
+
+// Elenco per i selettori dell'editor
+function ark_google_fonts_for_editor(): void {
+    $urls = array_map( 'ark_google_font_url', ark_google_fonts() );
+    wp_localize_script( 'ark-marquee', 'arkGoogleFonts', array_combine( ark_google_fonts(), $urls ) );
+}
+add_action( 'enqueue_block_editor_assets', 'ark_google_fonts_for_editor' );
+
 // ── Google Fonts dinamici ─────────────────────────────────────────────────────
 function ark_enqueue_google_fonts(): void {
     $font_heading = get_theme_mod( 'ark_font_heading', 'Inter' );
