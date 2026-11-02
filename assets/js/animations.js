@@ -53,10 +53,10 @@ function initScrollAnimations() {
 
     gsap.registerPlugin( ScrollTrigger )
 
-    // ── Hero parallax — GSAP (background-attachment:fixed non funziona con Lenis)
+    // ── Hero e Testata parallax — GSAP (background-attachment:fixed non funziona con Lenis)
     // Il movimento parte dalla posizione scelta nel blocco
     if ( parallaxEnabled ) {
-        document.querySelectorAll( '.ark-hero--parallax' ).forEach( function( el ) {
+        document.querySelectorAll( '.ark-hero--parallax, .ark-testata--parallax' ).forEach( function( el ) {
             const startY = parseFloat( getComputedStyle( el ).backgroundPositionY ) || 0
             const endY   = startY > 60 ? startY - 40 : startY + 40
             gsap.fromTo( el,

@@ -40,6 +40,10 @@
             "type": "string",
             "default": "image"
         },
+        "mediaId": {
+            "type": "integer",
+            "default": 0
+        },
         "mediaUrl": {
             "type": "string",
             "default": ""

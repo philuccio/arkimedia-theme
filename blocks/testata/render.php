@@ -13,6 +13,7 @@ $show_title      = $attributes['showTitle']      ?? true;
 $eyebrow         = $attributes['eyebrow']        ?? '';
 $height          = $attributes['height']         ?? '70vh';
 $bg_type         = $attributes['bgType']         ?? 'image';
+$media_id        = $attributes['mediaId']        ?? 0;
 $media_url       = $attributes['mediaUrl']       ?? '';
 $media_alt       = $attributes['mediaAlt']       ?? '';
 $bg_color        = $attributes['bgColor']        ?? '#1a1a2e';
@@ -31,6 +32,11 @@ $pl              = $attributes['paddingLeft']    ?? 0;
 $pr              = $attributes['paddingRight']   ?? 0;
 $title_size      = $attributes['titleSize']      ?? 'clamp(2.5rem,5vw,5rem)';
 $content_pos     = $attributes['contentPosition'] ?? 'bottom';
+
+// Con l'ID l'immagine segue il dominio del sito; l'URL resta per i blocchi già salvati
+if ( $media_id ) {
+    $media_url = wp_get_attachment_image_url( $media_id, 'full' ) ?: $media_url;
+}
 
 // Titolo — automatico o custom
 $title = '';
@@ -59,7 +65,6 @@ switch ( $bg_type ) {
             $bg_styles[] = "background-image:url(" . esc_url( $media_url ) . ")";
             $bg_styles[] = "background-size:{$bg_size}";
             $bg_styles[] = "background-position:{$bg_position}";
-            $bg_styles[] = "background-attachment:{$bg_attachment}";
             $bg_styles[] = "background-repeat:no-repeat";
         } else {
             $bg_styles[] = "background:{$bg_color}";
@@ -75,26 +80,36 @@ $align_map = [
 ];
 $align_items = $align_map[ $content_pos ] ?? 'flex-end';
 
+$has_image = $bg_type === 'image' && $media_url;
+
+$testata_class = 'ark-testata alignfull';
+if ( $has_image && $bg_attachment === 'fixed' ) $testata_class .= ' ark-testata--parallax';
+
+// Il padding del pannello si somma allo spazio per l'header fisso e al margine del container
+$content_style  = 'padding-top:calc(var(--header-height,80px) + 2rem + ' . absint( $pt ) . 'px);';
+$content_style .= 'padding-right:calc(var(--container-pad,1.5rem) + ' . absint( $pr ) . 'px);';
+$content_style .= 'padding-bottom:' . absint( $pb ) . 'px;';
+$content_style .= 'padding-left:calc(var(--container-pad,1.5rem) + ' . absint( $pl ) . 'px);';
+
 $wrapper_attrs = get_block_wrapper_attributes([
-    'class' => 'ark-testata alignfull',
+    'class' => $testata_class,
     'style' => implode(';', $bg_styles) . ";min-height:{$height};color:{$text_color};width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);display:flex;align-items:{$align_items};position:relative;overflow:hidden;",
 ]);
 ?>
 
 <div <?php echo $wrapper_attrs; ?>>
 
-    <?php if ( $bg_type === 'image' && $media_url && $overlay ) : ?>
-        <div class="ark-testata__overlay"
-             style="position:absolute;inset:0;background:<?php echo esc_attr( $overlay ); ?>;z-index:1;pointer-events:none;"></div>
-    <?php elseif ( $bg_type === 'color' || $bg_type === 'gradient' ) : ?>
-        <?php if ( $overlay ) : ?>
-            <div class="ark-testata__overlay"
-                 style="position:absolute;inset:0;background:<?php echo esc_attr( $overlay ); ?>;z-index:1;pointer-events:none;"></div>
-        <?php endif; ?>
+    <?php if ( $has_image && $media_alt ) : ?>
+        <span class="screen-reader-text" role="img" aria-label="<?php echo esc_attr( $media_alt ); ?>"></span>
     <?php endif; ?>
 
-    <div class="ark-testata__content container" style="padding-top:<?php echo absint($pt); ?>px;padding-bottom:<?php echo absint($pb); ?>px;padding-left:<?php echo absint($pl); ?>px;padding-right:<?php echo absint($pr); ?>px;">
-        <?php if ( $eyebrow ) : ?>
+    <?php if ( $overlay && ( $bg_type !== 'image' || $media_url ) ) : ?>
+        <div class="ark-testata__overlay"
+             style="position:absolute;inset:0;background:<?php echo esc_attr( $overlay ); ?>;z-index:1;pointer-events:none;"></div>
+    <?php endif; ?>
+
+    <div class="ark-testata__content container" style="<?php echo esc_attr( $content_style ); ?>">
+        <?php if ( $eyebrow && $show_title ) : ?>
             <p class="ark-testata__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
         <?php endif; ?>
 

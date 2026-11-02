@@ -11,19 +11,86 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
+
+// ── Hook locale per TextControl ───────────────────────────
+function useLocalText( value, onChange ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return {
+        value:    local,
+        onChange: setLocal,
+        onBlur:   useCallback( () => onChange( local ), [ local, onChange ] ),
+    }
+}
+
+// ── RangeControl con salvataggio onPointerUp ──────────────
+function LocalRange( { label, value, onChange, min = 0, max = 200, step = 1 } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    useEffect( () => { setLocal( value ?? 0 ); committed.current = value ?? 0 }, [ value ] )
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) { committed.current = local; onChange( local ) }
+    }, [ local, onChange ] )
+    return (
+        <div onPointerUp={ commit } onKeyUp={ commit }>
+            <RangeControl label={label} value={local} onChange={ setLocal } min={min} max={max} step={step} />
+        </div>
+    )
+}
+
+// ── Misure testo: preset responsive oppure valore libero in px ──
+const TITLE_SIZES = [
+    { label:'S',  value:'clamp(2rem,4vw,3rem)',   px:48 },
+    { label:'M',  value:'clamp(2.5rem,5vw,5rem)', px:80 },
+    { label:'L',  value:'clamp(3rem,9vw,8rem)',   px:128 },
+    { label:'XL', value:'clamp(4rem,12vw,11rem)', px:176 },
+]
+
+function sizeToPx( value, fallback ) {
+    const match = /^([\d.]+)(px|rem)$/.exec( value || '' )
+    if ( ! match ) return fallback
+    return Math.round( parseFloat( match[1] ) * ( match[2] === 'rem' ? 16 : 1 ) )
+}
+
+function SizeControl( { label, value, onChange, presets, max } ) {
+    const preset = presets.find( p => p.value === value )
+    const [ custom, setCustom ] = useState( ! preset )
+    const fallback = ( preset || presets[1] ).px
+
+    return (
+        <>
+            <ToggleGroupControl label={label} value={ custom ? 'custom' : value } isBlock
+                onChange={ v => {
+                    setCustom( v === 'custom' )
+                    onChange( v === 'custom' ? `${ sizeToPx( value, fallback ) }px` : v )
+                }}>
+                { presets.map( p => <ToggleGroupControlOption key={p.label} value={p.value} label={p.label} /> ) }
+                <ToggleGroupControlOption value="custom" label="px" />
+            </ToggleGroupControl>
+            { custom && (
+                <LocalRange label={ __('Dimensione (px)','arkimedia') } value={ sizeToPx( value, fallback ) }
+                    onChange={ v => onChange( `${ v }px` ) } min={10} max={max} />
+            ) }
+        </>
+    )
+}
 
 registerBlockType( metadata.name, {
 
     edit( { attributes, setAttributes } ) {
         const {
             usePageTitle, customTitle, showTitle, eyebrow,
-            height, bgType, mediaUrl, mediaAlt,
+            height, bgType, mediaId, mediaUrl, mediaAlt,
             bgColor, gradientType, gradientAngle, gradientColor1, gradientColor2,
             overlayColor, bgSize, bgPosition, bgAttachment,
             textColor, titleSize, contentPosition,
             paddingTop, paddingBottom, paddingLeft, paddingRight,
         } = attributes
+
+        const customTitleText = useLocalText( customTitle, v => setAttributes({ customTitle: v }) )
+        const eyebrowText     = useLocalText( eyebrow,     v => setAttributes({ eyebrow: v }) )
 
         // Costruisce lo stile sfondo
         let bgStyle = {}
@@ -41,7 +108,6 @@ registerBlockType( metadata.name, {
                     bgStyle.backgroundImage      = `url(${ mediaUrl })`
                     bgStyle.backgroundSize       = bgSize
                     bgStyle.backgroundPosition   = bgPosition
-                    bgStyle.backgroundAttachment = bgAttachment
                     bgStyle.backgroundRepeat     = 'no-repeat'
                 } else {
                     bgStyle.background = bgColor
@@ -51,7 +117,16 @@ registerBlockType( metadata.name, {
 
         const alignMap = { top: 'flex-start', center: 'center', bottom: 'flex-end' }
 
+        // Stessi stili di render.php: l'anteprima deve coincidere con il sito
+        const contentStyle = {
+            paddingTop:    `calc(var(--header-height,80px) + 2rem + ${ paddingTop }px)`,
+            paddingRight:  `calc(var(--container-pad,1.5rem) + ${ paddingRight }px)`,
+            paddingBottom: `${ paddingBottom }px`,
+            paddingLeft:   `calc(var(--container-pad,1.5rem) + ${ paddingLeft }px)`,
+        }
+
         const blockProps = useBlockProps({
+            className: 'ark-testata',
             style: {
                 ...bgStyle,
                 minHeight:   height,
@@ -85,23 +160,10 @@ registerBlockType( metadata.name, {
                                 help={ __( 'Se disattivato puoi inserire un titolo custom', 'arkimedia' ) }
                             />
                             { ! usePageTitle &&
-                                <TextControl
-                                    label={ __( 'Titolo custom', 'arkimedia' ) }
-                                    value={customTitle}
-                                    onChange={ v => setAttributes({ customTitle: v }) }
-                                />
+                                <TextControl label={ __( 'Titolo custom', 'arkimedia' ) } { ...customTitleText } />
                             }
-                            <TextControl
-                                label={ __( 'Eyebrow (opzionale)', 'arkimedia' ) }
-                                value={eyebrow}
-                                onChange={ v => setAttributes({ eyebrow: v }) }
-                            />
-                            <TextControl
-                                label={ __( 'Dimensione titolo (CSS)', 'arkimedia' ) }
-                                value={titleSize}
-                                onChange={ v => setAttributes({ titleSize: v }) }
-                                help="Es. clamp(2rem,5vw,5rem) oppure 4rem"
-                            />
+                            <TextControl label={ __( 'Eyebrow (opzionale)', 'arkimedia' ) } { ...eyebrowText } />
+                            <SizeControl label={ __('Dimensione titolo','arkimedia') } value={titleSize} onChange={ v => setAttributes({ titleSize: v }) } presets={TITLE_SIZES} max={240} />
                         </> }
                     </PanelBody>
 
@@ -148,15 +210,15 @@ registerBlockType( metadata.name, {
                         { bgType === 'image' && <>
                             <MediaUploadCheck>
                                 <MediaUpload
-                                    onSelect={ media => setAttributes({ mediaUrl: media.url, mediaAlt: media.alt || '' }) }
+                                    onSelect={ media => setAttributes({ mediaId: media.id, mediaUrl: media.url, mediaAlt: media.alt || '' }) }
                                     allowedTypes={['image']}
-                                    value={mediaUrl}
+                                    value={mediaId}
                                     render={ ({ open }) => <>
                                         { mediaUrl && <img src={mediaUrl} style={{ width:'100%', height:'80px', objectFit:'cover', borderRadius:'4px', marginBottom:'8px' }} /> }
                                         <Button onClick={open} variant={ mediaUrl ? 'secondary' : 'primary' } style={{ width:'100%', justifyContent:'center' }}>
                                             { mediaUrl ? __('Cambia immagine','arkimedia') : __('Seleziona immagine','arkimedia') }
                                         </Button>
-                                        { mediaUrl && <Button onClick={ () => setAttributes({ mediaUrl:'', mediaAlt:'' }) } variant="tertiary" isDestructive style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
+                                        { mediaUrl && <Button onClick={ () => setAttributes({ mediaId:0, mediaUrl:'', mediaAlt:'' }) } variant="tertiary" isDestructive style={{ width:'100%', justifyContent:'center', marginTop:'4px' }}>
                                             { __('Rimuovi','arkimedia') }
                                         </Button> }
                                     </> }
@@ -179,8 +241,8 @@ registerBlockType( metadata.name, {
                                 onChange={ v => setAttributes({ bgPosition: v }) }
                             />
                             <SelectControl
-                                label={ __('Attachment','arkimedia') } value={bgAttachment}
-                                options={[ { label:'Scroll', value:'scroll' }, { label:'Fixed (parallax)', value:'fixed' } ]}
+                                label={ __('Effetto allo scroll','arkimedia') } value={bgAttachment}
+                                options={[ { label: __('Nessuno','arkimedia'), value:'scroll' }, { label: __('Parallax','arkimedia'), value:'fixed' } ]}
                                 onChange={ v => setAttributes({ bgAttachment: v }) }
                             />
                         </> }
@@ -197,7 +259,7 @@ registerBlockType( metadata.name, {
                                 onChange={ v => setAttributes({ gradientType: v }) }
                             />
                             { gradientType === 'linear' &&
-                                <RangeControl label={ __('Angolo','arkimedia') } value={gradientAngle} onChange={ v => setAttributes({ gradientAngle: v }) } min={0} max={360} />
+                                <LocalRange label={ __('Angolo','arkimedia') } value={gradientAngle} onChange={ v => setAttributes({ gradientAngle: v }) } min={0} max={360} />
                             }
                             <p style={{fontSize:'11px',fontWeight:600,margin:'12px 0 8px'}}>{ __('Colore 1','arkimedia') }</p>
                             <ColorPicker color={gradientColor1} onChange={ v => setAttributes({ gradientColor1: v }) } />
@@ -207,36 +269,34 @@ registerBlockType( metadata.name, {
 
                         <p style={{fontSize:'11px',fontWeight:600,margin:'16px 0 8px'}}>{ __('Overlay','arkimedia') }</p>
                         <ColorPicker color={overlayColor} onChange={ v => setAttributes({ overlayColor: v }) } enableAlpha defaultValue="rgba(0,0,0,0.45)" />
+                        { overlayColor && <Button onClick={ () => setAttributes({ overlayColor:'' }) } variant="tertiary" isDestructive>{ __('Rimuovi overlay','arkimedia') }</Button> }
 
                         <p style={{fontSize:'11px',fontWeight:600,margin:'16px 0 8px'}}>{ __('Colore testo','arkimedia') }</p>
                         <ColorPicker color={textColor} onChange={ v => setAttributes({ textColor: v }) } />
                     </PanelBody>
 
                     <PanelBody title={ __( 'Padding', 'arkimedia' ) } initialOpen={false}>
-                        <RangeControl label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) }    min={0} max={300} step={4} />
-                        <RangeControl label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } min={0} max={300} step={4} />
-                        <RangeControl label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) }   min={0} max={200} step={4} />
-                        <RangeControl label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) }  min={0} max={200} step={4} />
+                        <LocalRange label="Top"    value={paddingTop}    onChange={ v => setAttributes({ paddingTop: v }) }    min={0} max={300} step={4} />
+                        <LocalRange label="Bottom" value={paddingBottom} onChange={ v => setAttributes({ paddingBottom: v }) } min={0} max={300} step={4} />
+                        <LocalRange label="Left"   value={paddingLeft}   onChange={ v => setAttributes({ paddingLeft: v }) }   min={0} max={200} step={4} />
+                        <LocalRange label="Right"  value={paddingRight}  onChange={ v => setAttributes({ paddingRight: v }) }  min={0} max={200} step={4} />
                     </PanelBody>
 
                 </InspectorControls>
 
                 <div { ...blockProps }>
-                    { ( bgType === 'image' || overlayColor ) && (
+                    { overlayColor && ( bgType !== 'image' || mediaUrl ) && (
                         <div style={{ position:'absolute', inset:0, background:overlayColor, zIndex:1, pointerEvents:'none' }} />
                     )}
-                    <div style={{ position:'relative', zIndex:2, width:'100%', maxWidth:'1200px', margin:'0 auto', padding:'calc(80px + 2rem) 1.5rem 4rem' }}>
+                    <div className="ark-testata__content" style={ contentStyle }>
                         { eyebrow && showTitle && (
-                            <p style={{ fontSize:'0.8125rem', fontWeight:600, letterSpacing:'0.15em', textTransform:'uppercase', opacity:0.75, marginBottom:'1rem' }}>
+                            <p className="ark-testata__eyebrow">
                                 {eyebrow}
                             </p>
                         )}
-                        { showTitle && (
-                            <h1 style={{ fontSize:titleSize, fontWeight:700, lineHeight:1.05, letterSpacing:'-0.02em', margin:0 }}>
-                                { usePageTitle
-                                    ? __( '← Titolo pagina automatico', 'arkimedia' )
-                                    : ( customTitle || __( 'Titolo custom', 'arkimedia' ) )
-                                }
+                        { showTitle && ( usePageTitle || customTitle ) && (
+                            <h1 className="ark-testata__title" style={{ fontSize:titleSize }}>
+                                { usePageTitle ? __( '← Titolo pagina automatico', 'arkimedia' ) : customTitle }
                             </h1>
                         )}
                     </div>
