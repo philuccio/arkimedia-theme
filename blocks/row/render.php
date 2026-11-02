@@ -62,7 +62,7 @@ $shadow_x         = $attributes['shadowOffsetX']  ?? 0;
 $shadow_y         = $attributes['shadowOffsetY']  ?? 4;
 $shadow_blur      = $attributes['shadowBlur']     ?? 16;
 $shadow_spread    = $attributes['shadowSpread']   ?? 0;
-$shadow_color     = $attributes['shadowColor']    ?? 'rgba(0,0,0,0.2)';
+$shadow_color     = $attributes['shadowColor']    ?? '#00000033';
 $shadow_inset     = $attributes['shadowInset']    ?? false;
 $opacity          = $attributes['opacity']        ?? 1;
 $translate_x      = $attributes['translateX']     ?? 0;
@@ -88,6 +88,28 @@ $sm_align         = $attributes['smAlignItems']    ?? '';
 $sm_gap           = $attributes['smGap']           ?? 0;
 $sm_display       = $attributes['smDisplay']       ?? '';
 $sm_grid_cols     = $attributes['smGridColumns']   ?? 0;
+
+// I valori responsive finiscono in un tag <style>: solo voci dei menu
+$allowed_css = [
+    'display'   => [ 'flex', 'grid', 'block', 'none' ],
+    'direction' => [ 'row', 'row-reverse', 'column', 'column-reverse' ],
+    'justify'   => [ 'flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly' ],
+    'align'     => [ 'stretch', 'flex-start', 'center', 'flex-end', 'baseline' ],
+];
+$safe_css = fn( $value, $type ) => in_array( $value, $allowed_css[ $type ], true ) ? $value : '';
+
+$md_display   = $safe_css( $md_display, 'display' );
+$md_direction = $safe_css( $md_direction, 'direction' );
+$md_justify   = $safe_css( $md_justify, 'justify' );
+$md_align     = $safe_css( $md_align, 'align' );
+$md_gap       = absint( $md_gap );
+$md_grid_cols = absint( $md_grid_cols );
+$sm_display   = $safe_css( $sm_display, 'display' );
+$sm_direction = $safe_css( $sm_direction, 'direction' );
+$sm_justify   = $safe_css( $sm_justify, 'justify' );
+$sm_align     = $safe_css( $sm_align, 'align' );
+$sm_gap       = absint( $sm_gap );
+$sm_grid_cols = absint( $sm_grid_cols );
 
 $allowed_tags = [ 'div', 'section', 'article', 'main', 'aside', 'header', 'footer', 'nav' ];
 $tag = in_array( $html_tag, $allowed_tags ) ? $html_tag : 'div';
@@ -124,6 +146,8 @@ if ( $is_fullwidth ) {
     $styles[] = "max-width:100vw";
     $styles[] = "margin-left:calc(50% - 50vw)";
     $styles[] = "margin-right:calc(50% - 50vw)";
+    $styles[] = "margin-top:{$mt}";
+    $styles[] = "margin-bottom:{$mb}";
 } else {
     $styles[] = "width:{$width}";
     if ( $max_width ) $styles[] = "max-width:{$max_width}";
@@ -132,7 +156,7 @@ if ( $is_fullwidth ) {
 
 if ( $min_height ) $styles[] = "min-height:{$min_height}";
 $styles[] = "overflow:{$overflow}";
-if ( $z_index ) $styles[] = "z-index:{$z_index}";
+if ( '' !== (string) $z_index ) $styles[] = "z-index:{$z_index}";
 $styles[] = "padding:{$pt}px {$pr}px {$pb}px {$pl}px";
 
 // Sfondo

@@ -18,12 +18,12 @@
         "clients": {
             "type": "array",
             "default": [
-                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
-                { "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" }
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "", "name": "", "clientUrl": "" }
             ]
         }
     },

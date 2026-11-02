@@ -88,13 +88,23 @@
 }
 
 .ark-map__split .ark-map__embed-wrap {
-    flex: 1;
+    position: relative;
+    flex:     1;
+}
+
+.ark-map__split .ark-map__iframe {
+    position: absolute;
+    inset:    0;
 }
 
 /* Responsive */
 @media ( max-width: 768px ) {
     .ark-map__split {
         flex-direction: column;
+    }
+
+    .ark-map__split .ark-map__embed-wrap {
+        flex: none;
     }
 
     .ark-map__panel {

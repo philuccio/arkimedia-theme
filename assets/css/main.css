@@ -429,45 +429,28 @@ body:has( .ark-splash ) .site-footer {
     margin:         0;
 }
 
-/* Link entra */
-.ark-splash__enter {
-    color:          inherit;
-    display:        flex;
-    flex-direction: column;
-    align-items:    center;
-    gap:            0.75rem;
-    color:          inherit;
-    text-decoration: none;
-    margin-top:     1rem;
-    cursor:         pointer;
+/* Bandiere lingua */
+.ark-splash__langs {
+    display:         flex;
+    flex-wrap:       wrap;
+    justify-content: center;
+    gap:             clamp( 2.5rem, 10vw, 6rem );
+    margin-top:      1.5rem;
 }
 
-.ark-splash__enter-label {
-    font-size:      0.8125rem;
-    font-weight:    600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    opacity:        0.85;
-    transition:     opacity 0.3s ease;
+.ark-splash__lang img {
+    display:    block;
+    width:      48px;
+    height:     32px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.ark-splash__enter:hover .ark-splash__enter-label {
-    opacity: 1;
-}
-
-.ark-splash__enter-line {
-    display:       block;
-    width:         1px;
-    height:        60px;
-    background:    currentColor;
-    opacity:       0.5;
-    transform-origin: top center;
-    transition:    height 0.3s ease, opacity 0.3s ease;
-}
-
-.ark-splash__enter:hover .ark-splash__enter-line {
-    height:  80px;
-    opacity: 0.9;
+a.ark-splash__lang:hover img,
+a.ark-splash__lang:focus-visible img {
+    transform:  translateY( -4px );
+    box-shadow: 0 0 0 2px currentColor;
 }
 
 /* Effetto bg */

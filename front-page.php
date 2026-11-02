@@ -13,8 +13,11 @@ $logo_url       = $custom_logo_id
     : '';
 $logo_alt       = get_bloginfo( 'name' );
 
-$splash_link    = get_theme_mod( 'ark_splash_link',  home_url( '/home/' ) );
-$splash_label   = get_theme_mod( 'ark_splash_label', __( 'Entra nel sito', 'arkimedia' ) );
+$splash_langs   = [
+    'it' => 'Italiano',
+    'en' => 'English',
+    'es' => 'Español',
+];
 $splash_bg      = get_theme_mod( 'ark_splash_bg',    '#1a1a2e' );
 $splash_color   = get_theme_mod( 'ark_splash_color', '#ffffff' );
 ?>
@@ -35,15 +38,19 @@ $splash_color   = get_theme_mod( 'ark_splash_color', '#ffffff' );
 
         <p class="ark-splash__tagline"><?php bloginfo( 'description' ); ?></p>
 
-        <a class="ark-splash__enter"
-           href="<?php echo esc_url( $splash_link ); ?>"
-           style="color:<?php echo esc_attr( $splash_color ); ?>;">
-            <span class="ark-splash__enter-label">
-                <?php echo esc_html( $splash_label ); ?>
-            </span>
-            <span class="ark-splash__enter-line"
-                  style="background:<?php echo esc_attr( $splash_color ); ?>;"></span>
-        </a>
+        <nav class="ark-splash__langs" aria-label="<?php esc_attr_e( 'Scegli la lingua', 'arkimedia' ); ?>">
+            <?php foreach ( $splash_langs as $lang => $lang_name ) :
+                $lang_url = ark_splash_lang_url( $lang );
+                $lang_tag = $lang_url ? 'a' : 'span';
+            ?>
+                <<?php echo $lang_tag; ?> class="ark-splash__lang"
+                    <?php if ( $lang_url ) : ?>href="<?php echo esc_url( $lang_url ); ?>"<?php endif; ?>
+                    lang="<?php echo esc_attr( $lang ); ?>">
+                    <img src="<?php echo esc_url( ARK_URI . '/assets/images/flags/' . $lang . '.svg' ); ?>"
+                         alt="<?php echo esc_attr( $lang_name ); ?>" width="48" height="32">
+                </<?php echo $lang_tag; ?>>
+            <?php endforeach; ?>
+        </nav>
 
     </div>
 

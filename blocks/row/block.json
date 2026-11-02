@@ -15,9 +15,7 @@
     },
     "attributes": {
         "align": {
-            "type": "string",
-            "default": ""
-        },
+            "type": "string" },
         "display": {
             "type": "string",
             "default": "flex"
@@ -244,7 +242,7 @@
         },
         "shadowColor": {
             "type": "string",
-            "default": "rgba(0,0,0,0.2)"
+            "default": "#00000033"
         },
         "shadowInset": {
             "type": "boolean",

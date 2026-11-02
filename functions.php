@@ -229,6 +229,22 @@ function ark_register_blocks(): void {
 }
 add_action( 'init', 'ark_register_blocks' );
 
+// ── Link bandiere splash page ───────────────────────────────────────────────
+// URL dal Customizer; se vuoto, Home tradotta con Polylang (se pubblicata).
+function ark_splash_lang_url( string $lang ): string {
+    $custom = get_theme_mod( 'it' === $lang ? 'ark_splash_link' : "ark_splash_link_{$lang}", '' );
+    if ( $custom ) return $custom;
+
+    $home = get_page_by_path( 'home' );
+    if ( ! $home ) return '';
+
+    $page_id = function_exists( 'pll_get_post' )
+        ? pll_get_post( $home->ID, $lang )
+        : ( 'it' === $lang ? $home->ID : 0 );
+
+    return $page_id && 'publish' === get_post_status( $page_id ) ? get_permalink( $page_id ) : '';
+}
+
 // ── Enqueue assets splash page ────────────────────────────────────────────────
 function ark_enqueue_splash_assets(): void {
     if ( ! is_front_page() ) return;

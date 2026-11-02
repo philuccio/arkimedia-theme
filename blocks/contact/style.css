@@ -87,7 +87,7 @@
 .ark-contact__hours {
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid color-mix( in srgb, currentColor 15%, transparent );
 }
 
 .ark-contact__hours-title {
@@ -156,7 +156,16 @@
 
 .ark-contact__field input:focus,
 .ark-contact__field textarea:focus {
-    border-color: var( --color-accent, #e94560 ) !important;
+    border-color: var( --ark-contact-accent, var( --color-accent, #e94560 ) ) !important;
+}
+
+/* Campo trappola antispam */
+.ark-contact__hp {
+    position: absolute;
+    left:     -9999px;
+    width:    1px;
+    height:   1px;
+    overflow: hidden;
 }
 
 /* Privacy */
@@ -175,7 +184,7 @@
     width:         16px;
     height:        16px;
     cursor:        pointer;
-    accent-color:  var( --color-accent, #e94560 );
+    accent-color:  var( --ark-contact-accent, var( --color-accent, #e94560 ) );
 }
 
 /* Feedback */

@@ -25,12 +25,23 @@
         "errorMessage":    { "type": "string",  "default": "Errore nell'invio. Riprova più tardi." },
         "privacyText":     { "type": "string",  "default": "Ho letto e accetto la" },
         "privacyLabel":    { "type": "string",  "default": "Privacy Policy" },
-        "privacyUrl":      { "type": "string",  "default": "/privacy-policy" },
+        "privacyUrl":      { "type": "string",  "default": "" },
+        "nameLabel":          { "type": "string", "default": "Nome *" },
+        "namePlaceholder":    { "type": "string", "default": "Il tuo nome" },
+        "emailLabel":         { "type": "string", "default": "Email *" },
+        "emailPlaceholder":   { "type": "string", "default": "La tua email" },
+        "phoneLabel":         { "type": "string", "default": "Telefono" },
+        "phonePlaceholder":   { "type": "string", "default": "Il tuo numero" },
+        "subjectLabel":       { "type": "string", "default": "Oggetto" },
+        "subjectPlaceholder": { "type": "string", "default": "Di cosa vuoi parlarci?" },
+        "messageLabel":       { "type": "string", "default": "Messaggio *" },
+        "messagePlaceholder": { "type": "string", "default": "Raccontaci il tuo progetto..." },
+        "hoursTitle":         { "type": "string", "default": "Orari" },
         "contacts": {
             "type": "array",
             "default": [
                 { "icon": "📍", "label": "Indirizzo", "value": "Via Roma 1, Milano", "url": "" },
-                { "icon": "📞", "label": "Telefono",  "value": "+39 02 1234567", "url": "tel:+390212345678" },
+                { "icon": "📞", "label": "Telefono",  "value": "+39 02 1234567", "url": "tel:+39021234567" },
                 { "icon": "✉️", "label": "Email",     "value": "info@arkimedia.it", "url": "mailto:info@arkimedia.it" }
             ]
         },

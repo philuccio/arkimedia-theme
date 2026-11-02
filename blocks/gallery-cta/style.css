@@ -33,6 +33,12 @@
     align-items: center;
 }
 
+/* Solo griglia o solo CTA */
+.ark-gallery-cta__body--single {
+    grid-template-columns: minmax( 0, 600px );
+    justify-content:       center;
+}
+
 /* Griglia 3x3 */
 .ark-gallery-cta__grid {
     display:               grid;

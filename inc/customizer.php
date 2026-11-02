@@ -155,27 +155,24 @@ function ark_customizer( WP_Customize_Manager $wp_customize ): void {
         'priority' => 30,
     ] );
 
-    $wp_customize->add_setting( 'ark_splash_link', [
-        'default'           => home_url( '/home/' ),
-        'sanitize_callback' => 'esc_url_raw',
-        'transport'         => 'refresh',
-    ] );
-    $wp_customize->add_control( 'ark_splash_link', [
-        'label'   => __( 'URL destinazione', 'arkimedia' ),
-        'section' => 'ark_splash',
-        'type'    => 'url',
-    ] );
-
-    $wp_customize->add_setting( 'ark_splash_label', [
-        'default'           => __( 'Entra nel sito', 'arkimedia' ),
-        'sanitize_callback' => 'sanitize_text_field',
-        'transport'         => 'refresh',
-    ] );
-    $wp_customize->add_control( 'ark_splash_label', [
-        'label'   => __( 'Testo invito', 'arkimedia' ),
-        'section' => 'ark_splash',
-        'type'    => 'text',
-    ] );
+    $splash_links = [
+        'ark_splash_link'    => __( 'Link bandiera italiana', 'arkimedia' ),
+        'ark_splash_link_en' => __( 'Link bandiera inglese', 'arkimedia' ),
+        'ark_splash_link_es' => __( 'Link bandiera spagnola', 'arkimedia' ),
+    ];
+    foreach ( $splash_links as $setting => $label ) {
+        $wp_customize->add_setting( $setting, [
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+            'transport'         => 'refresh',
+        ] );
+        $wp_customize->add_control( $setting, [
+            'label'       => $label,
+            'description' => __( 'Se vuoto, usa la Home tradotta con Polylang.', 'arkimedia' ),
+            'section'     => 'ark_splash',
+            'type'        => 'url',
+        ] );
+    }
 
     $wp_customize->add_setting( 'ark_splash_bg', [
         'default'           => '#1a1a2e',

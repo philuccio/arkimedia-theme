@@ -7,6 +7,11 @@
     .container {
         padding: 0 2rem;
     }
+
+    /* Portfolio grid */
+    .portfolio-grid {
+        grid-template-columns: repeat( 3, 1fr );
+    }
 }
 
 /* ── 1024px e sotto (lg) ─────────────────────────────────── */
@@ -170,10 +175,6 @@
     /* Splash */
     .ark-splash__inner {
         gap: 1.25rem;
-    }
-
-    .ark-splash__enter-line {
-        height: 40px;
     }
 
     /* Footer */

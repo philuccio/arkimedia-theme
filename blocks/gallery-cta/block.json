@@ -22,15 +22,15 @@
         "images": {
             "type": "array",
             "default": [
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" },
-                { "mediaUrl": "", "mediaAlt": "" }
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" },
+                { "mediaId": 0, "mediaUrl": "", "mediaAlt": "" }
             ]
         }
     },

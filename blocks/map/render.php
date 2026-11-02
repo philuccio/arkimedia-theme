@@ -13,15 +13,15 @@ $zoom         = $attributes['zoom']        ?? 14;
 $map_type     = $attributes['mapType']     ?? 'roadmap';
 $height       = $attributes['height']      ?? '500px';
 $layout       = $attributes['layout']      ?? 'full';
-$show_marker  = $attributes['showMarker']  ?? true;
-$marker_title = $attributes['markerTitle'] ?? '';
-$marker_text  = $attributes['markerText']  ?? '';
 $bg_color     = $attributes['bgColor']     ?? '#0a0a0a';
 $text_color   = $attributes['textColor']   ?? '#ffffff';
 $accent       = $attributes['accentColor'] ?? '#e94560';
 $panel_title  = $attributes['panelTitle']  ?? 'Dove siamo';
 $panel_text   = $attributes['panelText']   ?? '';
 $address      = $attributes['address']     ?? '';
+$directions   = $attributes['directionsLabel'] ?? 'Indicazioni stradali';
+
+$map_types    = [ 'roadmap' => 'm', 'satellite' => 'k', 'terrain' => 'p', 'hybrid' => 'h' ];
 
 // URL embed Google Maps — senza API key
 $embed_url = sprintf(
@@ -29,7 +29,7 @@ $embed_url = sprintf(
     esc_attr( $lat ),
     esc_attr( $lng ),
     absint( $zoom ),
-    ( $map_type === 'satellite' || $map_type === 'hybrid' ) ? 'k' : 'm'
+    $map_types[ $map_type ] ?? 'm'
 );
 
 $wrapper_attrs = get_block_wrapper_attributes([
@@ -66,12 +66,12 @@ $wrapper_attrs = get_block_wrapper_attributes([
                href="https://www.google.com/maps/dir/?api=1&destination=<?php echo esc_attr( $lat ); ?>,<?php echo esc_attr( $lng ); ?>"
                target="_blank" rel="noopener noreferrer"
                style="background:<?php echo esc_attr( $accent ); ?>;">
-                <?php esc_html_e( 'Indicazioni stradali', 'arkimedia' ); ?>
+                <?php echo esc_html( $directions ); ?>
             </a>
         </div>
 
-        <!-- Mappa -->
-        <div class="ark-map__embed-wrap" style="height:<?php echo esc_attr( $height ); ?>;">
+        <!-- Mappa: altezza minima, cresce con il pannello -->
+        <div class="ark-map__embed-wrap" style="min-height:<?php echo esc_attr( $height ); ?>;">
             <iframe
                 class="ark-map__iframe"
                 src="<?php echo esc_url( $embed_url ); ?>"

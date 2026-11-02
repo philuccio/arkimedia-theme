@@ -205,7 +205,6 @@ function initScrollAnimations() {
             duration: dur,
             delay:    del,
             ease:     'power3.out',
-            clearProps: 'all',
         }
 
         switch ( type ) {
@@ -315,18 +314,21 @@ function initBlockAnimations() {
     })
 
     // ── Clients — loghi ───────────────────────────────────────────────────────
-    document.querySelectorAll( '.ark-clients__item' ).forEach( ( item, i ) => {
-        gsap.from( item, {
-            opacity:  0,
-            scale:    0.9,
-            duration: 0.5,
-            delay:    i * 0.05,
-            ease:     'power2.out',
-            scrollTrigger: {
-                trigger:      item,
-                start:        'top 90%',
-                toggleActions: 'play none none none',
-            }
+    document.querySelectorAll( '.ark-clients__list' ).forEach( list => {
+        list.querySelectorAll( '.ark-clients__item' ).forEach( ( item, i ) => {
+            gsap.from( item, {
+                opacity:  0,
+                scale:    0.9,
+                duration: 0.5,
+                delay:    i * 0.05,
+                ease:     'power2.out',
+                clearProps: 'transform,opacity',
+                scrollTrigger: {
+                    trigger:      item,
+                    start:        'top 90%',
+                    toggleActions: 'play none none none',
+                }
+            })
         })
     })
 
@@ -338,6 +340,7 @@ function initBlockAnimations() {
             duration: 0.6,
             delay:    i * 0.06,
             ease:     'power3.out',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
                 trigger:      cell,
                 start:        'top 90%',
@@ -369,6 +372,7 @@ function initBlockAnimations() {
             opacity:  0,
             duration: 0.9,
             ease:     'power3.out',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
                 trigger:      el,
                 start:        'top 80%',
@@ -383,6 +387,7 @@ function initBlockAnimations() {
             opacity:  0,
             duration: 0.9,
             ease:     'power3.out',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
                 trigger:      el,
                 start:        'top 80%',
@@ -436,6 +441,7 @@ function initBlockAnimations() {
             opacity:  0,
             duration: 0.8,
             ease:     'power3.out',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
                 trigger:      el,
                 start:        'top 80%',
@@ -474,9 +480,6 @@ function initLenisParallax() {
     // Velocità differenziate per sezioni
     const sections = [
         { selector: '.ark-services',    speed: 0.05 },
-        { selector: '.ark-clients',     speed: 0.08 },
-        { selector: '.ark-gallery-cta', speed: 0.06 },
-        { selector: '.ark-contact',     speed: 0.04 },
     ]
 
     sections.forEach( ( { selector, speed } ) => {
