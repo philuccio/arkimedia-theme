@@ -67,7 +67,7 @@ registerBlockType( metadata.name, {
     edit( { attributes, setAttributes } ) {
         const {
             text, separator, separatorSize, fontFamily, fontSize, speed, direction, pauseOnHover,
-            textColor, bgColor, showLines, lineColor, paddingY,
+            textColor, separatorColor, bgColor, showLines, lineColor, paddingY,
         } = attributes
 
         // Anteprima dal vivo: i valori in modifica si vedono subito e si salvano al rilascio
@@ -114,6 +114,11 @@ registerBlockType( metadata.name, {
                 <PanelBody title={ __( 'Stile', 'arkimedia' ) } initialOpen={false}>
                     <p style={{fontSize:'11px',fontWeight:600,marginBottom:'8px'}}>{ __('Colore testo','arkimedia') }</p>
                     <ColorPicker color={textColor} onChange={ v => setAttributes({ textColor: v }) } enableAlpha />
+                    { separator !== '' && <>
+                        <p style={{fontSize:'11px',fontWeight:600,margin:'16px 0 8px'}}>{ __('Colore bullet','arkimedia') }</p>
+                        <ColorPicker color={separatorColor || textColor} onChange={ v => setAttributes({ separatorColor: v }) } enableAlpha />
+                        { separatorColor && <Button onClick={ () => setAttributes({ separatorColor:'' }) } variant="tertiary">{ __('Usa colore testo','arkimedia') }</Button> }
+                    </> }
                     <p style={{fontSize:'11px',fontWeight:600,margin:'16px 0 8px'}}>{ __('Colore sfondo','arkimedia') }</p>
                     <ColorPicker color={bgColor} onChange={ v => setAttributes({ bgColor: v }) } enableAlpha />
                     { bgColor && <Button onClick={ () => setAttributes({ bgColor:'' }) } variant="tertiary" isDestructive>{ __('Rimuovi sfondo','arkimedia') }</Button> }
@@ -140,7 +145,7 @@ registerBlockType( metadata.name, {
                 </InspectorControls>
 
                 <div { ...blockProps }>
-                    <MarqueePreview text={preview.text} fontSize={preview.fontSize} speed={preview.speed} direction={direction} pause={pauseOnHover} separator={preview.separator} separatorSize={preview.separatorSize} font={fontFamily} />
+                    <MarqueePreview text={preview.text} fontSize={preview.fontSize} speed={preview.speed} direction={direction} pause={pauseOnHover} separator={preview.separator} separatorSize={preview.separatorSize} font={fontFamily} separatorColor={separatorColor} />
                 </div>
             </>
         )

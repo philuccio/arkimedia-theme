@@ -126,7 +126,7 @@ export function SeparatorControl( { value, onChange, onLive } ) {
 }
 
 // Anteprima del marquee: stesso markup di ark_render_marquee() e stesso script del sito
-export function MarqueePreview( { text, fontSize, speed, direction = 'left', pause = false, separator = '•', separatorSize = '1em', font = '' } ) {
+export function MarqueePreview( { text, fontSize, speed, direction = 'left', pause = false, separator = '•', separatorSize = '1em', font = '', color = '', separatorColor = '' } ) {
     const ref = useRef()
 
     useEffect( () => {
@@ -148,7 +148,7 @@ export function MarqueePreview( { text, fontSize, speed, direction = 'left', pau
     // Stessa normalizzazione di ark_render_marquee()
     const glue = separator === ''
         ? '    '
-        : <>{ '\u00A0' }<span className="ark-marquee__sep" style={{ fontSize: separatorSize }}>{separator}</span>{ '\u00A0' }</>
+        : <>{ '\u00A0' }<span className="ark-marquee__sep" style={{ fontSize: separatorSize, color: separatorColor || undefined }}>{separator}</span>{ '\u00A0' }</>
 
     const classes = [
         'ark-marquee',
@@ -159,7 +159,7 @@ export function MarqueePreview( { text, fontSize, speed, direction = 'left', pau
     return (
         <div ref={ref} className={classes} data-speed={speed}>
             <div className="ark-marquee__track">
-                <span className="ark-marquee__group" style={{ fontSize, fontFamily: font ? `'${ font }', sans-serif` : undefined }}>
+                <span className="ark-marquee__group" style={{ fontSize, fontFamily: font ? `'${ font }', sans-serif` : undefined, color: color || undefined }}>
                     { splitItems( text ).map( ( item, i ) => <Fragment key={i}>{item}{glue}</Fragment> ) }
                 </span>
             </div>

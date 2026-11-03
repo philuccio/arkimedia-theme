@@ -15,6 +15,14 @@ $marquee_speed = $attributes['marqueeSpeed']   ?? 100;
 $marquee_sep  = $attributes['marqueeSeparator'] ?? '•';
 $marquee_font = $attributes['marqueeFontFamily'] ?? '';
 $marquee_sep_size = $attributes['marqueeSeparatorSize'] ?? '1em';
+$marquee_color    = $attributes['marqueeColor']          ?? '';
+$marquee_sep_color = $attributes['marqueeSeparatorColor'] ?? '';
+
+// Classi del marquee condivise con l'anteprima dell'editor
+$marquee_class = 'ark-services__marquee-wrap';
+if ( $marquee_color || $marquee_sep_color )          $marquee_class .= ' ark-services__marquee-wrap--color';
+if ( ! ( $attributes['marqueeBorderTop'] ?? true ) )    $marquee_class .= ' ark-services__marquee-wrap--no-top';
+if ( ! ( $attributes['marqueeBorderBottom'] ?? true ) ) $marquee_class .= ' ark-services__marquee-wrap--no-bottom';
 $title_size   = $attributes['titleSize']       ?? 'clamp(3rem,8vw,7rem)';
 $card_t_size  = $attributes['cardTitleSize']   ?? '1.25rem';
 $card_x_size  = $attributes['cardTextSize']    ?? '0.9375rem';
@@ -45,9 +53,11 @@ $wrapper_attrs = get_block_wrapper_attributes([
 
     <!-- Marquee -->
     <?php if ( $marquee ) : ?>
-        <div class="ark-services__marquee-wrap">
+        <div class="<?php echo esc_attr( $marquee_class ); ?>">
             <?php
             echo ark_render_marquee( $marquee, [
+                'color'     => $marquee_color,
+                'separator_color' => $marquee_sep_color,
                 'font_size' => absint( $marquee_size ) . 'px',
                 'speed'     => $marquee_speed,
                 'separator' => $marquee_sep,
@@ -66,6 +76,9 @@ $wrapper_attrs = get_block_wrapper_attributes([
                 $card_text  = $card['text']     ?? '';
                 $card_media = $card['mediaUrl'] ?? '';
                 $card_alt   = $card['mediaAlt'] ?? '';
+                $card_link  = esc_url( $card['link'] ?? '' );
+                $card_blank = ! empty( $card['linkNewTab'] );
+                $inner_tag  = $card_link ? 'a' : 'div';
 
                 // L'ID dà srcset e dimensioni; i blocchi già salvati hanno solo l'URL
                 $card_id    = $card['mediaId'] ?? 0;
@@ -75,7 +88,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
                     : '';
             ?>
                 <article class="ark-services__card" data-stagger-item>
-                    <div class="ark-services__card-inner">
+                    <<?php echo $inner_tag; ?> class="ark-services__card-inner"<?php if ( $card_link ) : ?> href="<?php echo $card_link; ?>"<?php if ( $card_blank ) : ?> target="_blank" rel="noopener"<?php endif; ?><?php endif; ?>>
                         <?php if ( $card_image || $card_media ) : ?>
                             <figure class="ark-services__card-thumb">
                                 <?php if ( $card_image ) : ?>
@@ -97,7 +110,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
                                 <p class="ark-services__card-text" style="font-size:<?php echo esc_attr( $card_x_size ); ?>;"><?php echo esc_html( $card_text ); ?></p>
                             <?php endif; ?>
                         </div>
-                    </div>
+                    </<?php echo $inner_tag; ?>>
                 </article>
             <?php endforeach; ?>
         </div>

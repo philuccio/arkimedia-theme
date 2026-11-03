@@ -48,6 +48,22 @@
             "type": "string",
             "default": "1em"
         },
+        "marqueeColor": {
+            "type": "string",
+            "default": ""
+        },
+        "marqueeSeparatorColor": {
+            "type": "string",
+            "default": ""
+        },
+        "marqueeBorderTop": {
+            "type": "boolean",
+            "default": true
+        },
+        "marqueeBorderBottom": {
+            "type": "boolean",
+            "default": true
+        },
         "marqueeSpeed": {
             "type": "number",
             "default": 100
@@ -79,6 +95,12 @@
                     },
                     "mediaAlt": {
                         "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "linkNewTab": {
+                        "type": "boolean"
                     }
                 }
             },

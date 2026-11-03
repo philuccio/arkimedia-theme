@@ -1,7 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks'
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor'
 import {
-    PanelBody, TextControl, TextareaControl, Button, ColorPicker, RangeControl, TabPanel,
+    PanelBody, TextControl, TextareaControl, ToggleControl, Button, ColorPicker, RangeControl, TabPanel,
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
@@ -89,11 +89,18 @@ function SizeControl( { label, value, onChange, onLive, presets, max } ) {
 function CardPanel( { card, index, canRemove, onChange, onLive, onRemove, onPickImage } ) {
     const titleText = useLocalText( card.title, v => onChange({ title: v }), v => onLive({ title: v }) )
     const bodyText  = useLocalText( card.text,  v => onChange({ text: v }),  v => onLive({ text: v }) )
+    const linkText  = useLocalText( card.link,  v => onChange({ link: v.trim() }) )
 
     return (
         <PanelBody title={ `Card ${ index + 1 }: ${ card.title || '—' }` } initialOpen={false}>
             <TextControl label={ __( 'Titolo card', 'arkimedia' ) } { ...titleText } />
             <TextareaControl label={ __( 'Testo card', 'arkimedia' ) } { ...bodyText } />
+            <TextControl label={ __( 'Link card', 'arkimedia' ) } type="url" placeholder="https://… oppure /pagina/"
+                help={ __( 'Se compilato, tutta la card diventa cliccabile.', 'arkimedia' ) } { ...linkText } />
+            { card.link && (
+                <ToggleControl label={ __( 'Apri in una nuova scheda', 'arkimedia' ) }
+                    checked={ !! card.linkNewTab } onChange={ v => onChange({ linkNewTab: v }) } />
+            )}
             { card.mediaUrl && (
                 <img src={card.mediaUrl}
                     style={{ width:'100%', height:'80px', objectFit:'cover', borderRadius:'4px', marginBottom:'8px' }}
@@ -128,7 +135,7 @@ registerBlockType( metadata.name, {
     edit( { attributes, setAttributes } ) {
         const {
             eyebrow, title, titleSize, marqueeText, marqueeFontSize, marqueeSpeed, marqueeSeparator, marqueeSeparatorSize, marqueeFontFamily,
-            cards, cardTitleSize, cardTextSize, bgColor, textColor, accentColor,
+            marqueeColor, marqueeSeparatorColor, marqueeBorderTop, marqueeBorderBottom, cards, cardTitleSize, cardTextSize, bgColor, textColor, accentColor,
         } = attributes
 
         // Anteprima dal vivo: i valori in modifica si vedono subito e si salvano al rilascio
@@ -171,7 +178,7 @@ registerBlockType( metadata.name, {
         }
 
         const addCard = () => {
-            setAttributes({ cards: [ ...cards, { title: __( 'Nuova card', 'arkimedia' ), text: '', mediaId: 0, mediaUrl: '', mediaAlt: '' } ] })
+            setAttributes({ cards: [ ...cards, { title: __( 'Nuova card', 'arkimedia' ), text: '', mediaId: 0, mediaUrl: '', mediaAlt: '', link: '', linkNewTab: false } ] })
         }
 
         const removeCard = ( cardIndex ) => {
@@ -183,10 +190,6 @@ registerBlockType( metadata.name, {
                 <PanelBody title={ __( 'Testi', 'arkimedia' ) } initialOpen={true}>
                     <TextControl label={ __( 'Eyebrow', 'arkimedia' ) } { ...eyebrowText } />
                     <TextControl label={ __( 'Titolo', 'arkimedia' ) } { ...titleText } />
-                </PanelBody>
-
-                <PanelBody title={ __( 'Voci marquee', 'arkimedia' ) } initialOpen={false}>
-                    <ItemsControl value={marqueeText} onChange={ v => setAttributes({ marqueeText: v }) } onLive={ onLive( 'marqueeText' ) } />
                 </PanelBody>
 
                 { cards.map( ( card, idx ) => (
@@ -215,16 +218,6 @@ registerBlockType( metadata.name, {
                     <SizeControl label={ __('Testo card','arkimedia') } value={cardTextSize} onChange={ v => setAttributes({ cardTextSize: v }) } onLive={ onLive( 'cardTextSize' ) } presets={CARD_TEXT_SIZES} max={40} />
                 </PanelBody>
 
-                <PanelBody title={ __( 'Marquee', 'arkimedia' ) } initialOpen={false}>
-                    <FontControl value={marqueeFontFamily} onChange={ v => setAttributes({ marqueeFontFamily: v }) } />
-                    <SeparatorControl value={marqueeSeparator} onChange={ v => setAttributes({ marqueeSeparator: v }) } onLive={ onLive( 'marqueeSeparator' ) } />
-                    { marqueeSeparator !== '' &&
-                        <SizeControl label={ __('Dimensione separatore','arkimedia') } value={marqueeSeparatorSize} onChange={ v => setAttributes({ marqueeSeparatorSize: v }) } onLive={ onLive( 'marqueeSeparatorSize' ) } presets={SEPARATOR_SIZES} max={200} />
-                    }
-                    <LocalRange label={ __( 'Dimensione font (px)', 'arkimedia' ) } value={marqueeFontSize} onChange={ v => setAttributes({ marqueeFontSize: v }) } onLive={ onLive( 'marqueeFontSize' ) } min={10} max={80} />
-                    <LocalRange label={ __( 'Velocità (px al secondo)', 'arkimedia' ) } value={marqueeSpeed} onChange={ v => setAttributes({ marqueeSpeed: v }) } onLive={ onLive( 'marqueeSpeed' ) } min={10} max={300} step={10} />
-                </PanelBody>
-
                 <PanelBody title={ __( 'Colori', 'arkimedia' ) } initialOpen={false}>
                     <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',marginBottom:'8px'}}>
                         { __('Colore sfondo','arkimedia') }
@@ -243,15 +236,65 @@ registerBlockType( metadata.name, {
             </>
         )
 
+        const marqueeTab = (
+            <>
+                <PanelBody title={ __( 'Voci', 'arkimedia' ) } initialOpen={true}>
+                    <ItemsControl value={marqueeText} onChange={ v => setAttributes({ marqueeText: v }) } onLive={ onLive( 'marqueeText' ) } />
+                </PanelBody>
+
+                <PanelBody title={ __( 'Testo', 'arkimedia' ) } initialOpen={false}>
+                    <FontControl value={marqueeFontFamily} onChange={ v => setAttributes({ marqueeFontFamily: v }) } />
+                    <LocalRange label={ __( 'Dimensione font (px)', 'arkimedia' ) } value={marqueeFontSize} onChange={ v => setAttributes({ marqueeFontSize: v }) } onLive={ onLive( 'marqueeFontSize' ) } min={10} max={80} />
+                    <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',margin:'16px 0 8px'}}>
+                        { __('Colore testo marquee','arkimedia') }
+                    </p>
+                    <ColorPicker color={marqueeColor || textColor} onChange={ val => setAttributes({ marqueeColor: val }) } enableAlpha />
+                    { marqueeColor && <Button onClick={ () => setAttributes({ marqueeColor:'' }) } variant="tertiary">{ __('Usa colore testo','arkimedia') }</Button> }
+                </PanelBody>
+
+                <PanelBody title={ __( 'Separatore', 'arkimedia' ) } initialOpen={false}>
+                    <SeparatorControl value={marqueeSeparator} onChange={ v => setAttributes({ marqueeSeparator: v }) } onLive={ onLive( 'marqueeSeparator' ) } />
+                    { marqueeSeparator !== '' && <>
+                        <SizeControl label={ __('Dimensione separatore','arkimedia') } value={marqueeSeparatorSize} onChange={ v => setAttributes({ marqueeSeparatorSize: v }) } onLive={ onLive( 'marqueeSeparatorSize' ) } presets={SEPARATOR_SIZES} max={200} />
+                        <p style={{fontSize:'11px',fontWeight:600,textTransform:'uppercase',margin:'16px 0 8px'}}>
+                            { __('Colore bullet','arkimedia') }
+                        </p>
+                        <ColorPicker color={marqueeSeparatorColor || marqueeColor || textColor} onChange={ val => setAttributes({ marqueeSeparatorColor: val }) } enableAlpha />
+                        { marqueeSeparatorColor && <Button onClick={ () => setAttributes({ marqueeSeparatorColor:'' }) } variant="tertiary">{ __('Usa colore testo marquee','arkimedia') }</Button> }
+                    </> }
+                </PanelBody>
+
+                <PanelBody title={ __( 'Bordi', 'arkimedia' ) } initialOpen={false}>
+                    <ToggleControl label={ __( 'Bordo superiore', 'arkimedia' ) } checked={marqueeBorderTop} onChange={ v => setAttributes({ marqueeBorderTop: v }) } />
+                    <ToggleControl label={ __( 'Bordo inferiore', 'arkimedia' ) } checked={marqueeBorderBottom} onChange={ v => setAttributes({ marqueeBorderBottom: v }) } />
+                </PanelBody>
+
+                <PanelBody title={ __( 'Movimento', 'arkimedia' ) } initialOpen={false}>
+                    <LocalRange label={ __( 'Velocità (px al secondo)', 'arkimedia' ) } value={marqueeSpeed} onChange={ v => setAttributes({ marqueeSpeed: v }) } onLive={ onLive( 'marqueeSpeed' ) } min={10} max={300} step={10} />
+                </PanelBody>
+            </>
+        )
+
+        const tabs = { contenuto: contentTab, marquee: marqueeTab, layout: layoutTab }
+
+        // Classi del marquee condivise con render.php
+        const marqueeWrapClass = [
+            'ark-services__marquee-wrap',
+            marqueeColor || marqueeSeparatorColor ? 'ark-services__marquee-wrap--color' : '',
+            marqueeBorderTop    ? '' : 'ark-services__marquee-wrap--no-top',
+            marqueeBorderBottom ? '' : 'ark-services__marquee-wrap--no-bottom',
+        ].filter( Boolean ).join( ' ' )
+
         return (
             <>
                 <InspectorControls>
                     <TabPanel
                         tabs={[
                             { name: 'contenuto', title: __( 'Contenuto', 'arkimedia' ) },
+                            { name: 'marquee',   title: __( 'Marquee', 'arkimedia' ) },
                             { name: 'layout',    title: __( 'Layout', 'arkimedia' ) },
                         ]}>
-                        { tab => tab.name === 'contenuto' ? contentTab : layoutTab }
+                        { tab => tabs[ tab.name ] }
                     </TabPanel>
                 </InspectorControls>
 
@@ -263,8 +306,8 @@ registerBlockType( metadata.name, {
                     </div>
 
                     { preview.marqueeText && (
-                        <div className="ark-services__marquee-wrap">
-                            <MarqueePreview text={preview.marqueeText} fontSize={ `${ preview.marqueeFontSize }px` } speed={preview.marqueeSpeed} separator={preview.marqueeSeparator} separatorSize={preview.marqueeSeparatorSize} font={marqueeFontFamily} />
+                        <div className={marqueeWrapClass}>
+                            <MarqueePreview text={preview.marqueeText} fontSize={ `${ preview.marqueeFontSize }px` } speed={preview.marqueeSpeed} separator={preview.marqueeSeparator} separatorSize={preview.marqueeSeparatorSize} font={marqueeFontFamily} color={marqueeColor} separatorColor={marqueeSeparatorColor} />
                         </div>
                     )}
 

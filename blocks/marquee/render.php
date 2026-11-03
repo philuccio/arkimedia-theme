@@ -40,6 +40,7 @@ $wrapper_attrs = get_block_wrapper_attributes([
         'pause'     => $attributes['pauseOnHover'] ?? true,
         'separator' => $attributes['separator'] ?? '•',
         'separator_size' => $attributes['separatorSize'] ?? '1em',
+        'separator_color' => $attributes['separatorColor'] ?? '',
     ] );
     ?>
 </div>

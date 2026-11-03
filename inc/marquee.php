@@ -22,6 +22,8 @@ function ark_render_marquee( string $text, array $args = [] ): string {
         'separator' => '•',
         'separator_size' => '1em',
         'font'      => '',
+        'color'     => '',
+        'separator_color' => '',
     ] );
 
     $classes = 'ark-marquee';
@@ -32,6 +34,10 @@ function ark_render_marquee( string $text, array $args = [] ): string {
 
     $font_family = $args['font'] ? ark_enqueue_google_font( $args['font'] ) : '';
     if ( $font_family ) $group_style .= "font-family:{$font_family};";
+    if ( $args['color'] ) $group_style .= 'color:' . $args['color'] . ';';
+
+    $sep_style = 'font-size:' . $args['separator_size'] . ';';
+    if ( $args['separator_color'] ) $sep_style .= 'color:' . $args['separator_color'] . ';';
 
     // Una voce per riga; il • resta valido per i testi già salvati.
     // Il separatore finale fa riprendere il testo con lo stesso spazio delle altre voci
@@ -42,7 +48,7 @@ function ark_render_marquee( string $text, array $args = [] ): string {
     if ( $args['separator'] !== '' ) {
         $glue = sprintf(
             '&nbsp;<span class="ark-marquee__sep" style="%s">%s</span>&nbsp;',
-            esc_attr( 'font-size:' . $args['separator_size'] . ';' ),
+            esc_attr( $sep_style ),
             esc_html( $args['separator'] )
         );
     }
