@@ -1,7 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks'
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor'
 import {
-    PanelBody, TextControl, TextareaControl, ToggleControl, Button, ColorPicker, RangeControl, TabPanel,
+    PanelBody, TextControl, TextareaControl, ToggleControl, Button, Icon, ColorPicker, RangeControl, TabPanel,
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
@@ -86,12 +86,59 @@ function SizeControl( { label, value, onChange, onLive, presets, max } ) {
 }
 
 // ── Pannello di una card ──────────────────────────────────
-function CardPanel( { card, index, canRemove, onChange, onLive, onRemove, onPickImage } ) {
+// Riordino: maniglia da trascinare e frecce sopra l'intestazione del pannello
+function CardPanel( { card, index, count, canRemove, onChange, onLive, onRemove, onPickImage, onMove, drag, setDrag } ) {
     const titleText = useLocalText( card.title, v => onChange({ title: v }), v => onLive({ title: v }) )
     const bodyText  = useLocalText( card.text,  v => onChange({ text: v }),  v => onLive({ text: v }) )
     const linkText  = useLocalText( card.link,  v => onChange({ link: v.trim() }) )
 
+    // Il punto di inserimento è prima o dopo questa card, a seconda della metà su cui si trova il puntatore
+    const dropIndex = e => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        return e.clientY < rect.top + rect.height / 2 ? index : index + 1
+    }
+    const isTarget = drag && drag.to !== null && drag.to !== drag.from && drag.to !== drag.from + 1
+    const lineTop    = isTarget && drag.to === index
+    const lineBottom = isTarget && drag.to === index + 1 && index === count - 1
+
     return (
+        <div
+            style={{
+                position:  'relative',
+                opacity:   drag?.from === index ? 0.4 : 1,
+                boxShadow: lineTop ? 'inset 0 2px 0 var(--wp-admin-theme-color, #3858e9)'
+                         : lineBottom ? 'inset 0 -2px 0 var(--wp-admin-theme-color, #3858e9)' : undefined,
+            }}
+            onDragOver={ e => {
+                if ( ! drag ) return
+                e.preventDefault()
+                const to = dropIndex( e )
+                if ( to !== drag.to ) setDrag( { ...drag, to } )
+            }}
+            onDrop={ e => {
+                if ( ! drag ) return
+                e.preventDefault()
+                onMove( drag.from, dropIndex( e ) )
+                setDrag( null )
+            }}>
+            <div style={{ position:'absolute', top:0, right:'44px', height:'48px', display:'flex', alignItems:'center', zIndex:1 }}>
+                <span
+                    draggable
+                    title={ __( 'Trascina per riordinare', 'arkimedia' ) }
+                    style={{ display:'flex', padding:'4px', cursor:'grab' }}
+                    onDragStart={ e => {
+                        e.dataTransfer.effectAllowed = 'move'
+                        e.dataTransfer.setData( 'text/plain', String( index ) )
+                        setDrag( { from: index, to: null } )
+                    }}
+                    onDragEnd={ () => setDrag( null ) }>
+                    <Icon icon="move" size={16} />
+                </span>
+                <Button size="small" icon="arrow-up-alt2" label={ __( 'Sposta su', 'arkimedia' ) }
+                    disabled={ index === 0 } onClick={ () => onMove( index, index - 1 ) } />
+                <Button size="small" icon="arrow-down-alt2" label={ __( 'Sposta giù', 'arkimedia' ) }
+                    disabled={ index === count - 1 } onClick={ () => onMove( index, index + 2 ) } />
+            </div>
         <PanelBody title={ `Card ${ index + 1 }: ${ card.title || '—' }` } initialOpen={false}>
             <TextControl label={ __( 'Titolo card', 'arkimedia' ) } { ...titleText } />
             <TextareaControl label={ __( 'Testo card', 'arkimedia' ) } { ...bodyText } />
@@ -127,6 +174,7 @@ function CardPanel( { card, index, canRemove, onChange, onLive, onRemove, onPick
                 </Button>
             )}
         </PanelBody>
+        </div>
     )
 }
 
@@ -177,11 +225,29 @@ registerBlockType( metadata.name, {
             frame.open()
         }
 
+        // Chiavi stabili: il pannello aperto segue la sua card quando viene spostata
+        const nextKey  = useRef( 0 )
+        const cardKeys = useRef( [] )
+        if ( cardKeys.current.length !== cards.length ) cardKeys.current = cards.map( () => nextKey.current++ )
+
+        const [ drag, setDrag ] = useState( null )
+
+        // to = posizione di inserimento nell'elenco attuale (0 … cards.length)
+        const moveCard = ( from, to ) => {
+            const target = to > from ? to - 1 : to
+            if ( target === from || target < 0 || target >= cards.length ) return
+            const move = list => { const next = [ ...list ]; next.splice( target, 0, next.splice( from, 1 )[0] ); return next }
+            cardKeys.current = move( cardKeys.current )
+            setAttributes({ cards: move( cards ) })
+        }
+
         const addCard = () => {
+            cardKeys.current = [ ...cardKeys.current, nextKey.current++ ]
             setAttributes({ cards: [ ...cards, { title: __( 'Nuova card', 'arkimedia' ), text: '', mediaId: 0, mediaUrl: '', mediaAlt: '', link: '', linkNewTab: false } ] })
         }
 
         const removeCard = ( cardIndex ) => {
+            cardKeys.current = cardKeys.current.filter( ( _, i ) => i !== cardIndex )
             setAttributes({ cards: cards.filter( ( _, i ) => i !== cardIndex ) })
         }
 
@@ -193,8 +259,9 @@ registerBlockType( metadata.name, {
                 </PanelBody>
 
                 { cards.map( ( card, idx ) => (
-                    <CardPanel key={idx} card={card} index={idx}
+                    <CardPanel key={ cardKeys.current[ idx ] } card={card} index={idx} count={ cards.length }
                         canRemove={ cards.length > 1 }
+                        onMove={moveCard} drag={drag} setDrag={setDrag}
                         onChange={ data => updateCard( idx, data ) }
                         onLive={ data => setLive( l => ( { ...l, cards: ( l.cards || cards ).map( ( c, i ) => i === idx ? { ...c, ...data } : c ) } ) ) }
                         onRemove={ () => removeCard( idx ) }
