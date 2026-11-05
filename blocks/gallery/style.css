@@ -210,3 +210,36 @@
     line-height: 1.4;
     color:       var( --ark-gallery-text );
 }
+
+/* ── Titolo e linee ──────────────────────────────────────── */
+.ark-gallery__header,
+.ark-gallery__footer {
+    max-width:  var( --container-width, 1200px );
+    margin:     0 auto;
+    padding:    0 var( --container-pad, 1.5rem );
+    box-sizing: border-box;
+}
+
+.ark-gallery__header {
+    margin-bottom: var( --spacing-md, 2rem );
+}
+
+.ark-gallery__footer {
+    margin-top: var( --spacing-md, 2rem );
+}
+
+.ark-gallery__title {
+    margin:      0 0 1rem;
+    line-height: 1.1;
+    color:       var( --ark-gallery-text );
+}
+
+.ark-gallery__line {
+    display:          block;
+    width:            100%;
+    height:           0;
+    margin:           0;
+    border:           0;
+    border-top-style: solid;
+    border-top-color: var( --ark-gallery-text );
+}

@@ -72,27 +72,55 @@ if ( $use_folder && $folder_id && taxonomy_exists( 'vmfo_folder' ) ) {
         ];
     }
 } else {
-    // Modalità manuale
+    // Modalità manuale — città e indirizzo letti dall'ID dell'immagine
     foreach ( $images as $img ) {
+        $att_id   = absint( $img['id'] ?? 0 );
+        $location = $att_id ? ark_get_attachment_location( $att_id ) : [ 'city' => '', 'address' => '' ];
+        $city_key = sanitize_title( $location['city'] ) ?: $other_key;
+
+        if ( $city_key === $other_key ) {
+            $has_other = true;
+        } elseif ( ! isset( $cities[ $city_key ] ) ) {
+            $cities[ $city_key ] = $location['city'];
+        }
+
         $gallery_images[] = [
             'src'     => $img['src']     ?? '',
             'thumb'   => $img['thumb']   ?? $img['src'] ?? '',
             'alt'     => $img['alt']     ?? '',
             'caption' => $img['caption'] ?? '',
             'link'    => $img['link']    ?? '',
-            'location' => '',
-            'city_key' => '',
+            'location' => implode( ' — ', array_filter( $location ) ),
+            'city_key' => $city_key,
         ];
     }
 }
 
 if ( empty( $gallery_images ) ) return '';
 
-// ── Didascalie e filtro città (solo modalità cartella) ─────
-$show_caption = $is_folder_mode && ( $attributes['showCaption'] ?? true );
-$show_filter  = $is_folder_mode
-    && ( $attributes['showCityFilter'] ?? true )
+// ── Didascalie e filtro città ──────────────────────────────
+// Cartella: accesi di default. Manuale: spenti di default.
+$show_caption = $is_folder_mode
+    ? ( $attributes['showCaption'] ?? true )
+    : ( $attributes['manualShowCaption'] ?? false );
+$show_filter  = ( $is_folder_mode
+        ? ( $attributes['showCityFilter'] ?? true )
+        : ( $attributes['manualShowCityFilter'] ?? false ) )
     && count( $cities ) + (int) $has_other > 1;
+
+// ── Titolo e linee ─────────────────────────────────────────
+$title       = $is_folder_mode ? '' : trim( (string) ( $attributes['title'] ?? '' ) );
+$title_style = 'font-size:' . absint( $attributes['titleSize'] ?? 48 ) . 'px;';
+if ( ! empty( $attributes['titleColor'] ) ) $title_style .= 'color:' . $attributes['titleColor'] . ';';
+
+$line_style = function ( $width, $color ) {
+    $style = 'border-top-width:' . max( 1, absint( $width ) ) . 'px;';
+    if ( $color ) $style .= 'border-top-color:' . $color . ';';
+    return $style;
+};
+$line_top_style    = $line_style( $attributes['lineTopWidth'] ?? 1, $attributes['lineTopColor'] ?? '' );
+$show_line_bottom  = ! empty( $attributes['lineBottom'] );
+$line_bottom_style = $line_style( $attributes['lineBottomWidth'] ?? 1, $attributes['lineBottomColor'] ?? '' );
 
 uasort( $cities, fn( $a, $b ) => strcasecmp( remove_accents( $a ), remove_accents( $b ) ) );
 
@@ -121,6 +149,13 @@ $gallery_id = 'ark-gallery-' . substr( md5( serialize( $attributes ) ), 0, 6 );
 ?>
 
 <div <?php echo $wrapper_attrs; ?>>
+    <?php if ( $title !== '' ) : ?>
+        <div class="ark-gallery__header">
+            <h2 class="ark-gallery__title" style="<?php echo esc_attr( $title_style ); ?>"><?php echo esc_html( $title ); ?></h2>
+            <hr class="ark-gallery__line ark-gallery__line--top" style="<?php echo esc_attr( $line_top_style ); ?>">
+        </div>
+    <?php endif; ?>
+
     <?php if ( $show_filter ) : ?>
         <div class="ark-gallery__filter" role="group" aria-label="<?php esc_attr_e( 'Filtra per città', 'arkimedia' ); ?>">
             <button type="button" class="ark-gallery__filter-btn is-active" data-city="all" aria-pressed="true">
@@ -185,4 +220,10 @@ $gallery_id = 'ark-gallery-' . substr( md5( serialize( $attributes ) ), 0, 6 );
         <?php endforeach; ?>
 
     </div>
+
+    <?php if ( $show_line_bottom ) : ?>
+        <div class="ark-gallery__footer">
+            <hr class="ark-gallery__line ark-gallery__line--bottom" style="<?php echo esc_attr( $line_bottom_style ); ?>">
+        </div>
+    <?php endif; ?>
 </div>

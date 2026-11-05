@@ -7,8 +7,42 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
-import { useState, useEffect } from '@wordpress/element'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
+
+function useLocalText( value, onChange ) {
+    const [ local, setLocal ] = useState( value ?? '' )
+    useEffect( () => { setLocal( value ?? '' ) }, [ value ] )
+    return {
+        value:    local,
+        onChange: setLocal,
+        onBlur:   useCallback( () => onChange( local ), [ local, onChange ] ),
+    }
+}
+
+function LocalRange( { label, value, onChange, min = 0, max = 200, step = 1 } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    useEffect( () => { setLocal( value ?? 0 ); committed.current = value ?? 0 }, [ value ] )
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) { committed.current = local; onChange( local ) }
+    }, [ local, onChange ] )
+    return (
+        <div onPointerUp={ commit } onKeyUp={ commit }>
+            <RangeControl label={label} value={local} onChange={ setLocal } min={min} max={max} step={step} />
+        </div>
+    )
+}
+
+function ColorField( { label, value, onChange } ) {
+    return (
+        <div style={{ marginBottom:'16px' }}>
+            <p style={{ fontSize:'11px', fontWeight:600, marginBottom:'8px' }}>{ label }</p>
+            <ColorPicker color={value} onChange={ onChange } enableAlpha />
+            { value && <Button onClick={ () => onChange( '' ) } variant="tertiary" isDestructive>{ __( 'Rimuovi', 'arkimedia' ) }</Button> }
+        </div>
+    )
+}
 
 registerBlockType( metadata.name, {
 
@@ -17,7 +51,12 @@ registerBlockType( metadata.name, {
             useFolder, folderId, folderName, images,
             layout, columns, gap, aspectRatio,
             lightbox, showCaption, showCityFilter, bgColor, paddingTop, paddingBottom,
+            manualShowCaption, manualShowCityFilter,
+            title, titleSize, titleColor, lineTopWidth, lineTopColor,
+            lineBottom, lineBottomWidth, lineBottomColor,
         } = attributes
+
+        const titleField = useLocalText( title, v => setAttributes({ title: v }) )
 
         const [ folders, setFolders ] = useState( [] )
         const [ loadingFolders, setLoadingFolders ] = useState( false )
@@ -78,6 +117,12 @@ registerBlockType( metadata.name, {
         }
 
         const previewImages = useFolder && folderId ? [] : images
+        const isFolder      = !! ( useFolder && pluginActive )
+        const showTitle     = ! isFolder && ( title || '' ).trim() !== ''
+        const lineStyle     = ( width, color ) => ({
+            display: 'block', width: '100%', height: 0, margin: 0, border: 0,
+            borderTop: `${ Math.max( 1, width || 1 ) }px solid ${ color || 'currentColor' }`,
+        })
 
         return (
             <>
@@ -160,22 +205,56 @@ registerBlockType( metadata.name, {
                         )}
                     </PanelBody>
 
-                    {/* ── Didascalie e filtro città (solo modalità cartella) ── */}
-                    { useFolder && pluginActive && (
-                        <PanelBody title={ __( 'Città e indirizzo', 'arkimedia' ) } initialOpen={true}>
-                            <ToggleControl
-                                label={ __( 'Mostra didascalia', 'arkimedia' ) }
-                                checked={showCaption}
-                                onChange={ v => setAttributes({ showCaption: v }) }
-                                help={ __( 'Città e indirizzo si compilano nella scheda di ogni immagine in Media → Libreria', 'arkimedia' ) }
-                            />
-                            <ToggleControl
-                                label={ __( 'Mostra filtro città', 'arkimedia' ) }
-                                checked={showCityFilter}
-                                onChange={ v => setAttributes({ showCityFilter: v }) }
-                            />
-                        </PanelBody>
-                    )}
+                    {/* ── Didascalie e filtro città (cartella e manuale hanno impostazioni separate) ── */}
+                    <PanelBody title={ __( 'Città e indirizzo', 'arkimedia' ) } initialOpen={ isFolder }>
+                        <ToggleControl
+                            label={ __( 'Mostra didascalia', 'arkimedia' ) }
+                            checked={ isFolder ? showCaption : manualShowCaption }
+                            onChange={ v => setAttributes( isFolder ? { showCaption: v } : { manualShowCaption: v } ) }
+                            help={ __( 'Città e indirizzo si compilano nella scheda di ogni immagine in Media → Libreria', 'arkimedia' ) }
+                        />
+                        <ToggleControl
+                            label={ __( 'Mostra filtro città', 'arkimedia' ) }
+                            checked={ isFolder ? showCityFilter : manualShowCityFilter }
+                            onChange={ v => setAttributes( isFolder ? { showCityFilter: v } : { manualShowCityFilter: v } ) }
+                            help={ __( 'Compare solo se le foto sono di almeno due città diverse', 'arkimedia' ) }
+                        />
+                    </PanelBody>
+
+                    {/* ── Titolo e linee ── */}
+                    <PanelBody title={ __( 'Titolo e linee', 'arkimedia' ) } initialOpen={false}>
+                        { isFolder ? (
+                            <p style={{ fontSize:'12px', color:'#757575', padding:'8px', background:'#f0f0f0', borderRadius:'4px' }}>
+                                { __( 'Il titolo è disponibile solo con la selezione manuale.', 'arkimedia' ) }
+                            </p>
+                        ) : (
+                            <>
+                                <TextControl label={ __( 'Titolo (opz.)', 'arkimedia' ) } { ...titleField } />
+                                { showTitle && (
+                                    <>
+                                        <LocalRange label={ __( 'Dimensione titolo (px)', 'arkimedia' ) } value={titleSize} onChange={ v => setAttributes({ titleSize: v }) } min={16} max={120} />
+                                        <ColorField label={ __( 'Colore titolo', 'arkimedia' ) } value={titleColor} onChange={ v => setAttributes({ titleColor: v }) } />
+                                        <hr />
+                                        <p style={{ fontSize:'11px', fontWeight:600, textTransform:'uppercase' }}>{ __( 'Linea sotto il titolo', 'arkimedia' ) }</p>
+                                        <LocalRange label={ __( 'Spessore (px)', 'arkimedia' ) } value={lineTopWidth} onChange={ v => setAttributes({ lineTopWidth: v }) } min={1} max={10} />
+                                        <ColorField label={ __( 'Colore linea', 'arkimedia' ) } value={lineTopColor} onChange={ v => setAttributes({ lineTopColor: v }) } />
+                                    </>
+                                )}
+                            </>
+                        )}
+                        <hr />
+                        <ToggleControl
+                            label={ __( 'Linea dopo le foto', 'arkimedia' ) }
+                            checked={lineBottom}
+                            onChange={ v => setAttributes({ lineBottom: v }) }
+                        />
+                        { lineBottom && (
+                            <>
+                                <LocalRange label={ __( 'Spessore (px)', 'arkimedia' ) } value={lineBottomWidth} onChange={ v => setAttributes({ lineBottomWidth: v }) } min={1} max={10} />
+                                <ColorField label={ __( 'Colore linea', 'arkimedia' ) } value={lineBottomColor} onChange={ v => setAttributes({ lineBottomColor: v }) } />
+                            </>
+                        )}
+                    </PanelBody>
 
                     {/* ── Link case study per ogni immagine ── */}
                     { ! useFolder && images.length > 0 && (
@@ -262,6 +341,12 @@ registerBlockType( metadata.name, {
 
                 {/* Preview editor */}
                 <div { ...blockProps }>
+                    { showTitle && (
+                        <div style={{ marginBottom:'2rem' }}>
+                            <h2 style={{ margin:'0 0 1rem', lineHeight:1.1, fontSize:`${ titleSize }px`, ...( titleColor ? { color: titleColor } : {} ) }}>{ title }</h2>
+                            <hr style={ lineStyle( lineTopWidth, lineTopColor ) } />
+                        </div>
+                    )}
                     { useFolder && folderId ? (
                         <div style={{ padding:'2rem', textAlign:'center', background:'rgba(99,102,241,0.1)', border:'2px dashed rgba(99,102,241,0.3)', borderRadius:'4px' }}>
                             <p style={{ margin:0, fontWeight:600 }}>📁 { __('Cartella','arkimedia') }: <strong>{ folderName || folderId }</strong></p>
@@ -285,6 +370,11 @@ registerBlockType( metadata.name, {
                     ) : (
                         <div style={{ padding:'3rem', textAlign:'center', background:'rgba(0,0,0,0.04)', border:'2px dashed #ddd', borderRadius:'4px' }}>
                             <p style={{ margin:0, opacity:0.5 }}>{ __('Seleziona le immagini nel pannello laterale →','arkimedia') }</p>
+                        </div>
+                    )}
+                    { lineBottom && (
+                        <div style={{ marginTop:'2rem' }}>
+                            <hr style={ lineStyle( lineBottomWidth, lineBottomColor ) } />
                         </div>
                     )}
                 </div>
