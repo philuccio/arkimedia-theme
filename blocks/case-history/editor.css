@@ -1,0 +1,18 @@
+/* ── Case History — solo editor ───────────────────────────
+   L'area dell'editor è spesso sotto i 1024px: nell'anteprima
+   le due colonne restano sempre visibili. */
+.editor-styles-wrapper .ark-case-history__inner {
+    grid-template-columns: minmax( 0, 1fr ) var( --ark-ch-images-w, 30% );
+}
+
+.editor-styles-wrapper .ark-case-history--images-left .ark-case-history__inner {
+    grid-template-columns: var( --ark-ch-images-w, 30% ) minmax( 0, 1fr );
+}
+
+.editor-styles-wrapper .ark-case-history--no-images .ark-case-history__inner {
+    grid-template-columns: minmax( 0, 1fr );
+}
+
+.editor-styles-wrapper .ark-case-history__images {
+    display: flex;
+}

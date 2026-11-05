@@ -1,0 +1,194 @@
+/* ── Arkimedia Case History ──────────────────────────────── */
+
+.ark-case-history {
+    box-sizing: border-box;
+}
+
+.ark-case-history__inner {
+    display:               grid;
+    grid-template-columns: minmax( 0, 1fr ) var( --ark-ch-images-w, 30% );
+    gap:                   var( --ark-ch-gap, 40px );
+    align-items:           start;
+}
+
+.ark-case-history--images-left .ark-case-history__inner {
+    grid-template-columns: var( --ark-ch-images-w, 30% ) minmax( 0, 1fr );
+}
+
+.ark-case-history--images-left .ark-case-history__images {
+    order: -1;
+}
+
+.ark-case-history--no-images .ark-case-history__inner {
+    grid-template-columns: minmax( 0, 1fr );
+}
+
+/* ── Contenuto: testo e immagini, con avvolgimento ───────── */
+.ark-case-history__content {
+    display:   flow-root;
+    min-width: 0;
+}
+
+.ark-case-history__content > *:first-child { margin-top: 0; }
+.ark-case-history__content > *:last-child  { margin-bottom: 0; }
+
+.ark-case-history__content p {
+    margin: 0 0 1.25em;
+}
+
+.ark-case-history__content figure {
+    margin: 0 0 1.25em;
+}
+
+.ark-case-history__content img {
+    max-width: 100%;
+    height:    auto;
+    display:   block;
+}
+
+.ark-case-history__content .alignleft {
+    float:  left;
+    margin: 0.25em 1.5em 1em 0;
+    max-width: 50%;
+}
+
+.ark-case-history__content .alignright {
+    float:  right;
+    margin: 0.25em 0 1em 1.5em;
+    max-width: 50%;
+}
+
+.ark-case-history__content .aligncenter {
+    clear:        both;
+    margin-left:  auto;
+    margin-right: auto;
+}
+
+.ark-case-history__content .aligncenter img {
+    margin: 0 auto;
+}
+
+.ark-case-history__content .alignwide,
+.ark-case-history__content .alignfull {
+    clear: both;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.ark-case-history__content .alignwide img,
+.ark-case-history__content .alignfull img {
+    width: 100%;
+}
+
+/* ── Colonna immagini: proporzioni libere ────────────────── */
+.ark-case-history__images {
+    display:        flex;
+    flex-direction: column;
+    gap:            var( --ark-ch-images-gap, 16px );
+    min-width:      0;
+}
+
+.ark-case-history__image {
+    margin:        0;
+    border-radius: var( --ark-ch-radius, 0 );
+    overflow:      hidden;
+}
+
+.ark-case-history__image a {
+    display: block;
+}
+
+.ark-case-history__image img {
+    display: block;
+    width:   100%;
+    height:  auto;
+    transition: transform 0.5s ease;
+}
+
+.ark-case-history__image a:hover img {
+    transform: scale( 1.03 );
+}
+
+/* ── Tablet e mobile: solo testo ─────────────────────────── */
+@media ( max-width: 1024px ) {
+    .ark-case-history__inner,
+    .ark-case-history--images-left .ark-case-history__inner {
+        grid-template-columns: minmax( 0, 1fr );
+    }
+
+    .ark-case-history__images {
+        display: none;
+    }
+}
+
+@media ( max-width: 768px ) {
+    /* Ordine mobile (testo per primo) e coppie di immagini */
+    .ark-case-history__content {
+        display:    flex;
+        flex-wrap:  wrap;
+        column-gap: var( --ark-ch-pair-gap, 12px );
+        align-items: flex-start;
+    }
+
+    .ark-case-history__content > * {
+        order:      var( --ark-ch-order, 0 );
+        flex:       0 0 100%;
+        width:      100% !important;
+        max-width:  100% !important;
+        float:      none !important;
+        margin-left:  0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    /* Immagini sempre a tutta larghezza
+       (nei temi classici le immagini allineate sono avvolte in div.wp-block-image) */
+    .ark-case-history__content > figure,
+    .ark-case-history__content > .wp-block-image {
+        margin-top:    0 !important;
+        margin-bottom: var( --ark-ch-pair-gap, 12px ) !important;
+    }
+
+    .ark-case-history__content > .wp-block-image figure {
+        float:     none !important;
+        width:     100% !important;
+        max-width: 100% !important;
+        margin:    0 !important;
+    }
+
+    .ark-case-history__content .wp-block-image img {
+        width:  100% !important;
+        height: auto !important;
+    }
+
+    /* Due immagini consecutive: affiancate, stesso riquadro, cover */
+    .ark-case-history__content > .ark-ch-pair {
+        flex:    0 0 calc( ( 100% - var( --ark-ch-pair-gap, 12px ) ) / 2 );
+        width:   calc( ( 100% - var( --ark-ch-pair-gap, 12px ) ) / 2 ) !important;
+        padding: 0 !important;
+    }
+
+    .ark-ch-pair img {
+        aspect-ratio:    var( --ark-ch-pair-ratio, 4/3 ) !important;
+        object-fit:      cover !important;
+        object-position: center !important;
+    }
+
+    /* Immagine Arkimedia con riquadro interno (altezza o proporzione fissa) */
+    .ark-ch-pair.ark-image > div {
+        width:        100% !important;
+        height:       auto !important;
+        aspect-ratio: var( --ark-ch-pair-ratio, 4/3 ) !important;
+    }
+
+    .ark-ch-pair.ark-image > div img {
+        height:       100% !important;
+        aspect-ratio: auto !important;
+    }
+
+    .ark-ch-pair figcaption {
+        display: none;
+    }
+}

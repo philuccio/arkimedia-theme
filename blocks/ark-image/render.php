@@ -50,7 +50,8 @@ $wrapper_attrs = get_block_wrapper_attributes([
 ]);
 
 // ── Logica immagine ───────────────────────────────────────
-// Determina se usare un wrapper interno per height/aspect-ratio
+// Determina se usare un wrapper interno per height/aspect-ratio.
+// La larghezza sta solo sulla <figure>: gli elementi interni sono al 100%.
 $use_wrapper = false;
 $wrap_style  = '';
 $img_style   = '';
@@ -58,7 +59,7 @@ $img_style   = '';
 if ( $height !== 'auto' && $height ) {
     // Altezza fissa — wrapper con height
     $use_wrapper = true;
-    $wrap_style  = "height:{$height};width:{$width};position:relative;overflow:hidden;";
+    $wrap_style  = "height:{$height};width:100%;position:relative;overflow:hidden;";
     if ( $radius ) $wrap_style .= "border-radius:{$radius}px;";
     $img_style   = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
     if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
@@ -66,14 +67,14 @@ if ( $height !== 'auto' && $height ) {
 } elseif ( $aspect_ratio ) {
     // Aspect ratio — wrapper con aspect-ratio
     $use_wrapper = true;
-    $wrap_style  = "aspect-ratio:{$aspect_ratio};width:{$width};position:relative;overflow:hidden;";
+    $wrap_style  = "aspect-ratio:{$aspect_ratio};width:100%;position:relative;overflow:hidden;";
     if ( $radius ) $wrap_style .= "border-radius:{$radius}px;";
     $img_style   = "position:absolute;inset:0;width:100%;height:100%;object-fit:{$object_fit};object-position:{$object_pos};opacity:{$opacity};display:block;";
     if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
 
 } else {
     // Nessun wrapper — img normale
-    $img_style = "width:{$width};height:{$height};object-fit:{$object_fit};object-position:{$object_pos};border-radius:{$radius}px;opacity:{$opacity};display:block;";
+    $img_style = "width:100%;height:{$height};object-fit:{$object_fit};object-position:{$object_pos};border-radius:{$radius}px;opacity:{$opacity};display:block;";
     if ( $filter !== 'none' ) $img_style .= "filter:{$filter};";
 }
 

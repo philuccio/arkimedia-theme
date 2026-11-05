@@ -226,6 +226,7 @@ function ark_register_blocks(): void {
     register_block_type( ARK_DIR . '/blocks/card' );
     register_block_type( ARK_DIR . '/blocks/cta' );
     register_block_type( ARK_DIR . '/blocks/marquee' );
+    register_block_type( ARK_DIR . '/blocks/case-history' );
 }
 add_action( 'init', 'ark_register_blocks' );
 

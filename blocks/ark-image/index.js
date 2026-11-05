@@ -7,7 +7,7 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
-import { useState, useEffect, useCallback } from '@wordpress/element'
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element'
 import metadata from './block.json'
 
 // ── Hook locale per TextControl ───────────────────────────
@@ -31,6 +31,38 @@ function useLocalRange( value, onChange ) {
     }
 }
 
+// ── Cursore: anteprima dal vivo durante il trascinamento, salvataggio al rilascio ──
+function LocalRange( { label, value, onChange, onLive, min = 0, max = 200, step = 1, help } ) {
+    const [ local, setLocal ] = useState( value ?? 0 )
+    const committed = useRef( value ?? 0 )
+    useEffect( () => { setLocal( value ?? 0 ); committed.current = value ?? 0 }, [ value ] )
+    const commit = useCallback( () => {
+        if ( committed.current !== local ) { committed.current = local; onChange( local ) }
+    }, [ local, onChange ] )
+    return (
+        <div onPointerUp={ commit } onKeyUp={ commit }>
+            <RangeControl label={label} value={local} onChange={ v => { setLocal( v ); onLive?.( v ) } } min={min} max={max} step={step} help={help} />
+        </div>
+    )
+}
+
+// ── Proporzioni ───────────────────────────────────────────
+const RATIOS = [ '1/1', '4/3', '3/2', '16/9', '21/9', '3/4', '2/3', '9/16' ]
+
+function ratioMode( aspectRatio, height ) {
+    if ( aspectRatio ) return RATIOS.includes( aspectRatio ) ? aspectRatio : 'custom'
+    if ( height && height !== 'auto' ) return 'fixed'
+    return 'original'
+}
+
+// "100%" → { num: 100, unit: '%' } · "400px" → { num: 400, unit: 'px' }
+function parseSize( value, fallback ) {
+    const m = String( value || '' ).trim().match( /^(\d+(?:\.\d+)?)\s*(px|%)$/ )
+    return m ? { num: parseFloat( m[1] ), unit: m[2] } : fallback
+}
+
+const WIDTH_LIMITS = { '%': { min: 5, max: 100, step: 1, def: 100 }, 'px': { min: 50, max: 1600, step: 10, def: 600 } }
+
 registerBlockType( metadata.name, {
 
     edit( { attributes, setAttributes } ) {
@@ -45,10 +77,8 @@ registerBlockType( metadata.name, {
         // ── Hook locali TextControl ───────────────────────
         const altText      = useLocalText( mediaAlt,    v => setAttributes({ mediaAlt: v }) )
         const captionText  = useLocalText( caption,     v => setAttributes({ caption: v }) )
-        const widthText    = useLocalText( width,       v => setAttributes({ width: v }) )
-        const heightText   = useLocalText( height,      v => setAttributes({ height: v }) )
         const maxWidthText = useLocalText( maxWidth,    v => setAttributes({ maxWidth: v }) )
-        const ratioText    = useLocalText( aspectRatio, v => setAttributes({ aspectRatio: v }) )
+        const ratioText    = useLocalText( aspectRatio, v => setAttributes({ aspectRatio: v, height: 'auto' }) )
         const linkUrlText  = useLocalText( linkUrl,     v => setAttributes({ linkUrl: v }) )
 
         // ── Hook locali RangeControl ──────────────────────
@@ -58,6 +88,33 @@ registerBlockType( metadata.name, {
         const paddingBottomR = useLocalRange( paddingBottom, v => setAttributes({ paddingBottom: v }) )
         const marginTopR     = useLocalRange( marginTop,     v => setAttributes({ marginTop: v }) )
         const marginBottomR  = useLocalRange( marginBottom,  v => setAttributes({ marginBottom: v }) )
+
+        // ── Anteprima dal vivo (valori in trascinamento) ──
+        const [ live, setLive ] = useState( {} )
+        useEffect( () => { setLive( {} ) }, [ width, height ] )
+        const pWidth  = live.width  ?? width
+        const pHeight = live.height ?? height
+
+        // ── Larghezza: cursore in % o px ──
+        const widthSize  = parseSize( width, { num: 100, unit: '%' } )
+        const widthLimit = WIDTH_LIMITS[ widthSize.unit ]
+        const setUnit    = unit => {
+            if ( unit === widthSize.unit ) return
+            setAttributes({ width: `${ WIDTH_LIMITS[ unit ].def }${ unit }` })
+        }
+
+        // ── Proporzione ──
+        const [ mode, setMode ] = useState( ratioMode( aspectRatio, height ) )
+        useEffect( () => { if ( mode !== 'custom' ) setMode( ratioMode( aspectRatio, height ) ) }, [ aspectRatio, height ] )
+        const heightPx = parseSize( height, { num: 300, unit: 'px' } ).num
+
+        const onRatioChange = v => {
+            setMode( v )
+            if ( v === 'original' )   setAttributes({ aspectRatio: '', height: 'auto' })
+            else if ( v === 'fixed' ) setAttributes({ aspectRatio: '', height: height && height !== 'auto' ? height : '300px' })
+            else if ( v === 'custom' ) setAttributes({ aspectRatio: aspectRatio && ! RATIOS.includes( aspectRatio ) ? aspectRatio : '5/4', height: 'auto' })
+            else                      setAttributes({ aspectRatio: v, height: 'auto' })
+        }
 
         const alignStyle = align === 'center' ? { marginLeft:'auto', marginRight:'auto' }
                          : align === 'right'  ? { marginLeft:'auto' }
@@ -73,18 +130,20 @@ registerBlockType( metadata.name, {
                 marginTop:     marginTop     ? `${ marginTop }px`     : 0,
                 marginBottom:  marginBottom  ? `${ marginBottom }px`  : 0,
                 display:       'block',
+                width:         pWidth || '100%',
             }
         })
 
         const imgStyle = {
-            width, height,
+            width:        '100%',
+            height:       mode === 'fixed' ? pHeight : 'auto',
             objectFit,
             objectPosition,
             borderRadius: `${ borderRadius }px`,
             opacity,
             display:      'block',
             maxWidth:     '100%',
-            aspectRatio:  aspectRatio || undefined,
+            aspectRatio:  mode !== 'fixed' && aspectRatio ? aspectRatio : undefined,
             filter:       filter !== 'none' ? filter : undefined,
         }
 
@@ -113,10 +172,49 @@ registerBlockType( metadata.name, {
                     </PanelBody>
 
                     <PanelBody title={ __( 'Dimensioni', 'arkimedia' ) } initialOpen={false}>
-                        <TextControl label={ __('Width (es. 100%, 400px)','arkimedia') }       { ...widthText }    />
-                        <TextControl label={ __('Height (es. auto, 300px)','arkimedia') }      { ...heightText }   />
+                        <ToggleGroupControl label={ __('Unità larghezza','arkimedia') } value={ widthSize.unit } onChange={ setUnit } isBlock>
+                            <ToggleGroupControlOption value="%"  label="%" />
+                            <ToggleGroupControlOption value="px" label="px" />
+                        </ToggleGroupControl>
+                        <LocalRange
+                            label={ __('Larghezza','arkimedia') + ` (${ widthSize.unit })` }
+                            value={ widthSize.num }
+                            min={ widthLimit.min } max={ widthLimit.max } step={ widthLimit.step }
+                            onChange={ v => setAttributes({ width: `${ v }${ widthSize.unit }` }) }
+                            onLive={ v => setLive( l => ({ ...l, width: `${ v }${ widthSize.unit }` }) ) }
+                            help={ mode === 'fixed' ? undefined : __('L\'altezza segue la larghezza in proporzione.','arkimedia') }
+                        />
+
+                        <SelectControl label={ __('Proporzione','arkimedia') } value={ mode }
+                            options={[
+                                { label: __('Originale','arkimedia'), value: 'original' },
+                                { label: '1:1',  value: '1/1' },
+                                { label: '4:3',  value: '4/3' },
+                                { label: '3:2',  value: '3/2' },
+                                { label: '16:9', value: '16/9' },
+                                { label: '21:9', value: '21/9' },
+                                { label: '3:4',  value: '3/4' },
+                                { label: '2:3',  value: '2/3' },
+                                { label: '9:16', value: '9/16' },
+                                { label: __('Personalizzata','arkimedia'), value: 'custom' },
+                                { label: __('Altezza fissa','arkimedia'),  value: 'fixed' },
+                            ]}
+                            onChange={ onRatioChange }
+                        />
+                        { mode === 'custom' && (
+                            <TextControl label={ __('Proporzione personalizzata (es. 5/4)','arkimedia') } { ...ratioText } />
+                        )}
+                        { mode === 'fixed' && (
+                            <LocalRange
+                                label={ __('Altezza (px)','arkimedia') }
+                                value={ heightPx }
+                                min={ 50 } max={ 1200 } step={ 10 }
+                                onChange={ v => setAttributes({ height: `${ v }px` }) }
+                                onLive={ v => setLive( l => ({ ...l, height: `${ v }px` }) ) }
+                            />
+                        )}
+
                         <TextControl label={ __('Max width','arkimedia') }                     { ...maxWidthText } />
-                        <TextControl label={ __('Aspect ratio (es. 16/9, 4/3)','arkimedia') } { ...ratioText }    />
                         <RangeControl label={ __('Border radius (px)','arkimedia') } { ...borderRadiusR } min={0} max={200} />
                     </PanelBody>
 
