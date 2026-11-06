@@ -161,6 +161,7 @@ registerBlockType( metadata.name, {
                     {/* Header — testi editabili inline */}
                     <div className="ark-gallery-cta__header container">
                         <RichText
+                            identifier="eyebrow"
                             tagName="p"
                             className="ark-gallery-cta__eyebrow"
                             value={eyebrow}
@@ -170,6 +171,7 @@ registerBlockType( metadata.name, {
                             style={{ color:accentColor }}
                         />
                         <RichText
+                            identifier="title"
                             tagName="h2"
                             className="ark-gallery-cta__title"
                             value={title}
@@ -202,6 +204,7 @@ registerBlockType( metadata.name, {
                         {/* CTA — testi editabili inline */}
                         <div className="ark-gallery-cta__cta">
                             <RichText
+                                identifier="ctaEyebrow"
                                 tagName="p"
                                 className="ark-gallery-cta__cta-eyebrow"
                                 value={ctaEyebrow}
@@ -211,6 +214,7 @@ registerBlockType( metadata.name, {
                                 style={{ color:accentColor }}
                             />
                             <RichText
+                                identifier="ctaTitle"
                                 tagName="h3"
                                 className="ark-gallery-cta__cta-title"
                                 value={ctaTitle}
@@ -219,6 +223,7 @@ registerBlockType( metadata.name, {
                                 allowedFormats={['core/bold','core/italic']}
                             />
                             <RichText
+                                identifier="ctaText"
                                 tagName="p"
                                 className="ark-gallery-cta__cta-text"
                                 value={ctaText}
@@ -227,6 +232,7 @@ registerBlockType( metadata.name, {
                                 allowedFormats={['core/bold','core/italic']}
                             />
                             <RichText
+                                identifier="ctaLabel"
                                 tagName="span"
                                 className="ark-gallery-cta__cta-btn"
                                 value={ctaLabel}

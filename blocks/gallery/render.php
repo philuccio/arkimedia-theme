@@ -132,9 +132,14 @@ if ( $bg_color )  $section_style .= "background:{$bg_color};";
 if ( $pt )        $section_style .= "padding-top:{$pt}px;";
 if ( $pb )        $section_style .= "padding-bottom:{$pb}px;";
 
-$grid_style = "gap:{$gap}px;";
-if ( $layout === 'grid' || $layout === 'masonry' ) {
-    $grid_style .= "grid-template-columns:repeat({$columns},1fr);";
+if ( $layout === 'masonry' ) {
+    // Masonry a colonne CSS: foto intere, nessun buco tra le righe.
+    $grid_style = "column-count:{$columns};column-gap:{$gap}px;--ark-gallery-gap:{$gap}px;";
+} else {
+    $grid_style = "gap:{$gap}px;";
+    if ( $layout === 'grid' ) {
+        $grid_style .= "grid-template-columns:repeat({$columns},1fr);";
+    }
 }
 
 $wrapper_class = 'ark-gallery alignfull ' . $layout_class;
@@ -182,7 +187,8 @@ $gallery_id = 'ark-gallery-' . substr( md5( serialize( $attributes ) ), 0, 6 );
             if ( ! $img['src'] ) continue;
 
             $item_class = 'ark-gallery__item';
-            $img_style  = $aspect_ratio !== 'free' ? "aspect-ratio:{$aspect_ratio};" : '';
+            // Masonry: proporzioni naturali (come nell'editor, che nasconde l'opzione).
+            $img_style  = ( $layout !== 'masonry' && $aspect_ratio !== 'free' ) ? "aspect-ratio:{$aspect_ratio};" : '';
             $location_text = $show_caption ? $img['location'] : '';
             $lightbox_text = $location_text ?: $img['caption'];
         ?>

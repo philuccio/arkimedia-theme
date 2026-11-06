@@ -8,6 +8,7 @@
     "supports": { "html": false },
     "attributes": {
         "content":      { "type": "string",  "default": "" },
+        "fontFamily":   { "type": "string",  "default": "" },
         "fontSize":     { "type": "string",  "default": "1rem" },
         "fontWeight":   { "type": "string",  "default": "400" },
         "lineHeight":   { "type": "string",  "default": "1.6" },

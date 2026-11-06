@@ -110,7 +110,11 @@ registerBlockType( metadata.name, {
         }
 
         // Preview griglia nell'editor
-        const gridStyle = {
+        const isMasonry = layout === 'masonry'
+        const gridStyle = isMasonry ? {
+            columnCount: columns,
+            columnGap:   `${ gap }px`,
+        } : {
             display:             'grid',
             gap:                 `${ gap }px`,
             gridTemplateColumns: layout === 'bento' ? 'repeat(4,1fr)' : `repeat(${ columns },1fr)`,
@@ -357,11 +361,12 @@ registerBlockType( metadata.name, {
                             { previewImages.map( ( img, i ) => (
                                 <div key={i} style={{
                                     overflow:    'hidden',
-                                    aspectRatio: layout !== 'masonry' && aspectRatio !== 'free' ? aspectRatio : 'auto',
+                                    aspectRatio: ! isMasonry && aspectRatio !== 'free' ? aspectRatio : 'auto',
+                                    ...(isMasonry ? { breakInside:'avoid', marginBottom:`${ gap }px` } : {}),
                                     ...(layout === 'bento' && i === 0 ? { gridColumn:'span 2', gridRow:'span 2' } : {}),
                                 }}>
                                     <img src={ img.thumb || img.src }
-                                        style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+                                        style={{ width:'100%', height: isMasonry ? 'auto' : '100%', objectFit:'cover', display:'block' }}
                                         alt={ img.alt }
                                     />
                                 </div>

@@ -27,22 +27,37 @@ $mb           = $attributes['marginBottom']   ?? 0;
 $max_width    = $attributes['maxWidth']       ?? '';
 $aspect_ratio = $attributes['aspectRatio']    ?? '';
 $filter       = $attributes['filter']         ?? 'none';
+$text_wrap    = $attributes['textWrap']       ?? 'none';
+$wrap_gap     = absint( $attributes['wrapGap'] ?? 24 );
+$mobile_wrap  = ! empty( $attributes['mobileWrap'] );
+$is_float     = in_array( $text_wrap, [ 'left', 'right' ], true );
 
 if ( ! $media_url ) return '';
 
-// Allineamento wrapper
-$align_style = match( $align ) {
+// Allineamento wrapper (ignorato con il testo intorno)
+$align_style = $is_float ? '' : match( $align ) {
     'left'   => 'margin-right:auto;',
     'center' => 'margin-left:auto;margin-right:auto;',
     'right'  => 'margin-left:auto;',
     default  => '',
 };
 
+// Testo intorno: float con spazio sul lato del testo; margine sotto = spazio se non impostato
+if ( $is_float ) {
+    $side        = $text_wrap === 'left' ? 'right' : 'left';
+    $align_style = "float:{$text_wrap};margin-{$side}:{$wrap_gap}px;";
+    if ( ! $mb ) $mb = $wrap_gap;
+}
+
 $wrapper_style = "padding-top:{$pt}px;padding-bottom:{$pb}px;margin-top:{$mt}px;margin-bottom:{$mb}px;{$align_style}width:{$width};min-width:0;";
 if ( $max_width ) $wrapper_style .= "max-width:{$max_width};";
 if ( $max_width || $align !== 'none' ) $wrapper_style .= "display:block;";
 
 $hover_class = $hover !== 'none' ? ' ark-image--hover-' . esc_attr( $hover ) : '';
+if ( $is_float ) {
+    $hover_class .= ' ark-image--float ark-image--float-' . $text_wrap;
+    if ( ! $mobile_wrap ) $hover_class .= ' ark-image--stack-mobile';
+}
 
 $wrapper_attrs = get_block_wrapper_attributes([
     'class' => 'ark-image' . $hover_class,

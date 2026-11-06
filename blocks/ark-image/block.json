@@ -28,7 +28,10 @@
         "marginBottom": { "type": "number",  "default": 0 },
         "maxWidth":     { "type": "string",  "default": "" },
         "aspectRatio":  { "type": "string",  "default": "" },
-        "filter":       { "type": "string",  "default": "none" }
+        "filter":       { "type": "string",  "default": "none" },
+        "textWrap":     { "type": "string",  "default": "none" },
+        "wrapGap":      { "type": "number",  "default": 24 },
+        "mobileWrap":   { "type": "boolean", "default": false }
     },
     "render": "file:./render.php",
     "editorScript": "file:./build/index.js",

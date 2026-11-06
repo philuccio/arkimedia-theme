@@ -28,19 +28,22 @@
 }
 
 /* ── Masonry layout ──────────────────────────────────────── */
+/* Colonne CSS: grid-template-rows: masonry non è supportato dai browser */
 .ark-gallery--masonry__grid {
-    grid-template-rows: masonry;
-    align-items:        start;
+    display: block;
 }
 
 .ark-gallery--masonry .ark-gallery__item {
     overflow:      hidden;
     border-radius: 2px;
+    break-inside:  avoid;
+    margin-bottom: var( --ark-gallery-gap, 8px );
 }
 
 .ark-gallery--masonry .ark-gallery__item img {
     width:      100%;
     height:     auto;
+    object-fit: cover;
     display:    block;
     transition: transform 0.5s ease;
 }
@@ -106,6 +109,10 @@
         grid-template-columns: repeat( 2, 1fr ) !important;
     }
 
+    .ark-gallery--masonry__grid {
+        column-count: 2 !important;
+    }
+
     .ark-gallery--bento__grid {
         grid-template-columns: repeat( 2, 1fr );
         grid-auto-rows:        200px;
@@ -124,6 +131,10 @@
     .ark-gallery--masonry__grid,
     .ark-gallery--bento__grid {
         grid-template-columns: 1fr !important;
+    }
+
+    .ark-gallery--masonry__grid {
+        column-count: 1 !important;
     }
 
     .ark-gallery--bento .ark-gallery__item {

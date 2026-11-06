@@ -23,6 +23,7 @@ $pl            = $attributes['paddingLeft']   ?? 0;
 $mt            = $attributes['marginTop']     ?? 0;
 $mb            = $attributes['marginBottom']  ?? 0;
 $html_tag      = $attributes['htmlTag']       ?? 'p';
+$font_family   = ! empty( $attributes['fontFamily'] ) ? ark_enqueue_google_font( $attributes['fontFamily'] ) : '';
 
 $allowed_tags = [ 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div' ];
 $tag = in_array( $html_tag, $allowed_tags ) ? $html_tag : 'p';
@@ -39,6 +40,7 @@ $styles = [
     "margin-bottom:{$mb}px",
 ];
 
+if ( $font_family ) $styles[] = "font-family:{$font_family}";
 if ( $color )     $styles[] = "color:{$color}";
 if ( $max_width ) $styles[] = "max-width:{$max_width}";
 

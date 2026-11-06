@@ -238,6 +238,7 @@ registerBlockType( metadata.name, {
                                     </PanelBody>
                                     <PanelBody title={ __('Descrizione','arkimedia') } initialOpen={false}>
                                         <RichText
+                                            identifier="description"
                                             tagName="p"
                                             value={description}
                                             onChange={ v => setAttributes({ description: v }) }

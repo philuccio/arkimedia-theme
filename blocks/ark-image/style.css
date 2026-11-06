@@ -55,3 +55,27 @@
 .ark-image > div {
     min-width: inherit;
 }
+
+/* ── Testo intorno all'immagine ──────────────────────────── */
+.ark-image--float {
+    flex: none;
+}
+
+/* Il testo intorno resta dentro il suo contenitore */
+.entry::after,
+.ark-container[style*="display:block"]::after,
+.ark-row[style*="display:block"]::after {
+    content: '';
+    display: table;
+    clear:   both;
+}
+
+@media ( max-width: 768px ) {
+    .ark-image--stack-mobile {
+        float:        none !important;
+        width:        100% !important;
+        max-width:    100% !important;
+        margin-left:  0 !important;
+        margin-right: 0 !important;
+    }
+}
