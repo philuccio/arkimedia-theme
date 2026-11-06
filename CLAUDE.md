@@ -2,16 +2,23 @@
 Sviluppo del tema WordPress premium Arkimedia per agenzia OOH (Out-of-Home advertising).
 Stack: PHP 8.1+, WordPress 6.4+, GSAP 3.12.5, Lenis, Swiper 11, Fancybox 5, Vanilla CSS con custom properties.
 Ambiente: LocalWP (arkimediatest.local) → produzione (www.arkimedia.org). Repository: github.com/philuccio/arkimedia-theme.
-Versione stabile: v2.0.2-stable
+Versione stabile (tag): v2.0.2-stable · Versione corrente del tema (`style.css`): 2.1.4
 
 ---
 
 ## Blocchi Gutenberg custom (categoria Arkimedia)
-Hero, Testata, Services, Clienti, Gallery+CTA, Gallery Servizio, Slider, Contact, Mappa, Container, Riga Avanzata, Portfolio Meta, Testo, Immagine, Card (4 layout A/B/C/E), CTA (3 layout A/B/C).
+Hero, Testata, Services, Servizi Home, Clienti, Gallery+CTA, Gallery Servizio, Slider, Contact, Mappa, Container, Riga Avanzata, Portfolio Meta, Testo, Immagine, Card (4 layout A/B/C/E), CTA (3 layout A/B/C), Marquee, Case History.
+
+**Attenzione ai nomi:** le cartelle `blocks/ark-text` e `blocks/ark-image` registrano i blocchi `arkimedia/text` e `arkimedia/image` (non `arkimedia/ark-*`). Usare il `name` di `block.json` in `allowedBlocks` e nei controlli lato PHP.
 
 ---
 
 ## Pattern standard editor — OBBLIGATORI su ogni blocco
+
+### Pannelli
+- Opzioni divise in più schede (`TabPanel`), es. Contenuto / Layout / Mobile / Stile.
+- Scelte tra valori fissi (proporzioni, posizioni…) con menu a cascata (`SelectControl`), non campi di testo liberi.
+- Misure con cursore e anteprima dal vivo: `LocalRange` con `onLive` + stato `live` nel componente (riferimento: Marquee, Immagine).
 
 ### useLocalText — TextControl senza perdita di focus
 ```js
@@ -121,7 +128,8 @@ header.php
 - Verifica sintassi JS: contare `{` e `}` con Python prima del commit
 - Commit: `git add . && git commit -m "..." && git push origin main`
 - Tag stabile: `git tag -a vX.X.X-stable -m "..." --force && git push origin vX.X.X-stable --force`
-- ZIP tema: `zip -r arkimedia_theme.zip arkimedia_theme/ --exclude "*/node_modules/*" --exclude "*/.git/*"`
+- ZIP tema (dalla cartella `themes/`): `zip -r arkimedia_theme.zip arkimedia_theme/ --exclude "*/node_modules/*" --exclude "*/.git/*" --exclude "arkimedia_theme/CLAUDE.md"`
+- Prima di ogni ZIP per la produzione: aumentare `Version` in `style.css` (versiona gli asset ed evita cache vecchie)
 - Dopo aggiornamento produzione: svuotare cache WP Fastest Cache
 
 ---
