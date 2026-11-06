@@ -34,7 +34,15 @@
         },
         "imagesGap": {
             "type": "number",
-            "default": 16
+            "default": 0
+        },
+        "imagesBgColor": {
+            "type": "string",
+            "default": ""
+        },
+        "imagesPadding": {
+            "type": "number",
+            "default": 0
         },
         "imagesRadius": {
             "type": "number",

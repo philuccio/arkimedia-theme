@@ -52,6 +52,7 @@ registerBlockType( metadata.name, {
     edit( { attributes, setAttributes } ) {
         const {
             images, imagesSide, imagesWidth, columnsGap, imagesGap, imagesRadius,
+            imagesBgColor, imagesPadding,
             lightbox, bgColor, textColor, paddingTop, paddingBottom,
             mobilePairRatio, mobilePairGap,
         } = attributes
@@ -101,6 +102,8 @@ registerBlockType( metadata.name, {
             '--ark-ch-gap':        `${ columnsGap }px`,
             '--ark-ch-images-gap': `${ imagesGap }px`,
             '--ark-ch-radius':     `${ imagesRadius }px`,
+            '--ark-ch-images-pad': `${ imagesPadding }px`,
+            ...( imagesBgColor ? { '--ark-ch-images-bg': imagesBgColor } : {} ),
         }
 
         return (
@@ -153,6 +156,16 @@ registerBlockType( metadata.name, {
                                             onChange={ v => setAttributes({ lightbox: v }) }
                                             help={ __( 'Sotto i 1024px la colonna immagini è nascosta.', 'arkimedia' ) }
                                         />
+                                    </PanelBody>
+                                )}
+
+                                { tab.name === 'immagini' && (
+                                    <PanelBody title={ __( 'Cornice', 'arkimedia' ) } initialOpen={true}>
+                                        <p style={{ fontSize:'12px', color:'#757575', margin:'0 0 12px' }}>
+                                            { __( 'Il colore di sfondo si vede nel padding e nello spazio tra le immagini (Layout → Spazio tra le immagini).', 'arkimedia' ) }
+                                        </p>
+                                        <ColorField label={ __( 'Colore cornice', 'arkimedia' ) } value={imagesBgColor} onChange={ v => setAttributes({ imagesBgColor: v }) } />
+                                        <LocalRange label={ __( 'Padding cornice (px)', 'arkimedia' ) } value={imagesPadding} onChange={ v => setAttributes({ imagesPadding: v }) } min={0} max={100} />
                                     </PanelBody>
                                 )}
 

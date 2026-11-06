@@ -86,8 +86,13 @@
 .ark-case-history__images {
     display:        flex;
     flex-direction: column;
-    gap:            var( --ark-ch-images-gap, 16px );
+    gap:            var( --ark-ch-images-gap, 0 );
     min-width:      0;
+    /* Cornice opzionale: lo sfondo si vede nel padding e tra le immagini */
+    padding:        var( --ark-ch-images-pad, 0 );
+    background:     var( --ark-ch-images-bg, transparent );
+    box-sizing:     border-box;
+    align-self:     start;
 }
 
 .ark-case-history__image {

@@ -11,7 +11,9 @@ $images       = $attributes['images']        ?? [];
 $side         = ( $attributes['imagesSide'] ?? 'right' ) === 'left' ? 'left' : 'right';
 $images_width = min( 60, max( 10, absint( $attributes['imagesWidth'] ?? 30 ) ) );
 $columns_gap  = absint( $attributes['columnsGap']   ?? 40 );
-$images_gap   = absint( $attributes['imagesGap']    ?? 16 );
+$images_gap   = absint( $attributes['imagesGap']    ?? 0 );
+$images_bg    = sanitize_text_field( $attributes['imagesBgColor'] ?? '' );
+$images_pad   = absint( $attributes['imagesPadding'] ?? 0 );
 $radius       = absint( $attributes['imagesRadius'] ?? 0 );
 $lightbox     = $attributes['lightbox']      ?? true;
 $bg_color     = $attributes['bgColor']       ?? '';
@@ -99,7 +101,8 @@ $section_style = "width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margi
 if ( $bg_color )   $section_style .= "background:{$bg_color};";
 if ( $text_color ) $section_style .= "color:{$text_color};";
 
-$inner_style = "--ark-ch-images-w:{$images_width}%;--ark-ch-gap:{$columns_gap}px;--ark-ch-images-gap:{$images_gap}px;--ark-ch-radius:{$radius}px;--ark-ch-pair-ratio:{$pair_ratio};--ark-ch-pair-gap:{$pair_gap}px;";
+$inner_style = "--ark-ch-images-w:{$images_width}%;--ark-ch-gap:{$columns_gap}px;--ark-ch-images-gap:{$images_gap}px;--ark-ch-radius:{$radius}px;--ark-ch-pair-ratio:{$pair_ratio};--ark-ch-pair-gap:{$pair_gap}px;--ark-ch-images-pad:{$images_pad}px;";
+if ( $images_bg ) $inner_style .= "--ark-ch-images-bg:{$images_bg};";
 
 $classes = 'ark-case-history alignfull ark-case-history--images-' . $side;
 if ( ! $has_images ) $classes .= ' ark-case-history--no-images';
