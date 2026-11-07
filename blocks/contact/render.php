@@ -15,6 +15,7 @@ $text_color     = $attributes['textColor']      ?? '#ffffff';
 $accent         = $attributes['accentColor']    ?? '#e94560';
 $input_bg       = $attributes['inputBg']        ?? 'rgba(255,255,255,0.05)';
 $input_border   = $attributes['inputBorder']    ?? 'rgba(255,255,255,0.15)';
+$icon_color     = $attributes['iconColor']      ?? 'accent';
 $col_layout     = $attributes['columnLayout']   ?? '50-50';
 $show_phone     = $attributes['showPhone']      ?? true;
 $show_subject   = $attributes['showSubject']    ?? true;
@@ -41,6 +42,50 @@ $hours          = $attributes['hours']          ?? [];
 
 // ID univoci: più form nella stessa pagina
 $uid = wp_unique_id( 'ark-contact-' );
+
+// Icone SVG condivise con l'editor (icons.json)
+$ark_contact_icons = json_decode( (string) file_get_contents( __DIR__ . '/icons.json' ), true ) ?: [];
+$icon_tint = 'text' === $icon_color ? $text_color : $accent;
+
+// Pagine create prima della 2.1.43: emoji al posto del nome icona, URL libero al posto del tipo di link
+$legacy_emoji = [
+    '📍' => 'pin', '📌' => 'pin', '📞' => 'phone', '☎️' => 'phone', '📱' => 'mobile', '✉️' => 'mail', '✉' => 'mail', '📧' => 'mail',
+    '🌐' => 'globe', '🕐' => 'clock', '⏰' => 'clock', '💬' => 'chat', '🏢' => 'building', '📠' => 'printer', '📅' => 'calendar',
+];
+
+/**
+ * Calcola href e apertura in nuova scheda di un contatto.
+ * Ritorna [ href, nuova_scheda ] oppure [ '', false ] se non c'è link.
+ */
+$contact_link = static function ( array $item ) : array {
+    $type  = $item['linkType'] ?? ( ! empty( $item['url'] ) ? 'url' : 'none' );
+    $value = (string) ( $item['value'] ?? '' );
+
+    switch ( $type ) {
+        case 'page':
+            $page_id = (int) ( $item['pageId'] ?? 0 );
+            if ( $page_id && 'publish' === get_post_status( $page_id ) ) {
+                return [ get_permalink( $page_id ), false ];
+            }
+            return [ '', false ];
+        case 'tel':
+            $num = preg_replace( '/[^0-9+]/', '', $value );
+            return $num ? [ 'tel:' . $num, false ] : [ '', false ];
+        case 'mailto':
+            $mail = sanitize_email( $value );
+            return $mail ? [ 'mailto:' . $mail, false ] : [ '', false ];
+        case 'whatsapp':
+            $num = preg_replace( '/\D/', '', $value );
+            return $num ? [ 'https://wa.me/' . $num, true ] : [ '', false ];
+        case 'url':
+            $url = trim( (string) ( $item['url'] ?? '' ) );
+            if ( '' === $url ) return [ '', false ];
+            $host     = wp_parse_url( $url, PHP_URL_HOST );
+            $external = $host && $host !== wp_parse_url( home_url(), PHP_URL_HOST );
+            return [ $url, $external ];
+    }
+    return [ '', false ];
+};
 
 // Larghezze colonne
 $col_widths = [
@@ -78,19 +123,25 @@ $wrapper_attrs = get_block_wrapper_attributes([
             <?php if ( ! empty( $contacts ) ) : ?>
                 <ul class="ark-contact__list">
                     <?php foreach ( $contacts as $item ) :
-                        $icon  = $item['icon']  ?? '';
+                        $icon  = (string) ( $item['icon'] ?? '' );
                         $label = $item['label'] ?? '';
                         $value = $item['value'] ?? '';
-                        $url   = $item['url']   ?? '';
+                        if ( $icon && 'custom' !== $icon && ! isset( $ark_contact_icons[ $icon ] ) ) {
+                            $icon = $legacy_emoji[ $icon ] ?? 'info';
+                        }
+                        $icon_url = 'custom' === $icon ? ( $item['iconUrl'] ?? '' ) : '';
+                        [ $href, $new_tab ] = $contact_link( $item );
                     ?>
                         <li class="ark-contact__item">
-                            <?php if ( $icon ) : ?>
-                                <span class="ark-contact__icon" aria-hidden="true"><?php echo esc_html( $icon ); ?></span>
+                            <?php if ( $icon_url ) : ?>
+                                <span class="ark-contact__icon ark-contact__icon--img" aria-hidden="true"><img src="<?php echo esc_url( $icon_url ); ?>" alt="" loading="lazy"></span>
+                            <?php elseif ( $icon && isset( $ark_contact_icons[ $icon ] ) ) : ?>
+                                <span class="ark-contact__icon" style="color:<?php echo esc_attr( $icon_tint ); ?>"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?php echo $ark_contact_icons[ $icon ]['svg']; // SVG del tema, fidato ?></svg></span>
                             <?php endif; ?>
                             <div class="ark-contact__item-content">
                                 <span class="ark-contact__item-label"><?php echo esc_html( $label ); ?></span>
-                                <?php if ( $url ) : ?>
-                                    <a class="ark-contact__item-value" href="<?php echo esc_url( $url ); ?>">
+                                <?php if ( $href ) : ?>
+                                    <a class="ark-contact__item-value" href="<?php echo esc_url( $href ); ?>"<?php echo $new_tab ? ' target="_blank" rel="noopener"' : ''; ?>>
                                         <?php echo esc_html( $value ); ?>
                                     </a>
                                 <?php else : ?>

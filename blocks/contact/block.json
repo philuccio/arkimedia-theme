@@ -16,6 +16,7 @@
         "accentColor":     { "type": "string",  "default": "#e94560" },
         "inputBg":         { "type": "string",  "default": "rgba(255,255,255,0.05)" },
         "inputBorder":     { "type": "string",  "default": "rgba(255,255,255,0.15)" },
+        "iconColor":       { "type": "string",  "default": "accent" },
         "columnLayout":    { "type": "string",  "default": "50-50" },
         "showPhone":       { "type": "boolean", "default": true },
         "showSubject":     { "type": "boolean", "default": true },
@@ -40,9 +41,9 @@
         "contacts": {
             "type": "array",
             "default": [
-                { "icon": "📍", "label": "Indirizzo", "value": "Via Roma 1, Milano", "url": "" },
-                { "icon": "📞", "label": "Telefono",  "value": "+39 02 1234567", "url": "tel:+39021234567" },
-                { "icon": "✉️", "label": "Email",     "value": "info@arkimedia.it", "url": "mailto:info@arkimedia.it" }
+                { "icon": "pin",   "label": "Indirizzo", "value": "Via Roma 1, Milano", "linkType": "none" },
+                { "icon": "phone", "label": "Telefono",  "value": "+39 02 1234567",     "linkType": "tel" },
+                { "icon": "mail",  "label": "Email",     "value": "info@arkimedia.it",  "linkType": "mailto" }
             ]
         },
         "hours": {
