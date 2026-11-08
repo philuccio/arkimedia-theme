@@ -131,7 +131,12 @@ registerBlockType( metadata.name, {
             marginBottom: `${ p.marginBottom }px`,
         }
 
-        const blockProps = useBlockProps({ style })
+        // Il campo di testo NON deve essere l'elemento del blocco: se lo è, WordPress
+        // considera "tutto il blocco selezionato" quando il testo è vuoto o selezionato
+        // per intero, e incollando sostituisce il blocco con tanti blocchi Paragrafo.
+        // Wrapper con margini (come lo spazio del blocco), stile del testo sul RichText.
+        const { marginTop: mTop, marginBottom: mBottom, ...textStyle } = style
+        const blockProps = useBlockProps({ style: { marginTop: mTop, marginBottom: mBottom } })
 
         // ── Scheda Tipografia ─────────────────────────────
         const typographyTab = (
@@ -214,8 +219,9 @@ registerBlockType( metadata.name, {
                     </TabPanel>
                 </InspectorControls>
 
+                <div { ...blockProps }>
                 <RichText
-                    { ...blockProps }
+                    style={ { ...textStyle, margin: 0 } }
                     identifier="content"
                     tagName={ htmlTag }
                     value={content}
@@ -223,6 +229,7 @@ registerBlockType( metadata.name, {
                     placeholder={ __( 'Scrivi il tuo testo...', 'arkimedia' ) }
                     allowedFormats={[ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/strikethrough' ]}
                 />
+                </div>
             </>
         )
     },
