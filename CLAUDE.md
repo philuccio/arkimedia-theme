@@ -2,7 +2,7 @@
 Sviluppo del tema WordPress premium Arkimedia per agenzia OOH (Out-of-Home advertising).
 Stack: PHP 8.1+, WordPress 6.4+, GSAP 3.12.5, Lenis, Swiper 11, Fancybox 5, Vanilla CSS con custom properties.
 Ambiente: LocalWP (arkimediatest.local) → produzione (www.arkimedia.org). Repository: github.com/philuccio/arkimedia-theme.
-Versione stabile (tag): v2.0.2-stable · Versione corrente del tema (`style.css`): 2.1.4
+Versione stabile (tag): v2.0.2-stable · Versione corrente del tema (`style.css`): 2.1.45
 
 ---
 

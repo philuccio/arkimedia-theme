@@ -236,15 +236,64 @@ function ark_splash_lang_url( string $lang ): string {
     $custom = get_theme_mod( 'it' === $lang ? 'ark_splash_link' : "ark_splash_link_{$lang}", '' );
     if ( $custom ) return $custom;
 
+    return ark_lang_home_url( $lang );
+}
+
+// ── Home di una lingua ───────────────────────────────────────────────────────
+// Traduzione Polylang della pagina con slug `home`, solo se pubblicata.
+// Senza $lang usa la lingua corrente. '' se la lingua non ha ancora la sua home.
+function ark_lang_home_url( string $lang = '' ): string {
     $home = get_page_by_path( 'home' );
     if ( ! $home ) return '';
 
-    $page_id = function_exists( 'pll_get_post' )
-        ? pll_get_post( $home->ID, $lang )
-        : ( 'it' === $lang ? $home->ID : 0 );
+    if ( function_exists( 'pll_get_post' ) ) {
+        if ( '' === $lang ) $lang = (string) pll_current_language();
+        $page_id = '' === $lang ? $home->ID : pll_get_post( $home->ID, $lang );
+    } else {
+        $page_id = ( '' === $lang || 'it' === $lang ) ? $home->ID : 0;
+    }
 
     return $page_id && 'publish' === get_post_status( $page_id ) ? get_permalink( $page_id ) : '';
 }
+
+// ── Link del logo ────────────────────────────────────────────────────────────
+// Home della lingua corrente; se manca, home della lingua principale.
+function ark_logo_url(): string {
+    $url = ark_lang_home_url();
+    if ( ! $url && function_exists( 'pll_default_language' ) ) {
+        $url = ark_lang_home_url( (string) pll_default_language() );
+    }
+    return $url ?: home_url( '/home/' );
+}
+
+// ── Selettore lingua Polylang: mai verso la splash START ─────────────────────
+// Quando una pagina non è tradotta, Polylang manda alla pagina iniziale della
+// lingua (la START tradotta). Qui la sostituiamo con la Home di quella lingua.
+// Se la lingua non ha ancora la sua Home, il link resta quello di Polylang.
+function ark_switcher_skip_splash( $url, $slug ) {
+    if ( ! function_exists( 'pll_get_post' ) ) return $url;
+
+    // Polylang 3.9+: URL vuoto = pagina senza traduzione; dopo il filtro
+    // Polylang ripiegherebbe sulla pagina iniziale della lingua (la splash).
+    if ( empty( $url ) ) return ark_lang_home_url( $slug ) ?: $url;
+
+    $normalize = static fn( $u ) => untrailingslashit( preg_replace( '#^https?://#', '', (string) $u ) );
+    $target    = $normalize( $url );
+
+    $splash = [];
+    if ( function_exists( 'pll_home_url' ) ) $splash[] = $normalize( pll_home_url( $slug ) );
+    $front_id = (int) get_option( 'page_on_front' );
+    if ( $front_id ) {
+        $front_tr = pll_get_post( $front_id, $slug );
+        if ( $front_tr ) $splash[] = $normalize( get_permalink( $front_tr ) );
+    }
+
+    if ( ! in_array( $target, $splash, true ) ) return $url;
+
+    $home = ark_lang_home_url( $slug );
+    return $home ?: $url;
+}
+add_filter( 'pll_the_language_link', 'ark_switcher_skip_splash', 10, 2 );
 
 // ── Enqueue assets splash page ────────────────────────────────────────────────
 function ark_enqueue_splash_assets(): void {
